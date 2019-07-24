@@ -80,7 +80,8 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
 
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         super.onBackPressed();
         startActivity(new Intent(this, Main2Activity.class));
         finish();
