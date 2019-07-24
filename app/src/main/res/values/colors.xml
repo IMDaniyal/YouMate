@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#639e42</color>
+    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorback">#7CE0FF</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#0000</color>
+
+    <color name="snackbar_action_text_color">#FF00BCD4</color>
+    <color name="window_background">@color/phone_tab_switcher_background_color</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+     <color name="colorActionBar">#FFFF0011</color>
+    <color name="Vulcan">#76526c</color>
+    <color name="NightRider">#303030</color>
+    <color name="tab_background_selected">#39a285</color>
+    <color name="black">#000000</color>
+    <color name="registerColr">#228B22</color>
+
+    <color name="item_details_fragment_bg">#ededed</color>
+    <!-- common -->
+    <color name="common_white_1">#ffffff</color>
+    <color name="common_white_2">#feffff</color>
+    <color name="common_white_30">#4dffffff</color>
+    <color name="common_white_10">#1aFFFFFF</color>
+    <color name="common_gray_txt">#514e4e</color>
+    <color name="common_gray_bg">#9fa0a0</color>
+    <color name="common_black_10">#1a000000</color>
+    <color name="common_black_30_1">#4d000000</color>
+    <color name="common_black_30_2">#4d010000</color>
+    <color name="common_black_50">#80000000</color>
+    <color name="common_black_70">#B3000000</color>
+    <color name="common_black_15">#26000000</color>
+    <color name="common_red">#ed2024</color>
+    <color name="common_yellow">#fff51e</color>
+    <color name="common_light_gray_txt">#b9b9ba</color>
+    <color name="indicator_gray">#737172</color>
+    <color name="common_red_txt">#ff4141</color>
+    <color name="common_blue_bg">#0055bd</color>
+    <color name="fragment_bg">#efefef</color>
+    <color name="main_gray_color">#9d9e9e</color>
+    <color name="hint_color">#ababac</color>
+    <color name="troubleshooting_txt_color">#231815</color>
+    <color name="common_sc_main_color">#0055bd</color>
+    <color name="common_ec_blue_txt">#0055bd</color>
+
+</resources>

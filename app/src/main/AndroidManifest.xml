@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.youmate">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/applogo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/applogo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
+        <activity android:name=".EnterListData"></activity>
+        <activity android:name=".AdminOptions" />
+        <activity android:name=".UserPaymentProofShow" />
+        <activity android:name=".EswaTransfer" />
+        <activity android:name=".BankTransfer" />
+        <activity android:name=".ResetPoints" />
+        <activity android:name=".BookMarkPage" />
+        <activity android:name=".PaymentProof" />
+        <activity android:name=".User" />
+        <activity android:name=".UpdateUser" />
+        <activity android:name=".Help" />
+        <activity android:name=".AdminLogIN" />
+        <activity android:name=".Admin" />
+        <activity android:name=".LeaderBoard" />
+        <activity android:name=".UserInfo" />
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".Login" />
+        <activity android:name=".Register" />
+        <activity
+            android:name=".DetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TabSwitcher.ChromeTabs"
+            android:screenOrientation="portrait" />
+        <activity android:name=".YoutubePlayer" />
+        <activity android:name=".MainTry" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Download" />
+        <activity android:name=".GalleryActivity" />
+        <activity android:name=".Tabs" />
+        <activity
+            android:name=".WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Main2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Main3Activity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".adapter.DownloadReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.ACTION_VIEW_DOWNLOADS" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".MainActivityFacebook"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".VideoPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Chat" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+    </application>
+
+</manifest>

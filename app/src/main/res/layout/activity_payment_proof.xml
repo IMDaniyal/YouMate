@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentProof"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edname"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="30dp"
+        android:hint="Set the name of image"
+        android:paddingTop="20dp"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/imagev"
+        android:layout_width="match_parent"
+        android:layout_height="422dp"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnchoose"
+        android:onClick="selectImage"
+        android:text="Choose Image"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnupload"
+        android:onClick="uploadImage"
+        android:text="Upload"/>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nav1"
+        android:layout_marginTop="35dp"
+        android:layout_gravity="bottom"
+        app:menu="@menu/botto_navigation"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+</LinearLayout>

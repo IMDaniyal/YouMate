@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "175761504549",
+    "firebase_url": "https://proweb-3fa6e.firebaseio.com",
+    "project_id": "proweb-3fa6e",
+    "storage_bucket": "proweb-3fa6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175761504549:android:1b6b3b72a4887f56",
+        "android_client_info": {
+          "package_name": "com.example.youmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175761504549-6ne7mali469dhkn5tp0mj7l6j3o5hi41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.youmate",
+            "certificate_hash": "4eaebd571a1262c04a739abb580d1a08cc8c3a1f"
+          }
+        },
+        {
+          "client_id": "175761504549-cm3er2u70rjrkllmmbge6uct7e0ii56t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.youmate",
+            "certificate_hash": "d94999ce2f51d614222c4a1d9e0aed0b5cb344c2"
+          }
+        },
+        {
+          "client_id": "175761504549-ade5up08n4fs7ttim493pj9h95cueddj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACYE15yfcIwtE1xTinObIpUcjySxi-1Qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175761504549-ade5up08n4fs7ttim493pj9h95cueddj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="@style/AppTheme">
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
+
+    <style name="AppTheme.Translucent.Light" parent="@style/AppTheme.Translucent">
+        <item name="tabSwitcherThemeGlobal">@style/LightTabSwitcher</item>
+    </style>
+
+    <style name="AppTheme.Translucent.Dark" parent="@style/AppTheme.Translucent">
+        <item name="tabSwitcherThemeGlobal">@style/DarkTabSwitcher</item>
+    </style>
+
+    <style name="LightTabSwitcher" parent="@style/TabSwitcher.Light">
+        <item name="tabSwitcherTabIcon">@drawable/ic_file_outline_18dp</item>
+        <item name="tabSwitcherTabIconTint">#ff666666</item>
+        <item name="tabSwitcherToolbarNavigationIconTint">@android:color/white</item>
+        <item name="toolbarTheme">@style/LightToolbar</item>
+    </style>
+
+    <style name="DarkTabSwitcher" parent="@style/TabSwitcher">
+        <item name="tabSwitcherTabIcon">@drawable/ic_file_outline_18dp</item>
+        <item name="tabSwitcherTabIconTint">@android:color/white</item>
+        <item name="tabSwitcherToolbarNavigationIconTint">@android:color/white</item>
+        <item name="toolbarTheme">@style/DarkToolbar</item>
+    </style>
+
+    <style name="LightToolbar" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">?android:attr/textColorSecondary</item>
+    </style>
+
+    <style name="DarkToolbar" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="Chat" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorPrimary">@color/Vulcan</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+    <style name="MyAlertDialogStyle2" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#f500b8</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

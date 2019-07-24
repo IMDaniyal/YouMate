@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EswaTransfer"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/reg_logo"
+        android:layout_width="183dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="87dp"
+        android:src="@drawable/bank" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="eswa Transfer"
+        android:textAlignment="center"
+        android:textColor="@color/registerColr"
+        android:textSize="18dp" />
+    <EditText
+        android:hint="Address"
+        android:layout_marginLeft="30dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edittxt_circle_bg"
+        android:layout_marginTop="15dp"
+        android:id="@+id/register_address"
+        android:layout_width="350dp"
+        android:paddingLeft="20sp"
+        android:ems="10"
+        android:inputType="text"
+        />
+    <EditText
+        android:hint="eswa ID"
+        android:layout_marginLeft="30dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edittxt_circle_bg"
+        android:layout_marginTop="15dp"
+        android:id="@+id/register_eswaid"
+        android:layout_width="350dp"
+        android:paddingLeft="20sp"
+        android:ems="10"
+        android:inputType="text"
+        />
+
+    <Button
+        android:onClick="onClickeswa"
+        android:backgroundTint="@color/registerColr"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="30dp"
+        android:id="@+id/register_submit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+
+
+</LinearLayout>
