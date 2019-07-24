@@ -59,7 +59,7 @@ public class Admin extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
 
-        rvPlacesData =(RecyclerView) findViewById(R.id.adminrecycler);
+        rvPlacesData = findViewById(R.id.adminrecycler);
 
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {

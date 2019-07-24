@@ -79,7 +79,7 @@ public class LeaderBoard extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
 
-        rvPlacesData =(RecyclerView) findViewById(R.id.datarecycle);
+        rvPlacesData = findViewById(R.id.datarecycle);
 
         /*email = findViewById(R.id.feedback);
         level = findViewById(R.id.button);*/
@@ -139,8 +139,8 @@ class MyAdapter extends RecyclerView.Adapter<LeaderBoard.MyAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder( @NonNull LeaderBoard.MyAdapter.MyViewHolder holder, int position ) {
         holder.tvemail.setText("Email: "+userData.get(position).getEmail());
-        holder.tvpoints.setText(String.valueOf("Points: "+userData.get(position).getPoint()));
-        holder.tvlevel.setText(String.valueOf("Level: "+userData.get(position).getLevel()));
+        holder.tvpoints.setText("Points: " + userData.get(position).getPoint());
+        holder.tvlevel.setText("Level: " + userData.get(position).getLevel());
     }
 
 

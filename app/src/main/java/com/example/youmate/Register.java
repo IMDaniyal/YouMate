@@ -191,7 +191,7 @@ public class Register extends AppCompatActivity  {
 
     //email verification code
     public void sendverificationemail() {
-        final FirebaseUser user = auth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

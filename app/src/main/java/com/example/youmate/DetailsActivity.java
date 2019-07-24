@@ -80,6 +80,14 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
 
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Main2Activity.class));
+        finish();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
@@ -90,18 +98,23 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
                 switch (menuItem.getItemId()) {
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(), Main2Activity.class));
+                        finish();
                         break;
                     case R.id.item2:
                         startActivity(new Intent(getApplicationContext(), Login.class));
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                        finish();
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(), Download.class));
+                        finish();
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                        finish();
                         break;
                 }
 
@@ -297,13 +310,167 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDescription("Android Data download using DownloadManager.");
 
-        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().toString() + "/VideoDownloader", fileName);
+       // request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().toString() + "/VideoDownloader", fileName);
+        request.setDestinationInExternalPublicDir("/VideoDownloader", fileName);
 
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
     }
-    private class RequestDownloadVideoStream extends AsyncTask<String, String, String> {
+    private class RequestYoutubeCommentAPI extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String VIDEO_COMMENT_URL = "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=100&videoId=" + youtubeDataModel.getVideo_id() + "&key=" + GOOGLE_YOUTUBE_API;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(VIDEO_COMMENT_URL);
+            Log.e("url: ", VIDEO_COMMENT_URL);
+            try {
+                HttpResponse response = httpClient.execute(httpGet);
+                HttpEntity httpEntity = response.getEntity();
+                String json = EntityUtils.toString(httpEntity);
+                return json;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            if (response != null) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    Log.e("response", jsonObject.toString());
+                    mListData = parseJson(jsonObject);
+                    initVideoList(mListData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void initVideoList(ArrayList<YoutubeCommentModel> mListData) {
+        mList_videos.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new CommentAdapter(this, mListData);
+        mList_videos.setAdapter(mAdapter);
+    }
+
+    public ArrayList<YoutubeCommentModel> parseJson(JSONObject jsonObject) {
+        ArrayList<YoutubeCommentModel> mList = new ArrayList<>();
+
+        if (jsonObject.has("items")) {
+            try {
+                JSONArray jsonArray = jsonObject.getJSONArray("items");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject json = jsonArray.getJSONObject(i);
+
+                    YoutubeCommentModel youtubeObject = new YoutubeCommentModel();
+                    JSONObject jsonTopLevelComment = json.getJSONObject("snippet").getJSONObject("topLevelComment");
+                    JSONObject jsonSnippet = jsonTopLevelComment.getJSONObject("snippet");
+
+                    String title = jsonSnippet.getString("authorDisplayName");
+                    String thumbnail = jsonSnippet.getString("authorProfileImageUrl");
+                    String comment = jsonSnippet.getString("textDisplay");
+
+                    youtubeObject.setTitle(title);
+                    youtubeObject.setComment(comment);
+                    youtubeObject.setThumbnail(thumbnail);
+                    mList.add(youtubeObject);
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return mList;
+
+    }
+
+    public void requestPermissionForReadExtertalStorage() throws Exception {
+        try {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                READ_STORAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public boolean checkPermissionForReadExtertalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            int result2 = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            return (result == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED);
+        }
+        return false;
+    }
+
+    public void updataLevel() {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
+            noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Double valueLevel = documentSnapshot.getDouble("level");
+                    Double valuePoint = documentSnapshot.getDouble("point");
+                    try {
+                        //checking for level
+                        if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
+
+                            noteRef.update("email", userEmail,
+                                "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(DetailsActivity.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        } else {
+                            noteRef.update("email", userEmail,
+                                "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(DetailsActivity.this, "Points updated", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        Toast.makeText(DetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        else{
+            Toast.makeText(this, "Login to get points.", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+  /*  private class RequestDownloadVideoStream extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -391,161 +558,9 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
             if (pDialog.isShowing())
                 pDialog.dismiss();
         }
-    }
+    } */
 
 
-    private class RequestYoutubeCommentAPI extends AsyncTask<Void, String, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String VIDEO_COMMENT_URL = "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=100&videoId=" + youtubeDataModel.getVideo_id() + "&key=" + GOOGLE_YOUTUBE_API;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(VIDEO_COMMENT_URL);
-            Log.e("url: ", VIDEO_COMMENT_URL);
-            try {
-                HttpResponse response = httpClient.execute(httpGet);
-                HttpEntity httpEntity = response.getEntity();
-                String json = EntityUtils.toString(httpEntity);
-                return json;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            super.onPostExecute(response);
-            if (response != null) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    Log.e("response", jsonObject.toString());
-                    mListData = parseJson(jsonObject);
-                    initVideoList(mListData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void initVideoList(ArrayList<YoutubeCommentModel> mListData) {
-        mList_videos.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new CommentAdapter(this, mListData);
-        mList_videos.setAdapter(mAdapter);
-    }
-
-    public ArrayList<YoutubeCommentModel> parseJson(JSONObject jsonObject) {
-        ArrayList<YoutubeCommentModel> mList = new ArrayList<>();
-
-        if (jsonObject.has("items")) {
-            try {
-                JSONArray jsonArray = jsonObject.getJSONArray("items");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject json = jsonArray.getJSONObject(i);
-
-                    YoutubeCommentModel youtubeObject = new YoutubeCommentModel();
-                    JSONObject jsonTopLevelComment = json.getJSONObject("snippet").getJSONObject("topLevelComment");
-                    JSONObject jsonSnippet = jsonTopLevelComment.getJSONObject("snippet");
-
-                    String title = jsonSnippet.getString("authorDisplayName");
-                    String thumbnail = jsonSnippet.getString("authorProfileImageUrl");
-                    String comment = jsonSnippet.getString("textDisplay");
-
-                    youtubeObject.setTitle(title);
-                    youtubeObject.setComment(comment);
-                    youtubeObject.setThumbnail(thumbnail);
-                    mList.add(youtubeObject);
-
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return mList;
-
-    }
-
-    public void requestPermissionForReadExtertalStorage() throws Exception {
-        try {
-            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    READ_STORAGE_PERMISSION_REQUEST_CODE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public boolean checkPermissionForReadExtertalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            int result2 = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            return (result == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED);
-        }
-        return false;
-    }
-
-    public void updataLevel() {
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-        final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
-        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Double valueLevel = documentSnapshot.getDouble("level");
-                Double valuePoint = documentSnapshot.getDouble("point");
-                try {
-                    //checking for level
-                    if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
-
-                        noteRef.update("email", userEmail,
-                                "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(DetailsActivity.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    } else {
-                        noteRef.update("email", userEmail,
-                                "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(DetailsActivity.this, "Points updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-                    Toast.makeText(DetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-        else{
-            Toast.makeText(this, "Login to get points.", Toast.LENGTH_SHORT).show();
-
-        }
-}
 }
 

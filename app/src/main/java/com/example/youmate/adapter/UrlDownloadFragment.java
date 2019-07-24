@@ -43,8 +43,8 @@ public class UrlDownloadFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.urldownload, container, false);
         homeFragment=new HomeFragment();
-        imageButton= (ImageView) rootView.findViewById(R.id.download);
-        editText= (EditText) rootView.findViewById(R.id.editText);
+        imageButton= rootView.findViewById(R.id.download);
+        editText= rootView.findViewById(R.id.editText);
         pref = new PrefManager(getContext());
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

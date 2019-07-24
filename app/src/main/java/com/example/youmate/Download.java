@@ -161,7 +161,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
             try {
                 u = new URL(params[0]);
                 is = u.openStream();
-                URLConnection huc = (URLConnection) u.openConnection();
+                URLConnection huc = u.openConnection();
                 huc.connect();
                 int size = huc.getContentLength();
 
@@ -183,7 +183,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                             total += len1;
                             // publishing the progress....
                             // After this onProgressUpdate will be called
-                            progress = (int) ((total * 100) / size);
+                            progress = (total * 100) / size;
                             if(progress >= 0) {
                                 temp_progress = progress;
                                 publishProgress("" + progress);

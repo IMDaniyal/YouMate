@@ -47,12 +47,14 @@ public class AccountActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId())
+                {
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                         break;
                     case R.id.item2:
                         startActivity(new Intent(getApplicationContext(),Login.class));
+
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
@@ -62,7 +64,6 @@ public class AccountActivity extends AppCompatActivity {
                         break;
                     case R.id.item5:
                         Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();
-
                         break;
                 }
 

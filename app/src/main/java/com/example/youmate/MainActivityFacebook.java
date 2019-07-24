@@ -91,11 +91,11 @@ public class MainActivityFacebook extends AppCompatActivity {
         getWindow().setFeatureInt( Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
         toolbar =   findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
       viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
@@ -174,9 +174,9 @@ public class MainActivityFacebook extends AppCompatActivity {
 
         // When linking text, force to always use default color. This works
         // around a pressed color state bug.
-        TextView textView = (TextView) messageView.findViewById(R.id.title);
-        TextView textView1 = (TextView) messageView.findViewById(R.id.about_credits);
-        TextView textView2 = (TextView) messageView.findViewById(R.id.textView2);
+        TextView textView = messageView.findViewById(R.id.title);
+        TextView textView1 = messageView.findViewById(R.id.about_credits);
+        TextView textView2 = messageView.findViewById(R.id.textView2);
         textView.setTextColor(Color.DKGRAY);
         textView1.setTextColor(Color.DKGRAY);
         textView2.setTextColor(Color.DKGRAY);

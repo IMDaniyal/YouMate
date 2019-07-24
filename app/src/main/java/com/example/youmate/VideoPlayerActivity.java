@@ -30,7 +30,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
-        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
+        videoSurface = findViewById(R.id.videoSurface);
         SurfaceHolder videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
         Intent i = getIntent();
@@ -242,7 +242,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-            final FrameLayout mFrame = (FrameLayout) findViewById(R.id.videoSurfaceContainer);
+            final FrameLayout mFrame = findViewById(R.id.videoSurfaceContainer);
             // int height = displaymetrics.heightPixels;
             int height = mFrame.getHeight();//get height Frame Container video
             int width = displaymetrics.widthPixels;

@@ -25,7 +25,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.YoutubeC
 
     public CommentAdapter(Context mContext, ArrayList<YoutubeCommentModel> data) {
         this.dataSet = data;
-        this.mContext = mContext;
+        CommentAdapter.mContext = mContext;
     }
 
     @Override
@@ -70,9 +70,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.YoutubeC
 
         public YoutubeCommentHolder(View itemView) {
             super(itemView);
-            this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            this.imageViewIcon = (ImageView) itemView.findViewById(R.id.profile_image);
-            this.feedback = (TextView) itemView.findViewById(R.id.feedback);
+            this.textViewName = itemView.findViewById(R.id.textViewName);
+            this.imageViewIcon = itemView.findViewById(R.id.profile_image);
+            this.feedback = itemView.findViewById(R.id.feedback);
 
         }
 

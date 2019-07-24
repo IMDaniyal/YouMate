@@ -84,12 +84,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mainView=inflater.inflate(R.layout.fragment_home,container,false);
         setRetainInstance(true);
-        mySwipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeContainer);
+        mySwipeRefreshLayout = mainView.findViewById(R.id.swipeContainer);
         pref = new PrefManager(getContext());
-        mprogress= (ProgressBar) mainView.findViewById(R.id.progressBar);
+        mprogress= mainView.findViewById(R.id.progressBar);
         mprogress.setProgress(0);
         mprogress.setMax(100);
-        mWebview  = (WebView) mainView.findViewById(R.id.webView);
+        mWebview  = mainView.findViewById(R.id.webView);
         mWebview.setVisibility(View.INVISIBLE);
         mWebview.getSettings().setSupportZoom(true);       //Zoom Control on web (You don't need this
         mWebview.getSettings().setBuiltInZoomControls(true);

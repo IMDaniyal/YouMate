@@ -77,10 +77,10 @@ public class VideoPostAdapter extends RecyclerView.Adapter<VideoPostAdapter.Yout
 
         public YoutubePostHolder(View itemView) {
             super(itemView);
-            this.textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
-            this.textViewDes = (TextView) itemView.findViewById(R.id.textViewDes);
-            this.textViewDate = (TextView) itemView.findViewById(R.id.textViewDate);
-            this.ImageThumb = (ImageView) itemView.findViewById(R.id.ImageThumb);
+            this.textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            this.textViewDes = itemView.findViewById(R.id.textViewDes);
+            this.textViewDate = itemView.findViewById(R.id.textViewDate);
+            this.ImageThumb = itemView.findViewById(R.id.ImageThumb);
 
         }
 

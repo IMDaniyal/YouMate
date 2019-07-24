@@ -67,7 +67,7 @@ public class PaymentProof extends AppCompatActivity {
         setContentView(R.layout.activity_payment_proof);
 
         imageView=findViewById(R.id.imagev);
-        edname=(EditText) findViewById(R.id.edname);
+        edname= findViewById(R.id.edname);
 
 
         storageReference= FirebaseStorage.getInstance().getReference();

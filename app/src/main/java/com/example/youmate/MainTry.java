@@ -87,18 +87,23 @@ public class MainTry extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+
                         break;
                     case R.id.item2:
                         startActivity(new Intent(getApplicationContext(),Login.class));
+
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
+
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+
                         break;
                 }
 
@@ -204,21 +209,7 @@ public class MainTry extends AppCompatActivity {
         mainLayout.addView(btn);
     }
 
-    private void downloadFromUrl(String youtubeDlUrl, String downloadTitle, String fileName) {
-        Uri uri = Uri.parse(youtubeDlUrl);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setTitle(downloadTitle);
 
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDescription("Android Data download using DownloadManager.");
-
-        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().toString() + "/VideoDownloader", fileName);
-
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-
-    }
     public class DownloadTask extends AsyncTask<String, Integer, String> {
 
         private Context context;
@@ -251,7 +242,7 @@ public class MainTry extends AppCompatActivity {
                         Constants.FOLDER_NAME, fileN);
                 output = new FileOutputStream(filename);
 
-                byte data[] = new byte[4096];
+                byte[] data = new byte[4096];
                 long total = 0;
                 int count;
                 while ((count = input.read(data)) != -1) {
@@ -300,7 +291,7 @@ public class MainTry extends AppCompatActivity {
             lp.height = (int)(getResources().getDisplayMetrics().heightPixels*0.65);
             downloadDialog.getWindow().setAttributes(lp);
 
-            final Button cancel = (Button) DialogView.findViewById(R.id.cancel_btn);
+            final Button cancel = DialogView.findViewById(R.id.cancel_btn);
             cancel.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -313,7 +304,7 @@ public class MainTry extends AppCompatActivity {
 
              downloadDialog.setCancelable(false);
             downloadDialog.setCanceledOnTouchOutside(false);
-            bnp = (NumberProgressBar)DialogView.findViewById(R.id.number_progress_bar);
+            bnp = DialogView.findViewById(R.id.number_progress_bar);
             bnp.setProgress(0);
             bnp.setMax(100);
             downloadDialog.show();
@@ -446,4 +437,20 @@ public class MainTry extends AppCompatActivity {
             Toast.makeText(MainTry.this, "Login to get points.", Toast.LENGTH_SHORT).show();
         }
     }
+
+   /* private void downloadFromUrl(String youtubeDlUrl, String downloadTitle, String fileName) {
+        Uri uri = Uri.parse(youtubeDlUrl);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setTitle(downloadTitle);
+
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDescription("Android Data download using DownloadManager.");
+
+        request.setDestinationInExternalPublicDir("/VideoDownloader", fileName);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+    }*/
 }

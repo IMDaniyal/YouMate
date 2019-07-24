@@ -181,11 +181,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView shareID, deleteID;
         public ViewHolder(View itemView) {
             super(itemView);
-            userName = (TextView) itemView.findViewById(R.id.profileUserName);
-            savedImage = (ImageView) itemView.findViewById(R.id.mainImageView);
-            playIcon = (ImageView) itemView.findViewById(R.id.playButtonImage);
-            shareID = (ImageView) itemView.findViewById(R.id.shareID);
-            deleteID = (ImageView) itemView.findViewById(R.id.deleteID);
+            userName = itemView.findViewById(R.id.profileUserName);
+            savedImage = itemView.findViewById(R.id.mainImageView);
+            playIcon = itemView.findViewById(R.id.playButtonImage);
+            shareID = itemView.findViewById(R.id.shareID);
+            deleteID = itemView.findViewById(R.id.deleteID);
         }
     }
 }

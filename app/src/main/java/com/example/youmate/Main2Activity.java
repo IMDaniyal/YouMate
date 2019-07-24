@@ -234,6 +234,7 @@ public class Main2Activity extends AppCompatActivity  {
                 Intent intent = new Intent(Main2Activity.this, DetailsActivity.class);
                 intent.putExtra(YoutubeDataModel.class.toString(), youtubeDataModel);
                 startActivity(intent);
+                finish();
             }
         });
         mList_videos.setAdapter(adapter);

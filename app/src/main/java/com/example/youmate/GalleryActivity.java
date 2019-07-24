@@ -97,7 +97,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
        /* recyclerLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRecyclerView);
         recyclerLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

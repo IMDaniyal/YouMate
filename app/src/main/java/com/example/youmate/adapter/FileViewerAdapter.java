@@ -44,7 +44,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         super();
         mContext = context;
         mDatabase = new DBHelper(mContext);
-        mDatabase.setOnDatabaseChangedListener(this);
+        DBHelper.setOnDatabaseChangedListener(this);
         llm = linearLayoutManager;
     }
 
@@ -58,11 +58,11 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         minutes= Math.round(minutes * 100d) / 100d;
         if(minutes<0)
         {
-            ko= String.valueOf(minutes)+" KB";
+            ko= minutes +" KB";
         }
         else
         {
-            ko= String.valueOf(minutes)+" MB";
+            ko= minutes +" MB";
         }
         holder.vName.setText(item.getName());
         holder.vThumbnail.setImageBitmap(item.getImageThumbnail());
@@ -199,15 +199,15 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         protected ImageView vDelete;
         public RecordingsViewHolder(View v) {
             super(v);
-            vName = (TextView) v.findViewById(R.id.file_name_text);
-            vThumbnail=(ImageView)v.findViewById(R.id.imageView);
-            vLength = (TextView) v.findViewById(R.id.file_length_text);
-            vDateAdded = (TextView) v.findViewById(R.id.file_date_added_text);
-            vThumbnail=(ImageView)v.findViewById(R.id.imageView);
+            vName = v.findViewById(R.id.file_name_text);
+            vThumbnail= v.findViewById(R.id.imageView);
+            vLength = v.findViewById(R.id.file_length_text);
+            vDateAdded = v.findViewById(R.id.file_date_added_text);
+            vThumbnail= v.findViewById(R.id.imageView);
             cardView = v.findViewById(R.id.card_view);
-            vPlay=(ImageView)v.findViewById(R.id.playvideo);
-            vShare=(ImageView)v.findViewById(R.id.sharevideo);
-            vDelete=(ImageView)v.findViewById(R.id.deletevideo);
+            vPlay= v.findViewById(R.id.playvideo);
+            vShare= v.findViewById(R.id.sharevideo);
+            vDelete= v.findViewById(R.id.deletevideo);
         }
     }
 
@@ -295,7 +295,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.dialog_rename_file, null);
 
-        final EditText input = (EditText) view.findViewById(R.id.new_name);
+        final EditText input = view.findViewById(R.id.new_name);
 
         renameFileBuilder.setTitle(mContext.getString(R.string.dialog_title_rename));
         renameFileBuilder.setCancelable(true);

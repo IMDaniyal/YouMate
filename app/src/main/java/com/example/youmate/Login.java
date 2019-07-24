@@ -44,12 +44,15 @@ public class Login extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        Toast.makeText(getApplicationContext(),"You already in Login Activity",Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(getApplicationContext(),Login.class));
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));

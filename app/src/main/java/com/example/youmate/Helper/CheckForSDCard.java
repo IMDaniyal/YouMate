@@ -6,11 +6,8 @@ public class CheckForSDCard {
 
     //Method to Check If SD Card is mounted or not
     public static boolean isSDCardPresent() {
-        if (Environment.getExternalStorageState().equals(
+      return Environment.getExternalStorageState().equals(
 
-                Environment.MEDIA_MOUNTED)) {
-            return true;
-        }
-        return false;
+          Environment.MEDIA_MOUNTED);
     }
 }
