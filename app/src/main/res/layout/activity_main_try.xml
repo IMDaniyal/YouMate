@@ -60,14 +60,14 @@
         </LinearLayout>
 
     </ScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nav1"
-        android:layout_marginTop="0dp"
         android:layout_gravity="bottom"
-        app:menu="@menu/botto_navigation"
-        >
+        android:layout_marginTop="0dp"
+        app:menu="@menu/botto_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </LinearLayout>

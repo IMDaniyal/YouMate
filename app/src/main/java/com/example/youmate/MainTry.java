@@ -28,7 +28,6 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -195,7 +194,7 @@ public class MainTry extends AppCompatActivity {
                     filename = videoTitle + "." + ytfile.getFormat().getExt();
                 }
                 filename = filename.replaceAll("[\\\\><\"|*?%:#/]", "");
-             //   downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
+                downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
                 final DownloadTask downloadTask = new DownloadTask(MainTry.this);
                 downloadTask.execute(ytfile.getUrl());
                 updataLevel();
