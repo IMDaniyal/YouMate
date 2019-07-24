@@ -2,9 +2,12 @@ package com.example.youmate;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -257,8 +260,16 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
                         String downloadURL = ytFiles.get(itag).getUrl();
                         Log.e("download URL :", downloadURL);
 
+                        String filename;
+                        if (videoTitle.length() > 55) {
+                            filename = videoTitle.substring(0, 55);
+                        } else {
+                            filename = videoTitle;
+                        }
+                        filename = filename.replaceAll("[\\\\><\"|*?%:#/]", "");
                         //now download it like a file
-                        new RequestDownloadVideoStream().execute(downloadURL, videoTitle);
+                //        new RequestDownloadVideoStream().execute(downloadURL, videoTitle);
+                        downloadFromUrl(downloadURL,videoTitle,filename);
 
                         //update query
                         updataLevel();
@@ -277,7 +288,21 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
 
     private ProgressDialog pDialog;
 
+    private void downloadFromUrl(String youtubeDlUrl, String downloadTitle, String fileName) {
+        Uri uri = Uri.parse(youtubeDlUrl);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setTitle(downloadTitle);
 
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDescription("Android Data download using DownloadManager.");
+
+        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().toString() + "/VideoDownloader", fileName);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+    }
     private class RequestDownloadVideoStream extends AsyncTask<String, String, String> {
 
         @Override
