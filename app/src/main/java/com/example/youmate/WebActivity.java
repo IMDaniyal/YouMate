@@ -128,6 +128,8 @@ public class WebActivity extends AppCompatActivity {
                      Editor editor = pref.edit();
                      editor.putString("channelid", channel_id);
                      editor.apply();
+                     finish();
+                   Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                  }
                  else
                  {
@@ -242,6 +244,8 @@ bottomMenu();
                     Editor editor = pref.edit();
                     editor.putString("channelid", channel_id);
                     editor.apply();
+                    finish();
+                    Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
