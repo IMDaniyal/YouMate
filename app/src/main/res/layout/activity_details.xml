@@ -31,7 +31,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:maxLines="2"
-            android:text="Android Name sjdnjas ajsk djak sjdka kaskdjaksdj kjskdjaksj"
+            android:text="Android Name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/common_black_50"
             android:textSize="20dp" />
@@ -87,35 +87,36 @@
         android:textSize="16dp" />
 
     <LinearLayout
+        android:layout_width="402dp"
+        android:layout_height="260dp"
+        android:layout_above="@+id/nav1"
         android:layout_below="@+id/textViewDes"
-        android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
 
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <TextView
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FAVOURITE"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="COMMENTS"
             android:layout_marginLeft="0dp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/common_blue_bg"/>
+            android:text="COMMENTS"
+            android:textColor="@color/common_blue_bg" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mList_videos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="229dp"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

@@ -395,52 +395,55 @@ public class MainTry extends AppCompatActivity {
                 activeNetwork.isConnectedOrConnecting();
     }
     public void updataLevel () {
-        final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
-        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Double valueLevel = documentSnapshot.getDouble("level");
-                Double valuePoint = documentSnapshot.getDouble("point");
-                try {
-                    //checking for level
-                    if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
+            noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Double valueLevel = documentSnapshot.getDouble("level");
+                    Double valuePoint = documentSnapshot.getDouble("point");
+                    try {
+                        //checking for level
+                        if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
 
-                        noteRef.update("email", userEmail,
-                                "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess( Void aVoid ) {
-                                Toast.makeText(MainTry.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure( @NonNull Exception e ) {
-                                Toast.makeText(MainTry.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            noteRef.update("email", userEmail,
+                                    "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(MainTry.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainTry.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                    } else {
-                        noteRef.update("email", userEmail,
-                                "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess( Void aVoid ) {
-                                Toast.makeText(MainTry.this, "Points updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure( @NonNull Exception e ) {
-                                Toast.makeText(MainTry.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        } else {
+                            noteRef.update("email", userEmail,
+                                    "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(MainTry.this, "Points updated", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainTry.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        Toast.makeText(MainTry.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-
                 }
-                catch (Exception e)
-                {
-                    Toast.makeText(MainTry.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        }
+        else{
+            Toast.makeText(MainTry.this, "Login to get points.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

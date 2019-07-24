@@ -1,13 +1,6 @@
 package com.example.youmate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,13 +9,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.youmate.Modals.YoutubeCommentModel;
 import com.example.youmate.Modals.YoutubeDataModel;
@@ -65,7 +62,7 @@ import at.huber.youtubeExtractor.YtFile;
 public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     private static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 1;
     private static String GOOGLE_YOUTUBE_API = "AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
-    private YoutubeDataModel youtubeDataModel ;
+    private YoutubeDataModel youtubeDataModel;
     TextView textViewName;
     TextView textViewDes;
     TextView textViewDate;
@@ -83,25 +80,25 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        bottomNavigationView=findViewById(R.id.nav1);
+        bottomNavigationView = findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
-            public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
-                switch (menuItem.getItemId()){
+            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
                     case R.id.item1:
-                        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        startActivity(new Intent(getApplicationContext(), Main2Activity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        startActivity(new Intent(getApplicationContext(), Login.class));
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                         break;
                     case R.id.item4:
-                        startActivity(new Intent(getApplicationContext(),Download.class));
+                        startActivity(new Intent(getApplicationContext(), Download.class));
                         break;
                     case R.id.item5:
-                        startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                         break;
                 }
 
@@ -253,7 +250,7 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
             String youtubeLink = ("https://www.youtube.com/watch?v=" + youtubeDataModel.getVideo_id());
             YouTubeUriExtractor ytEx = new YouTubeUriExtractor(this) {
                 @Override
-                public void onUrisAvailable( String videoID, String videoTitle, SparseArray<YtFile> ytFiles ) {
+                public void onUrisAvailable(String videoID, String videoTitle, SparseArray<YtFile> ytFiles) {
                     if (ytFiles != null) {
                         int itag = 22;
                         //This is the download URL
@@ -273,12 +270,11 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
 
 
             ytEx.execute(youtubeLink);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Toast.makeText(DetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
     private ProgressDialog pDialog;
 
 
@@ -293,7 +289,7 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
             pDialog.setMax(100);
             pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             pDialog.setCancelable(false);
-           // pDialog.show();
+            // pDialog.show();
         }
 
         @Override
@@ -312,13 +308,13 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
 
                 if (huc != null) {
                     String file_name = params[1] + ".mp4";
-                    String storagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/YouMate";
+                    String storagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/YouMate";
                     File f = new File(storagePath);
                     if (!f.exists()) {
                         f.mkdir();
                     }
 
-                    FileOutputStream fos = new FileOutputStream(f+"/"+file_name);
+                    FileOutputStream fos = new FileOutputStream(f + "/" + file_name);
                     byte[] buffer = new byte[1024];
                     int total = 0;
                     if (is != null) {
@@ -327,11 +323,11 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
                             // publishing the progress....
                             // After this onProgressUpdate will be called
                             progress = (int) ((total * 100) / size);
-                            if(progress >= 0) {
+                            if (progress >= 0) {
                                 temp_progress = progress;
                                 publishProgress("" + progress);
-                            }else
-                                publishProgress("" + temp_progress+1);
+                            } else
+                                publishProgress("" + temp_progress + 1);
 
                             fos.write(buffer, 0, len1);
                         }
@@ -472,7 +468,9 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
         return false;
     }
 
-    public void updataLevel () {
+    public void updataLevel() {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
         final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
@@ -481,45 +479,47 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Double valueLevel = documentSnapshot.getDouble("level");
                 Double valuePoint = documentSnapshot.getDouble("point");
-try {
-    //checking for level
-    if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
+                try {
+                    //checking for level
+                    if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
 
-        noteRef.update("email", userEmail,
-                "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess( Void aVoid ) {
-                Toast.makeText(DetailsActivity.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure( @NonNull Exception e ) {
-                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        noteRef.update("email", userEmail,
+                                "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(DetailsActivity.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-    } else {
-        noteRef.update("email", userEmail,
-                "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess( Void aVoid ) {
-                Toast.makeText(DetailsActivity.this, "Points updated", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure( @NonNull Exception e ) {
-                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+                    } else {
+                        noteRef.update("email", userEmail,
+                                "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(DetailsActivity.this, "Points updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(DetailsActivity.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
-}
-catch (Exception e)
-{
-    Toast.makeText(DetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-}
+                } catch (Exception e) {
+                    Toast.makeText(DetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+        else{
+            Toast.makeText(this, "Login to get points.", Toast.LENGTH_SHORT).show();
+        }
+}
 }
 

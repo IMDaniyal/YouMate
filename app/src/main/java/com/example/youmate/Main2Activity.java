@@ -4,15 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,6 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.youmate.Modals.YoutubeDataModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
@@ -47,7 +45,7 @@ import java.util.ArrayList;
 public class Main2Activity extends AppCompatActivity  {
 
     private static String GOOGLE_YOUTUBE_API_KEY="AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
-    private static String CHANNEL_ID = /*"UCDDFDMN72wWNZoobe7TI5vg";*/"UC_x5XG1OV2P6uZZ5FSM9Ttw";
+    private static String CHANNEL_ID = /*"UCDDFDMN72wWNZoobe7TI5vg";*/"UC-lHJZR3Gqxm24_Vd_AJ5Yw";
     private static String CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+CHANNEL_ID+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
 
     private BottomNavigationView bottomNavigationView;
