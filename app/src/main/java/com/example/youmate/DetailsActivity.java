@@ -519,6 +519,7 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
     }
         else{
             Toast.makeText(this, "Login to get points.", Toast.LENGTH_SHORT).show();
+
         }
 }
 }
