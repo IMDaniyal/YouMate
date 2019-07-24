@@ -2,11 +2,17 @@ package com.example.youmate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.transition.Visibility;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,7 +27,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class WebActivity extends AppCompatActivity {
 
@@ -35,21 +51,28 @@ public class WebActivity extends AppCompatActivity {
     String userId;
     BottomNavigationView bottomNavigationView;
     MyHelper helper;
+    FloatingActionButton donebutton;
+
+
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-
         ed2=findViewById(R.id.ed2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
         progressBar = findViewById(R.id.progressBar);
         webView = findViewById(R.id.web);
+        donebutton = findViewById(R.id.floatingtick);
         imageView=findViewById(R.id.imgbook);
         webView.setVisibility(View.INVISIBLE);
         webView.getSettings().setJavaScriptEnabled(true);
+
+
         webView.setWebChromeClient(new WebChromeClient());
         Bundle bundle = getIntent().getExtras();
+
         String iip= bundle.getString("IP");
 
         helper=new MyHelper(WebActivity.this);
@@ -74,8 +97,58 @@ public class WebActivity extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl("https://www.google.co.id/search?q="+iip);
-        ed2.setText("https://www.google.co.id/search?q="+iip);
+        if(bundle.getInt("setchannel")==1)
+        {
+            webView.loadUrl(iip);
+            ed2.setText("youtube");
+            //user come for setting channel
+            donebutton.setVisibility(View.VISIBLE);
+
+            donebutton.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+
+                    String channelstring=webView.getUrl();
+                    int index=-1;
+                    String channel_id="";
+                 if(channelstring.contains("user"))
+                 {
+                      index =channelstring.indexOf("user/");
+                      index= index+5;
+                      String username = channelstring.substring(index);
+                      new channelidget(username).execute();
+                 }
+                 else if(channelstring.contains("channel/"))
+                 {
+                     int chan= channelstring.indexOf("channel/");
+                     chan=chan+8;
+                     channel_id= channelstring.substring(chan);
+                     SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
+                     Editor editor = pref.edit();
+                     editor.putString("channelid", channel_id);
+                     editor.apply();
+                 }
+                 else
+                 {
+                     Toast.makeText(WebActivity.this, "Invalid page", Toast.LENGTH_SHORT).show();
+                 }
+
+
+
+
+                }
+            });
+        }
+        else
+        {
+            donebutton.setVisibility(View.INVISIBLE);
+            webView.loadUrl("https://www.google.co.id/search?q="+iip);
+            ed2.setText("https://www.google.co.id/search?q="+iip);
+        }
+
+
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -122,6 +195,60 @@ bottomMenu();
             }
         });
 
+    }
+
+    private class channelidget extends AsyncTask<Void,String,String> {
+
+        String username="";
+
+        public channelidget(String username) {
+            this.username = username;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url ="https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E&forUsername="+username+"&part=id";
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+            try {
+                HttpResponse response = httpClient.execute(httpGet);
+                HttpEntity httpEntity = response.getEntity();
+                String json = EntityUtils.toString(httpEntity);
+                return json;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String response)
+        {
+            super.onPostExecute(response);
+            if(response!=null)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject jsonObject2= new JSONObject(jsonObject.getJSONArray("items").getString(0));
+                    String channel_id=  jsonObject2.get("id").toString();
+
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
+                    Editor editor = pref.edit();
+                    editor.putString("channelid", channel_id);
+                    editor.apply();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 }
 

@@ -106,7 +106,17 @@
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
-
+        <TextView
+          android:id="@+id/setchannel"
+          android:textStyle="bold"
+          android:layout_width="match_parent"
+          android:layout_height="53dp"
+          android:layout_margin="10dp"
+          android:paddingLeft="15dp"
+          android:fontFamily="sans-serif-thin"
+          android:text="Channel _id"
+          android:textColor="@color/black"
+          android:textSize="25sp"/>
 
 
     </LinearLayout>

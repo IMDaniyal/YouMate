@@ -1,5 +1,6 @@
 package com.example.youmate;
 
+import android.view.View.OnClickListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AccountActivity extends AppCompatActivity {
 
     TextView tvprofile,tvpoint,tvproof,tvhistory,tvhelp,tvsetting,tvleaderboard;
+    TextView changechannel;
+
 
     BottomNavigationView bottomNavigationView;
     SharedPreferences settings;
@@ -38,6 +41,7 @@ public class AccountActivity extends AppCompatActivity {
         tvleaderboard=findViewById(R.id.tvleaderboard);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
+        changechannel = findViewById(R.id.setchannel);
 
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -112,6 +116,15 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 Intent profil=new Intent(AccountActivity.this,LeaderBoard.class);
+                startActivity(profil);
+            }
+        });
+        changechannel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profil=new Intent(AccountActivity.this,WebActivity.class);
+                profil.putExtra("setchannel",1);
+                profil.putExtra("IP","https://www.youtube.com");
                 startActivity(profil);
             }
         });

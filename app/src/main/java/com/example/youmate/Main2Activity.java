@@ -65,7 +65,6 @@ public class Main2Activity extends AppCompatActivity  {
         setContentView(R.layout.activity_main2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
-
         mList_videos=findViewById(R.id.recycler);
         edurl=findViewById(R.id.edurl);
         imgcri=findViewById(R.id.imagecri);
@@ -88,6 +87,13 @@ public class Main2Activity extends AppCompatActivity  {
         tvbbc=findViewById(R.id.textbbc);
         tvgmail=findViewById(R.id.textgmail);
         tvtwit=findViewById(R.id.texttwit);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
+
+        CHANNEL_ID = pref.getString("channelid", "UC_x5XG1OV2P6uZZ5FSM9Ttw");//"No name defined" is the default value.
+            CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+CHANNEL_ID+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
+
+
 
         initList(mListData);
         new RequestYoutubeAPI().execute();
