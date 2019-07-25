@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
@@ -43,8 +44,8 @@ public class WebActivity extends AppCompatActivity {
 
 
     WebView webView;
-    TextView ed2;
-    ImageView imageView;
+
+
     ProgressBar progressBar;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -59,13 +60,12 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        ed2=findViewById(R.id.ed2);
+
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
         progressBar = findViewById(R.id.progressBar);
         webView = findViewById(R.id.web);
         donebutton = findViewById(R.id.floatingtick);
-        imageView=findViewById(R.id.imgbook);
         webView.setVisibility(View.INVISIBLE);
         webView.getSettings().setJavaScriptEnabled(true);
 
@@ -82,7 +82,6 @@ public class WebActivity extends AppCompatActivity {
             public void onPageStarted( WebView view, String url, Bitmap favicon ) {
                 super.onPageStarted(view, url, favicon);
                 progressBar.setVisibility(View.VISIBLE);
-                Toast.makeText(WebActivity.this, "Page Started Loading", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -92,7 +91,6 @@ public class WebActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
-                Toast.makeText(WebActivity.this, "Page Loaded", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -100,7 +98,7 @@ public class WebActivity extends AppCompatActivity {
         if(bundle.getInt("setchannel")==1)
         {
             webView.loadUrl(iip);
-            ed2.setText("youtube");
+
             //user come for setting channel
             donebutton.setVisibility(View.VISIBLE);
 
@@ -148,22 +146,11 @@ public class WebActivity extends AppCompatActivity {
         {
             donebutton.setVisibility(View.INVISIBLE);
             webView.loadUrl("https://www.google.co.id/search?q="+iip);
-            ed2.setText("https://www.google.co.id/search?q="+iip);
+
         }
 
 
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putString("Url",ed2.getText().toString());
-                editor.commit();
-                Toast.makeText(WebActivity.this, "BookMarked", Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
 //        String url=ed2.getText().toString();
 //        Intent iweb=new Intent(WebActivity.this,BookMarkPage.class);

@@ -1,128 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountActivity"
-    android:orientation="vertical">
+    tools:context=".AccountActivity">
+
     <Toolbar
-        android:layout_width="match_parent"
+        android:id="@+id/toolbar3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:title="Hello,Sign In"
-        android:titleTextColor="@color/colorWhite"
+
         android:background="@color/chip_text_color_light"
+        android:logo="@drawable/iconsettings"
+        android:title="Settings"
+        android:titleTextColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        tools:ignore="MissingConstraints,NewApi">
-
-        </Toolbar>
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/tvprofile"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="Profile"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvpoint"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="My Point"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvproof"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="Payment Proof"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvhistory"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="History"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvhelp"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="Help"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvsetting"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="Setting"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-    <TextView
-        android:id="@+id/tvleaderboard"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_margin="10dp"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="15dp"
-        android:text="leaderboard"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-    <TextView
-      android:id="@+id/setchannel"
-      android:textStyle="bold"
-      android:layout_width="match_parent"
-      android:layout_height="53dp"
-      android:layout_margin="10dp"
-      android:paddingLeft="15dp"
-      android:fontFamily="sans-serif-thin"
-      android:text="Channel _id"
-      android:textColor="@color/black"
-      android:textSize="25sp"/>
+    </Toolbar>
 
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvprofile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="Profile"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvpoint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="19dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="My Point"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvproof"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="Payment Proof"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvhistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="History"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvhelp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="Help"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvleaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="leaderboard"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvsetting"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="19dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="Setting"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/setchannel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingLeft="15dp"
+                android:text="Channel _id"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/nav1"
-        android:layout_gravity="bottom"
-        app:menu="@menu/botto_navigation"
-        >
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:menu="@menu/botto_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-</LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.91" />
+</androidx.constraintlayout.widget.ConstraintLayout>
