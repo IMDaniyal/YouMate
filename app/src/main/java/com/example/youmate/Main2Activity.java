@@ -189,7 +189,7 @@ public class Main2Activity extends AppCompatActivity  {
         imglink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="www.linkedin.com/uas/login";
+                String ip="https://www.prashantx.com";
                 Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
