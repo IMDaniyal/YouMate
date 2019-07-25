@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EswaTransfer"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".EswaTransfer">
 
     <ImageView
         android:id="@+id/reg_logo"
@@ -23,40 +23,42 @@
         android:textAlignment="center"
         android:textColor="@color/registerColr"
         android:textSize="18dp" />
+
     <EditText
-        android:hint="Address"
-        android:layout_marginLeft="30dp"
-        android:layout_height="50dp"
-        android:background="@drawable/edittxt_circle_bg"
-        android:layout_marginTop="15dp"
         android:id="@+id/register_address"
-        android:layout_width="350dp"
-        android:paddingLeft="20sp"
-        android:ems="10"
-        android:inputType="text"
-        />
-    <EditText
-        android:hint="eswa ID"
-        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/edittxt_circle_bg"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
-        android:id="@+id/register_eswaid"
-        android:layout_width="350dp"
-        android:paddingLeft="20sp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/edittxt_circle_bg"
         android:ems="10"
+        android:hint="Address"
         android:inputType="text"
-        />
+        android:paddingLeft="20sp" />
+
+    <EditText
+        android:id="@+id/register_eswaid"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/edittxt_circle_bg"
+        android:ems="10"
+        android:hint="eswa ID"
+        android:inputType="text"
+        android:paddingLeft="15sp" />
 
     <Button
-        android:onClick="onClickeswa"
-        android:backgroundTint="@color/registerColr"
-        android:layout_marginTop="6dp"
-        android:layout_gravity="right"
-        android:layout_marginRight="30dp"
         android:id="@+id/register_submit"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="30dp"
+        android:backgroundTint="@color/registerColr"
+        android:onClick="onClickeswa"
         android:text="Submit" />
 
 

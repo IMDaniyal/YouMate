@@ -1,29 +1,22 @@
 package com.example.youmate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.youmate.Modals.ProfileModel;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.youmate.Modals.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class BankTransfer extends AppCompatActivity {
 
@@ -33,6 +26,7 @@ public class BankTransfer extends AppCompatActivity {
     ProgressDialog pd;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String userId;
+    String email;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -46,6 +40,8 @@ public class BankTransfer extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
+        Intent i =getIntent();
+        email=i.getStringExtra("email");
 
     }
 
@@ -65,11 +61,11 @@ try {
         pd.setCancelable(false);
         pd.show();
         pd.cancel();
-        String userMail = auth.getCurrentUser().getEmail();
+
 
         UserModel user = new UserModel();
 
-        db.collection("UserInfo").document(userMail)
+        db.collection("UserInfo").document(email)
                 .update(
                         "address", accadd,
                         "accountholdername", acchold,
@@ -79,8 +75,8 @@ try {
             @Override
             public void onComplete( @NonNull Task<Void> task ) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(BankTransfer.this, "Data Update", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
                     finish();
 
 
