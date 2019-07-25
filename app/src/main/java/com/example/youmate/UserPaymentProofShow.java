@@ -40,8 +40,7 @@ public class UserPaymentProofShow extends AppCompatActivity
 
     BottomNavigationView bottomNavigationView;
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    DocumentReference documentReference;
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images");
     FirebaseAuth auth = FirebaseAuth.getInstance();
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -128,24 +127,22 @@ public class UserPaymentProofShow extends AppCompatActivity
             Toast.makeText(UserPaymentProofShow.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    */
+  */
 
     public void downloadImage()
     {
 
         try {
-            final String uMail = auth.getCurrentUser().getEmail();
-            Toast.makeText(UserPaymentProofShow.this, uMail, Toast.LENGTH_SHORT).show();
-            DatabaseReference folderRef = rootRef.child("images/").child(uMail);
 
-            ValueEventListener eventListener = new ValueEventListener()
-            {
+
+            final String uMail = auth.getCurrentUser().getEmail().replace(".","");
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference photosRef = rootRef.child("images").child(uMail);
+            ValueEventListener eventListener = new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     List<String> list = new ArrayList<>();
-                    for(DataSnapshot ds : dataSnapshot.getChildren())
-                    {
+                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
                         String imageName = ds.getKey();
                         String imageUrl = ds.getValue(String.class);
                         list.add(imageUrl);
@@ -154,11 +151,9 @@ public class UserPaymentProofShow extends AppCompatActivity
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
+                public void onCancelled(DatabaseError databaseError) {}
             };
-            folderRef.addListenerForSingleValueEvent(eventListener);
+            photosRef.addListenerForSingleValueEvent(eventListener);
         }
         catch (Exception e)
         {

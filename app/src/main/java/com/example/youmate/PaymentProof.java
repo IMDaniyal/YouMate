@@ -142,11 +142,12 @@ public class PaymentProof extends AppCompatActivity {
             if( imagepath!=null)
             {
               final  String userMail =userEmail.replace(".",""); // auth.getCurrentUser().getEmail();
-
                 String imgname=edname.getText().toString()+"."+getExtention(imagepath);
                 final ProgressDialog progressDialog = new ProgressDialog(this);
                 progressDialog.setTitle("Uploading...");
                 progressDialog.show();
+
+
                 //String imagetext=ed1.getText().toString()+"."+getExtention(imagepath);
                 StorageReference ref = storageReference.child("images/"+userMail+"/"+imgname);
                 ref.putFile(imagepath)

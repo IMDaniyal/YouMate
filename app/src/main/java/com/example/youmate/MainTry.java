@@ -199,9 +199,9 @@ public class MainTry extends AppCompatActivity {
                     filename = videoTitle + "." + ytfile.getFormat().getExt();
                 }
                 filename = filename.replaceAll("[\\\\><\"|*?%:#/]", "");
-         //       downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
-                final DownloadTask downloadTask = new DownloadTask(MainTry.this);
-                downloadTask.execute(ytfile.getUrl());
+                downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
+         //       final DownloadTask downloadTask = new DownloadTask(MainTry.this);
+           //     downloadTask.execute(ytfile.getUrl());
                 updataLevel();
 
             }
@@ -438,7 +438,7 @@ public class MainTry extends AppCompatActivity {
         }
     }
 
-   /* private void downloadFromUrl(String youtubeDlUrl, String downloadTitle, String fileName) {
+   private void downloadFromUrl(String youtubeDlUrl, String downloadTitle, String fileName) {
         Uri uri = Uri.parse(youtubeDlUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(downloadTitle);
@@ -452,5 +452,5 @@ public class MainTry extends AppCompatActivity {
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
-    }*/
+    }
 }
