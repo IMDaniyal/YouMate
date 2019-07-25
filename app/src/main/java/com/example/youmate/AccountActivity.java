@@ -127,6 +127,8 @@ public class AccountActivity extends AppCompatActivity {
                 profil.putExtra("setchannel",1);
                 profil.putExtra("IP","https://www.youtube.com");
                 startActivity(profil);
+                finish();
+
             }
         });
 
