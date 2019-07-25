@@ -141,7 +141,7 @@ public class PaymentProof extends AppCompatActivity {
 
             if( imagepath!=null)
             {
-              final  String userMail =userEmail.replace(",",""); // auth.getCurrentUser().getEmail();
+              final  String userMail =userEmail.replace(".",""); // auth.getCurrentUser().getEmail();
 
                 String imgname=edname.getText().toString()+"."+getExtention(imagepath);
                 final ProgressDialog progressDialog = new ProgressDialog(this);
