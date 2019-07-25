@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AccountActivity extends AppCompatActivity {
 
     TextView tvprofile,tvpoint,tvproof,tvhistory,tvhelp,tvsetting,tvleaderboard;
-    TextView changechannel;
+    //TextView changechannel;
 
 
     BottomNavigationView bottomNavigationView;
@@ -41,7 +41,7 @@ public class AccountActivity extends AppCompatActivity {
         tvleaderboard=findViewById(R.id.tvleaderboard);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
-        changechannel = findViewById(R.id.setchannel);
+        //changechannel = findViewById(R.id.setchannel);
 
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -120,6 +120,7 @@ public class AccountActivity extends AppCompatActivity {
                 startActivity(profil);
             }
         });
+        /*
         changechannel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +133,6 @@ public class AccountActivity extends AppCompatActivity {
 
             }
         });
-
+*/
     }
 }
