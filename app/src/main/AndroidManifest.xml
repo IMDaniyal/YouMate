@@ -48,7 +48,8 @@
         <activity android:name=".YoutubePlayer" />
         <activity android:name=".MainTry" />
         <activity android:name=".Profile" />
-        <activity android:name=".Download" />
+        <activity android:name=".Download"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".GalleryActivity" />
         <activity android:name=".Tabs" />
         <activity

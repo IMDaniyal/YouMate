@@ -4,49 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/Vulcan">
+    android:background="@color/colorWhite">
 
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_marginTop="52dp"
-        android:hint="Paste Facebook Video Url"
-        android:textStyle="italic"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColorHint="#FFDA44"
-        android:singleLine="true"
-        android:layout_toLeftOf="@+id/download"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="52dp"
         android:layout_toStartOf="@+id/download"
-        android:textColor="#FFDA44" />
+        android:layout_toLeftOf="@+id/download"
+        android:hint="Paste Facebook Video Url"
+        android:singleLine="true"
+        android:textColor="#0E0B01"
+        android:textColorHint="#0E0B01"
+        android:textStyle="italic" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="https://video-sin6-1.xx.fbcdn.net/v/xxxx"
-        android:id="@+id/textView"
         android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:singleLine="true"
-        android:textStyle="italic"
-        android:layout_alignRight="@+id/download"
         android:layout_alignEnd="@+id/download"
-        android:textColor="#FFDA44" />
+        android:layout_alignRight="@+id/download"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="15dp"
+        android:singleLine="true"
+        android:text="https://video-sin6-1.xx.fbcdn.net/v/xxxx"
+        android:textColor="#0E0B01"
+        android:textStyle="italic" />
 
     <ImageView
+        android:id="@+id/download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/download"
-        android:src="@drawable/file_download"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/Vulcan"
         android:layout_alignTop="@+id/editText"
-        android:paddingLeft="25dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="15dp"
+        android:background="#FDFCFC"
+        android:paddingLeft="25dp"
+        android:scrollbarTrackVertical="@drawable/icons8download32"
+        fab:srcCompat="@drawable/icons8download32" />
 
 
 </RelativeLayout>

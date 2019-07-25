@@ -87,16 +87,16 @@
             android:layout_centerHorizontal="true" />
 
         <ImageView
+            android:id="@+id/deletevideo"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:id="@+id/deletevideo"
-            android:adjustViewBounds="false"
             android:layout_above="@+id/file_length_text"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false"
-            android:src="@drawable/deletecream"
             android:layout_alignBottom="@+id/imageView"
-            android:layout_alignTop="@+id/sharevideo" />
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="false"
+            android:src="@drawable/deletecream" />
 
     </RelativeLayout>
     </androidx.cardview.widget.CardView

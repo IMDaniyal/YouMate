@@ -15,9 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +26,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
-import com.example.youmate.adapter.FileViewerFragment;
 import com.example.youmate.adapter.HomeFragment;
 import com.example.youmate.adapter.UrlDownloadFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,7 +48,6 @@ public class MainActivityFacebook extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private int[] tabIcons = {
-            R.drawable.ic_add_black_24dp,
             R.drawable.ic_add_black_24dp,
             R.drawable.ic_add_black_24dp
     };
@@ -92,7 +88,7 @@ public class MainActivityFacebook extends AppCompatActivity {
         toolbar =   findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
         viewPager = findViewById(R.id.viewpager);
-      viewPager.setOffscreenPageLimit(3);
+      viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         setupViewPager(viewPager);
         tabLayout = findViewById(R.id.tabs);
@@ -234,13 +230,11 @@ public class MainActivityFacebook extends AppCompatActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "Home");
-        adapter.addFragment(new FileViewerFragment(), "Videos List");
         adapter.addFragment(new UrlDownloadFragment(), "Paste Link");
         viewPager.setAdapter(adapter);
     }
@@ -248,7 +242,7 @@ public class MainActivityFacebook extends AppCompatActivity {
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<androidx.fragment.app.Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
-        private String[] titles = { "Home","Videos List","Paste Link" };
+        private String[] titles = { "Home","Paste Link" };
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -261,9 +255,6 @@ public class MainActivityFacebook extends AppCompatActivity {
                     return HomeFragment.newInstance(position);
                 }
                 case 1:{
-                    return FileViewerFragment.newInstance(position);
-                }
-                case 2:{
                     return UrlDownloadFragment.newInstance(position);
                 }
             }
