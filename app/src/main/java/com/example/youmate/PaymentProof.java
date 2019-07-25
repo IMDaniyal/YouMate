@@ -47,6 +47,7 @@ import javax.xml.transform.Result;
 
 public class PaymentProof extends AppCompatActivity {
 
+    String userEmail="";
     ImageView imageView;
     EditText edname;
     final int imagerequest=71;
@@ -66,6 +67,8 @@ public class PaymentProof extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_proof);
 
+        Intent previous = getIntent();
+        userEmail= previous.getStringExtra("ID");
         imageView=findViewById(R.id.imagev);
         edname= findViewById(R.id.edname);
 
@@ -138,7 +141,7 @@ public class PaymentProof extends AppCompatActivity {
 
             if( imagepath!=null)
             {
-               final String userMail = auth.getCurrentUser().getEmail();
+               final String userMail =userEmail; // auth.getCurrentUser().getEmail();
                 String imgname=edname.getText().toString()+"."+getExtention(imagepath);
                 final ProgressDialog progressDialog = new ProgressDialog(this);
                 progressDialog.setTitle("Uploading...");
@@ -150,7 +153,6 @@ public class PaymentProof extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 progressDialog.dismiss();
-
 
                                 Toast.makeText(PaymentProof.this, "Uploaded", Toast.LENGTH_SHORT).show();
                             }

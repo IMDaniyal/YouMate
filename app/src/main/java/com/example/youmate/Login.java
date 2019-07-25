@@ -118,7 +118,8 @@ public class Login extends AppCompatActivity {
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-    public void onClickMethod(View view){
+    public void onClickMethod(View view)
+    {
         int btnId = view.getId();
         Intent intent;
         String mail="admin@proweb";
