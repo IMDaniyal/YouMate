@@ -1,17 +1,15 @@
 package com.example.youmate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.Modals.ProfileModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
@@ -67,7 +65,13 @@ public class UserInfo extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        if(auth.getCurrentUser()!=null)
+                        {
+                            Toast.makeText(UserInfo.this, "Already LoggedIn", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            startActivity(new Intent(getApplicationContext(), Login.class));
+                        }
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
