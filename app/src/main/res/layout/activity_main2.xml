@@ -38,187 +38,182 @@
 
 
         <LinearLayout
-          android:id="@+id/layout1"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="16dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:orientation="horizontal"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.0"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/edurl">
+            android:id="@+id/layout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edurl">
 
             />
 
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagefb"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="7dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/facebook1"/>
+                    android:id="@+id/imagefb"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    app:srcCompat="@drawable/facebook1" />
 
                 <TextView
-                  android:id="@+id/textfb"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="2.1dp"
-                  android:layout_gravity="bottom"
-                  android:text="facebook"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textfb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="2.1dp"
+                    android:text="facebook"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginStart="20dp"
-              android:layout_marginLeft="18dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="18dp">
 
                 <ImageView
-                  android:id="@+id/imageyoutube"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="10dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/youtube"/>
+                    android:id="@+id/imageyoutube"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/youtube" />
 
                 <TextView
-                  android:id="@+id/textyoutube"
-                  android:layout_width="50dp"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="3dp"
-                  android:layout_gravity="bottom"
-                  android:text="Youtube"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textyoutube"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="3dp"
+                    android:text="Youtube"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imageinsta"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="10dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/instagram"/>
+                    android:id="@+id/imageinsta"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/instagram" />
 
                 <TextView
-                  android:id="@+id/textinsta"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="13dp"
-                  android:layout_gravity="bottom"
-                  android:text="Insta"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textinsta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="13dp"
+                    android:text="Insta"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="52dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="52dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagecri"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="10dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/cribuzz"/>
+                    android:id="@+id/imagecri"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/cribuzz" />
 
                 <TextView
-                  android:id="@+id/textcri"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="7dp"
-                  android:layout_gravity="bottom"
-                  android:text="cribuzz"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textcri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="7dp"
+                    android:text="cribuzz"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="52dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="52dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagewiki"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="10dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/wikipedia"/>
+                    android:id="@+id/imagewiki"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/wikipedia" />
 
                 <TextView
-                  android:id="@+id/textwiki"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="2.1dp"
-                  android:layout_gravity="bottom"
-                  android:text="Wikipedia"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textwiki"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="2.1dp"
+                    android:text="Wikipedia"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
         <LinearLayout
-          android:id="@+id/linearLayout"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="16dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_below="@id/layout1"
-          android:orientation="horizontal"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.0"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/layout1">
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout1">
 
             />
 
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagegoogle"
-                  android:layout_width="40dp"
-                  android:layout_height="45dp"
-                  android:layout_marginBottom="8dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/search1"/>
+                    android:id="@+id/imagegoogle"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/search1" />
 
                 <TextView
-                  android:id="@+id/textgoogle"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="8dp"
-                  android:layout_gravity="bottom"
-                  android:text="Google"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textgoogle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="8dp"
+                    android:text="Google"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
                     android:id="@+id/imagelink"
@@ -239,72 +234,72 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="50dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="50dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagebbc"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="8dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/bbc"/>
+                    android:id="@+id/imagebbc"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/bbc" />
 
                 <TextView
-                  android:id="@+id/textbbc"
-                  android:layout_width="61dp"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="2dp"
-                  android:layout_gravity="bottom"
-                  android:text="BBC News"
-                  android:textSize="10sp"/>
+                    android:id="@+id/textbbc"
+                    android:layout_width="61dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="2dp"
+                    android:text="BBC News"
+                    android:textSize="10sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="52dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="52dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagegmail"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="7dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/gmail"/>
+                    android:id="@+id/imagegmail"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    app:srcCompat="@drawable/gmail" />
 
                 <TextView
-                  android:id="@+id/textgmail"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="12dp"
-                  android:layout_gravity="bottom"
-                  android:text="Gmail"
-                  android:textSize="11sp"/>
+                    android:id="@+id/textgmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="12dp"
+                    android:text="Gmail"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-              android:layout_width="52dp"
-              android:layout_height="57dp"
-              android:layout_marginLeft="20dp">
+                android:layout_width="52dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp">
 
                 <ImageView
-                  android:id="@+id/imagetwit"
-                  android:layout_width="40dp"
-                  android:layout_height="46dp"
-                  android:layout_marginBottom="8dp"
-                  android:layout_gravity="center"
-                  app:srcCompat="@drawable/twitter"/>
+                    android:id="@+id/imagetwit"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/twitter" />
 
                 <TextView
-                  android:id="@+id/texttwit"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="9dp"
-                  android:layout_gravity="bottom"
-                  android:text="twitter"
-                  android:textSize="11sp"/>
+                    android:id="@+id/texttwit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="9dp"
+                    android:text="twitter"
+                    android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
