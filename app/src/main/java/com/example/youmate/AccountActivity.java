@@ -1,18 +1,16 @@
 package com.example.youmate;
 
-import android.view.View.OnClickListener;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class AccountActivity extends AppCompatActivity {
 
-    TextView tvprofile,tvpoint,tvproof,tvhistory,tvhelp,tvsetting,tvleaderboard;
+    TextView tvprofile,tvpoint,tvproof,tvhistory,tvhelp,tvsetting,tvleaderboard,tvbookmarks;
     //TextView changechannel;
 
 
@@ -38,6 +36,8 @@ public class AccountActivity extends AppCompatActivity {
         tvproof=findViewById(R.id.tvproof);
         tvhelp=findViewById(R.id.tvhelp);
         tvsetting=findViewById(R.id.tvsetting);
+        tvbookmarks=findViewById(R.id.tvbookmarks);
+
         tvleaderboard=findViewById(R.id.tvleaderboard);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
@@ -117,6 +117,13 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 Intent profil=new Intent(AccountActivity.this,LeaderBoard.class);
+                startActivity(profil);
+            }
+        });
+        tvbookmarks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent profil=new Intent(AccountActivity.this,BookMarkPage.class);
                 startActivity(profil);
             }
         });
