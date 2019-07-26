@@ -1,11 +1,26 @@
 package com.example.youmate.TabSwitcher;
 
-import android.graphics.Bitmap;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.RectF;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.webkit.WebChromeClient;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,33 +30,11 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.RectF;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.example.youmate.AccountActivity;
-import com.example.youmate.BookMarkPage;
 import com.example.youmate.Download;
 import com.example.youmate.Login;
 import com.example.youmate.Main2Activity;
 import com.example.youmate.R;
-import com.example.youmate.WebActivity;
-import com.google.android.gms.common.util.Strings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -620,6 +613,7 @@ if(currentindex%2==0)
                         }
 
                         return true;
+
                     case R.id.add_tab_menu_item:
                         int index = tabSwitcher.getCount();
                         Tab tab = createTab(index);
@@ -633,6 +627,12 @@ if(currentindex%2==0)
                         return true;
                     case R.id.clear_tabs_menu_item:
                         tabSwitcher.clear();
+                        return true;
+
+                    case R.id.Add_bookmark:
+                        final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
+                        sharedPreferences.edit().putString("Url",url);
+
                         return true;
 //                    case R.id.settings_menu_item:
 //                        Intent intent = new Intent(ChromeTabs.this, SettingsActivity.class);
