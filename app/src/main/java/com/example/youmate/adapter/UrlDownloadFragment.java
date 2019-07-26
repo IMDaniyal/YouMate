@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentManager;
 import com.example.youmate.PrefManager;
 import com.example.youmate.R;
 
@@ -38,8 +39,8 @@ public class UrlDownloadFragment extends Fragment {
         return f;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
+    {
 
         View rootView = inflater.inflate(R.layout.urldownload, container, false);
         homeFragment=new HomeFragment();
@@ -69,6 +70,8 @@ public class UrlDownloadFragment extends Fragment {
         }*/
         if(pathvideo.contains("story"))
         {
+
+
             homeFragment.getUrlfromUrlDownload(pathvideo);
         }
         else

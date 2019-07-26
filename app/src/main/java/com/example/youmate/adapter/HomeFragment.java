@@ -71,7 +71,8 @@ public class HomeFragment extends Fragment {
     private PrefManager pref;
     public static ArrayList<String> downloadlist=new ArrayList<String>();
     public static ArrayList<String> profilepublicList=new ArrayList<>();
-    public static HomeFragment newInstance(int position) {
+    public static HomeFragment newInstance(int position)
+    {
         HomeFragment f = new HomeFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -80,8 +81,8 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
+    {
         mainView=inflater.inflate(R.layout.fragment_home,container,false);
         setRetainInstance(true);
         mySwipeRefreshLayout = mainView.findViewById(R.id.swipeContainer);

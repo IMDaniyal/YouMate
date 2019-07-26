@@ -1,5 +1,6 @@
 package com.example.youmate;
 
+import android.view.View.OnClickListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,11 +52,24 @@ public class Admin extends AppCompatActivity {
     RecyclerView rvPlacesData;
     TextView email,level;
     ImageView imghome,imgtabs,imgaddtab,imgdownload,imguser;
+    Button channel ;
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+        channel = findViewById(R.id.channelset);
+        channel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profil=new Intent(Admin.this,WebActivity.class);
+                profil.putExtra("setchannel",1);
+                profil.putExtra("IP","https://www.youtube.com");
+                profil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(profil);
+            }
+        });
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
 
@@ -240,7 +254,6 @@ public class Admin extends AppCompatActivity {
 
 
         }
-
 
         @Override
         public int getItemCount() {

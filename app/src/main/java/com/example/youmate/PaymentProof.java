@@ -1,5 +1,6 @@
 package com.example.youmate;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import com.google.firebase.storage.UploadTask.TaskSnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,36 +144,76 @@ public class PaymentProof extends AppCompatActivity {
             if( imagepath!=null)
             {
               final  String userMail =userEmail.replace(".",""); // auth.getCurrentUser().getEmail();
-                String imgname=edname.getText().toString()+"."+getExtention(imagepath);
+                final String imgname=edname.getText().toString()+"."+getExtention(imagepath);
                 final ProgressDialog progressDialog = new ProgressDialog(this);
                 progressDialog.setTitle("Uploading...");
                 progressDialog.show();
 
+                final StorageReference ref = storageReference.child("images/"+userMail+"/"+imgname);
+                ref.putFile(imagepath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                        {
+                            @Override
+                            public void onSuccess(Uri uri)
+                            {
+                                progressDialog.dismiss();
+                                HashMap<String, String> map= new HashMap<>();
+                                String url = uri.toString();
+                                map.put("url",url);
+                                db.collection("UserPayProof").document(userMail).collection("images").document(imgname).set(map).addOnSuccessListener(new OnSuccessListener<Void>()
+                                {
+                                    @Override
+                                    public void onSuccess( Void aVoid )
+                                    {
+                                        Toast.makeText(PaymentProof.this, "Url Uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener()
+                                {
+                                    @Override
+                                    public void onFailure( @NonNull Exception e ) {
+                                        Toast.makeText(PaymentProof.this, "Url failed to Uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
+                            }
+                        });
+                    }
+                });
+
+/*
                 //String imagetext=ed1.getText().toString()+"."+getExtention(imagepath);
                 StorageReference ref = storageReference.child("images/"+userMail+"/"+imgname);
                 ref.putFile(imagepath)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        .addOnSuccessListener(new OnSuccessListener<TaskSnapshot>()
+                        {
                             @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            public void onSuccess(TaskSnapshot taskSnapshot)
+                            {
                                 progressDialog.dismiss();
 
                                 Toast.makeText(PaymentProof.this, "Uploaded", Toast.LENGTH_SHORT).show();
                             }
-                        }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        }).addOnCompleteListener(new OnCompleteListener<TaskSnapshot>()
+                {
                     @Override
-                    public void onComplete( @NonNull Task<UploadTask.TaskSnapshot> task ) {
+                    public void onComplete( @NonNull Task<TaskSnapshot> task ) {
                         if(task.isSuccessful())
                         {
                             HashMap<String, String> map= new HashMap<>();
-                            map.put("url",task.getResult().toString());
-                            db.collection("UserPayProof").document(userMail)
-                                    .set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            String url = imgname;
+                            map.put("url",url);
+                            db.collection("UserPayProof").document(userMail).collection("images").document(imgname).set(map).addOnSuccessListener(new OnSuccessListener<Void>()
+                            {
                                 @Override
-                                public void onSuccess( Void aVoid ) {
+                                public void onSuccess( Void aVoid )
+                                {
                                     Toast.makeText(PaymentProof.this, "Url Uploaded", Toast.LENGTH_SHORT).show();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+                            }).addOnFailureListener(new OnFailureListener()
+                            {
                                 @Override
                                 public void onFailure( @NonNull Exception e ) {
                                     Toast.makeText(PaymentProof.this, "Url failed to Uploaded", Toast.LENGTH_SHORT).show();
@@ -196,6 +238,7 @@ public class PaymentProof extends AppCompatActivity {
                                 progressDialog.setMessage("Uploaded "+(int)progress+"%");
                             }
                         });
+                */
             }
 
             else {

@@ -1,8 +1,13 @@
 package com.example.youmate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.youmate.TabSwitcher.ChromeTabs;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,10 +33,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
+import com.google.firebase.storage.StorageReference;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,25 +53,29 @@ public class UserPaymentProofShow extends AppCompatActivity
 {
 
     BottomNavigationView bottomNavigationView;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images");
     FirebaseAuth auth = FirebaseAuth.getInstance();
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
     String userId;
     RecyclerView rc;
-
+    List<Bitmap> urls;
+    imgadapter imgadapter;
+    ImageLoader imageLoader = ImageLoader.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ImageView imageView;
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_payment_proof_show);
-
+        urls= new ArrayList();
+        imgadapter=new imgadapter(R.layout.user_paymentproof_recyclerrow,urls,UserPaymentProofShow.this);
         ArrayAdapter<CharSequence> adapter1=ArrayAdapter.createFromResource(this,R.array.text,android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rc= findViewById(R.id.imgrc);
         rc.setLayoutManager(new LinearLayoutManager(this));
+        rc.setAdapter(imgadapter);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+
     //    rc.setAdapter();
      //   imageView=findViewById(R.id.imagee);
 
@@ -83,47 +106,59 @@ public class UserPaymentProofShow extends AppCompatActivity
         });
         downloadImage();
     }
-/*
+
     public void downloadImage()
     {
 
+
+
         try {
-              final String uMail = auth.getCurrentUser().getEmail();
+
+           final String uMail = auth.getCurrentUser().getEmail().replace(".","");
             Toast.makeText(UserPaymentProofShow.this, uMail, Toast.LENGTH_SHORT).show();
             //ed1=(EditText)findViewById(R.id.ed1);
            //String u=ed1.getText().toString();
-                 documentReference =db.collection("UserPayProof").document(uMail);
+            CollectionReference documentReference =db.collection("UserPayProof").document(uMail).collection("images");
+           documentReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+               @Override
+               public void onComplete(@NonNull Task<QuerySnapshot> task)
+               {
+                   for (QueryDocumentSnapshot document : task.getResult())
+                   {
 
-                 documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                     @Override
-                     public void onSuccess( DocumentSnapshot documentSnapshot ) {
+                       imageLoader.loadImage(document.getString("url").toString(), new SimpleImageLoadingListener()
+                       {
+                           @Override
+                           public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
+                           {
+                               urls.add(loadedImage);
+                               imgadapter.notifyDataSetChanged();
+                           }
 
-                         //String imageurl=;
-                         String ur=documentSnapshot.getString("url");
-                         String url="https://firebasestorage.googleapis.com/v0/b/proweb-3fa6e.appspot.com/o/images%2F"+ur;
+                           @Override
+                           public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                               super.onLoadingFailed(imageUri, view, failReason);
+                           }
+                       });
+                   }
 
-                         Toast.makeText(UserPaymentProofShow.this, url, Toast.LENGTH_SHORT).show();
-                         Glide.with(UserPaymentProofShow.this)
-                                 .load(url)
-                                 .into(imageView);
 
-                     }
-                 }).addOnFailureListener(new OnFailureListener() {
-                     @Override
-                     public void onFailure( @NonNull Exception e ) {
+               }
+           });
 
-                         Toast.makeText(UserPaymentProofShow.this, "Fail to get image!", Toast.LENGTH_SHORT).show();
-                     }
-                 });
+
+
+
 
         }
         catch (Exception e)
         {
             Toast.makeText(UserPaymentProofShow.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-  */
 
+    }
+
+/*
     public void downloadImage()
     {
 
@@ -155,29 +190,45 @@ public class UserPaymentProofShow extends AppCompatActivity
             Toast.makeText(UserPaymentProofShow.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+    */
 
 
     public  class imgadapter extends RecyclerView.Adapter<UserPaymentProofShow.imgadapter.myviewholder>
 {
 
     int Layout;
+    List<Bitmap>urls;
+    Context c;
+
+    public imgadapter(int layout, List<Bitmap> urls, Context c) {
+        Layout = layout;
+        this.urls = urls;
+        this.c = c;
+    }
 
     @NonNull
     @Override
     public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        return null;
+        View v = LayoutInflater.from(c).inflate(Layout,parent,false);
+        return new myviewholder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull myviewholder holder, int position)
+    public void onBindViewHolder(@NonNull final myviewholder holder, int position)
     {
-
+        holder.img.setImageBitmap(urls.get(position));
     }
+
+
 
     @Override
     public int getItemCount()
     {
+        if(urls!=null)
+        {
+            return urls.size();
+        }
         return 0;
     }
 

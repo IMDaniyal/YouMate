@@ -122,13 +122,7 @@ public class WebActivity extends AppCompatActivity {
                      int chan= channelstring.indexOf("channel/");
                      chan=chan+8;
                      channel_id= channelstring.substring(chan);
-                     SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
-                     Editor editor = pref.edit();
-                     editor.putString("channelid", channel_id);
-                     editor.apply();
-                     Intent home = new Intent(WebActivity.this,Main2Activity.class);
-                     startActivity(home);
-                     finish();
+                     //addtofirebase
                    Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                  }
                  else
@@ -227,14 +221,9 @@ bottomMenu();
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonObject2= new JSONObject(jsonObject.getJSONArray("items").getString(0));
                     String channel_id=  jsonObject2.get("id").toString();
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
-                    Editor editor = pref.edit();
-                    editor.putString("channelid", channel_id);
-                    editor.apply();
+                    //addtofirebase
                      Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                     Intent home = new Intent(WebActivity.this,Main2Activity.class);
-                     startActivity(home);
-                    finish();
+                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
