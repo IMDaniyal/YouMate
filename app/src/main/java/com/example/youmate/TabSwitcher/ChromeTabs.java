@@ -647,7 +647,9 @@ if(currentindex%2==0)
                             urlcopy = web.getUrl();
                         }
                         final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
-                        sharedPreferences.edit().putString("Url",urlcopy);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("Url",urlcopy);
+                        editor.commit();
 
                         return true;
 //                    case R.id.settings_menu_item:
