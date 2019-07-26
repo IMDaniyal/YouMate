@@ -39,15 +39,13 @@
 
         <LinearLayout
             android:id="@+id/layout1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/edurl">
 
             />
@@ -55,8 +53,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="50dp"
-                android:layout_height="57dp"
-                android:layout_marginLeft="20dp">
+                android:layout_height="57dp">
 
                 <ImageView
                     android:id="@+id/imagefb"
@@ -173,15 +170,14 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_below="@id/layout1"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center"
+            android:gravity="center|center_horizontal|center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/layout1">
 
             />
@@ -189,8 +185,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="50dp"
-                android:layout_height="57dp"
-                android:layout_marginLeft="20dp">
+                android:layout_height="57dp">
 
                 <ImageView
                     android:id="@+id/imagegoogle"
@@ -229,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="2dp"
-                    android:text="  Admin"
+                    android:text="   Admin"
                     android:textSize="11sp" />
             </androidx.cardview.widget.CardView>
 
@@ -305,20 +300,18 @@
         </LinearLayout>
 
 
-
         <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/recycler"
-          android:layout_width="0dp"
-          android:layout_height="0dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginBottom="8dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginEnd="8dp"
-          app:layout_constraintBottom_toTopOf="@+id/view"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:id="@+id/recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"></androidx.recyclerview.widget.RecyclerView>
         <View
           android:id="@+id/view"
           android:layout_width="0dp"
@@ -329,19 +322,34 @@
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="1.0"
           app:layout_constraintStart_toStartOf="parent"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
-          android:id="@+id/nav1"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="8dp"
-          android:layout_marginEnd="16dp"
-          android:layout_gravity="bottom"
-          android:visibility="visible"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:menu="@menu/botto_navigation">
+            android:id="@+id/nav1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline4"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:menu="@menu/botto_navigation">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
