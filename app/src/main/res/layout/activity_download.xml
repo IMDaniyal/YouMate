@@ -13,57 +13,30 @@
         tools:actionBarNavMode="standard"
         tools:context=".Main2Activity">
 
-        <EditText
-            android:id="@+id/downloadField"
+        <Toolbar
+            android:id="@+id/toolbar6"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="20dp"
-            android:autofillHints=""
-            android:drawableStart="@drawable/search"
-            android:drawableLeft="@drawable/qrcode1"
-            android:drawablePadding="10dp"
-            android:hint="search url e.g(google)"
-            android:inputType="textUri"
-            app:layout_constraintEnd_toStartOf="@+id/btnDownload"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
 
-        <ImageView
-            android:id="@+id/btnDownload"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="TODO"
-            android:src="@drawable/qrcode1"
-            app:layout_constraintBottom_toBottomOf="@+id/downloadField"
+            android:background="@color/chip_text_color_light"
+            android:logo="@drawable/icons8download32"
+            android:title="Downloads"
+            android:titleTextColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/downloadField"
-            app:layout_constraintTop_toTopOf="@+id/edurl" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Toolbar>
 
         <FrameLayout
             android:id="@+id/fragment_container"
-            android:layout_width="395dp"
-            android:layout_height="590dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/downloadField"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar6">
 
         </FrameLayout>
 

@@ -128,17 +128,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                 deleteFileDialog(holder.getPosition());
             }
         });
-        holder.vShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(getItem(holder.getPosition()).getFilePath())));
-                shareIntent.setType("video/*");
-                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                mContext.startActivity(Intent.createChooser(shareIntent, "Share video using"));
-            }
-        });
+
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -195,7 +185,6 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         protected View cardView;
         protected ImageView vThumbnail;
         protected ImageView vPlay;
-        protected ImageView vShare;
         protected ImageView vDelete;
         public RecordingsViewHolder(View v) {
             super(v);
@@ -206,7 +195,6 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
             vThumbnail= v.findViewById(R.id.imageView);
             cardView = v.findViewById(R.id.card_view);
             vPlay= v.findViewById(R.id.playvideo);
-            vShare= v.findViewById(R.id.sharevideo);
             vDelete= v.findViewById(R.id.deletevideo);
         }
     }

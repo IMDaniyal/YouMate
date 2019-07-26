@@ -90,23 +90,10 @@
                 android:layout_alignTop="@+id/deletevideo"
                 android:layout_alignBottom="@+id/imageView"
                 android:layout_marginRight="28dp"
-                android:layout_toStartOf="@+id/sharevideo"
+                android:layout_toStartOf="@+id/deletevideo"
                 android:layout_toLeftOf="@+id/sharevideo"
                 android:adjustViewBounds="false"
                 android:src="@drawable/playcream" />
-
-            <ImageView
-                android:id="@+id/sharevideo"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/playvideo"
-                android:layout_alignBottom="@+id/playvideo"
-                android:layout_marginEnd="33dp"
-                android:layout_marginRight="33dp"
-                android:layout_toStartOf="@+id/deletevideo"
-                android:layout_toLeftOf="@+id/deletevideo"
-                android:adjustViewBounds="false"
-                android:src="@drawable/sharecream" />
 
             <ImageView
                 android:id="@+id/deletevideo"

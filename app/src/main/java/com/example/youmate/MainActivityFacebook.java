@@ -27,9 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.example.youmate.adapter.HomeFragment;
-import com.example.youmate.adapter.UrlDownloadFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -45,7 +43,6 @@ public class MainActivityFacebook extends AppCompatActivity {
     String userId;
     BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
     private ViewPager viewPager;
     private int[] tabIcons = {
             R.drawable.ic_add_black_24dp,
@@ -88,12 +85,9 @@ public class MainActivityFacebook extends AppCompatActivity {
         toolbar =   findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
         viewPager = findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         setupViewPager(viewPager);
-        tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        setupTabIcons();
         // Monitor launch times and interval from installation
         // Custom condition: 3 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(3, 5);
@@ -226,15 +220,12 @@ public class MainActivityFacebook extends AppCompatActivity {
     }
 
 
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-    }
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "Home");
-        adapter.addFragment(new UrlDownloadFragment(), "Paste Link");
+        //adapter.addFragment(new UrlDownloadFragment(), "Paste Link");
         viewPager.setAdapter(adapter);
     }
 
@@ -253,9 +244,9 @@ public class MainActivityFacebook extends AppCompatActivity {
                 case 0:{
                     return HomeFragment.newInstance(position);
                 }
-                case 1:{
+               /* case 1:{
                     return UrlDownloadFragment.newInstance(position);
-                }
+                }*/
             }
             return mFragmentList.get(position);
         }

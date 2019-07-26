@@ -7,12 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,15 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.youmate.Modals.ProfileModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.example.youmate.adapter.FileViewerFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,13 +29,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import at.huber.youtubeExtractor.YouTubeUriExtractor;
-import at.huber.youtubeExtractor.YtFile;
-
 public class Download extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
 
-    EditText downloadTxt;
-    ImageView imagDownload;
+
     String getVideoURL;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -57,8 +43,6 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
 
-        downloadTxt = findViewById(R.id.downloadField);
-        imagDownload = findViewById(R.id.btnDownload);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
@@ -110,44 +94,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
             }
         });
 
-        imagDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getVideoURL = downloadTxt.getText().toString();
 
-                //initliza downloader manager
-
-                if (getVideoURL.isEmpty()) {
-                    Toast.makeText(Download.this, "Please enter Youtube video url", Toast.LENGTH_SHORT).show();
-                } else {
-                    //get the download URL
-                    String youtubeLink = (getVideoURL);
-                    YouTubeUriExtractor ytEx = new YouTubeUriExtractor(Download.this) {
-                        @Override
-                        public void onUrisAvailable(String videoID, String videoTitle, SparseArray<YtFile> ytFiles) {
-                            if (ytFiles != null) {
-                                int itag = 22;
-                                //This is the download URL
-                                String downloadURL = ytFiles.get(itag).getUrl();
-                                Log.e("download URL :", downloadURL);
-
-                                //now download it like a file
-                                new Download.RequestDownloadVideoStream().execute(downloadURL, videoTitle);
-
-                                //update query
-                                updataLevel();
-
-                            }
-
-                        }
-                    };
-
-                    ytEx.execute(youtubeLink);
-
-
-                }
-            }
-        });
 
 
     }
@@ -262,51 +209,4 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
     }
 
 
-
-
-    public void updataLevel () {
-        final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference noteRef = db.collection("Scoor").document(userEmail);
-        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Double valueLevel = documentSnapshot.getDouble("level");
-                Double valuePoint = documentSnapshot.getDouble("point");
-
-                //checking for level
-                if (valuePoint == 50 ||  valuePoint == 100 ||  valuePoint == 150 ||  valuePoint == 200) {
-
-                    noteRef.update("email",userEmail,
-                            "level",valueLevel+1,"point",valuePoint+5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(Download.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Download.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                }else {
-                    noteRef.update("email",userEmail,
-                            "point",valuePoint+5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(Download.this, "Points updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Download.this, "Points not updated", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-
-            }
-        });
-    }
 }
