@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -126,10 +128,12 @@ public class WebActivity extends AppCompatActivity {
                      // Write a message to the database
                      FirebaseDatabase database = FirebaseDatabase.getInstance();
                      DatabaseReference myRef = database.getReference("channel_id");
-
-                     myRef.setValue(channel_id);
-
-
+                     myRef.setValue(channel_id).addOnCompleteListener(new OnCompleteListener<Void>() {
+                         @Override
+                         public void onComplete(@NonNull Task<Void> task) {
+                             finish();
+                         }
+                     });
 
                    Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                  }
@@ -227,9 +231,14 @@ bottomMenu();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("channel_id");
 
-                    myRef.setValue(channel_id);
+                    myRef.setValue(channel_id).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            finish();
+                        }
+                    });
                      Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                     finish();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

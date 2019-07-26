@@ -61,7 +61,8 @@ import de.mrapp.util.Condition;
 
 import static de.mrapp.android.util.DisplayUtil.getDisplayWidth;
 
-public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener {
+public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
+{
 
     /**
      * The state of tabs, which display list items in a list view.
@@ -257,9 +258,12 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                     @Override
                     public boolean onEditorAction( TextView v, int actionId, KeyEvent event ) {
 
-                        switch (actionId) {
+                        switch (actionId)
+                        {
                             case EditorInfo
                                     .IME_ACTION_SEARCH:
+
+
                                 String ip = edu.getText().toString().trim();
                                 Intent iweb = new Intent(getApplicationContext(), WebActivity.class);
                                 iweb.putExtra("IP", ip);
@@ -575,7 +579,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     /**
      * Inflates the tab switcher's menu, depending on whether it is empty, or not.
      */
-    private void inflateMenu() {
+    private void inflateMenu()
+    {
         tabSwitcher
                 .inflateToolbarMenu(tabSwitcher.getCount() > 0 ? R.menu.tab_switcher : R.menu.tab,
                         createToolbarMenuListener());
@@ -589,7 +594,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
      * View.OnClickListener}. The listener may not be null
      */
     @NonNull
-    private View.OnClickListener createTabSwitcherButtonListener() {
+    private View.OnClickListener createTabSwitcherButtonListener()
+    {
         return new View.OnClickListener() {
 
             @Override
@@ -673,9 +679,12 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         return new BaseTransientBottomBar.BaseCallback<Snackbar>() {
 
             @Override
-            public void onDismissed(final Snackbar snackbar, final int event) {
-                if (event != DISMISS_EVENT_ACTION) {
-                    for (Tab tab : tabs) {
+            public void onDismissed(final Snackbar snackbar, final int event)
+            {
+                if (event != DISMISS_EVENT_ACTION)
+                {
+                    for (Tab tab : tabs)
+                    {
                         tabSwitcher.clearSavedState(tab);
                         decorator.clearState(tab);
                     }
@@ -773,7 +782,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
      * not be null
      */
     @NonNull
-    private Tab createTab(final int index) {
+    private Tab createTab(final int index)
+    {
         CharSequence title = getString(R.string.tab_title, index + 1);
         Tab tab = new Tab(title);
         Bundle parameters = new Bundle();
@@ -842,7 +852,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     }
 
     @Override
-    protected final void onCreate(final Bundle savedInstanceState) {
+    protected final void onCreate(final Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chrome_tabs);
         dataBinder = new DataBinder(this);
@@ -854,7 +865,9 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         tabSwitcher.addListener(this);
         tabSwitcher.showToolbars(true);
 
-        for (int i = 0; i < TAB_COUNT; i++) {
+
+        for (int i = 0; i < TAB_COUNT; i++)
+        {
             tabSwitcher.addTab(createTab(i));
         }
 

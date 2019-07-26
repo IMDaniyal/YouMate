@@ -66,7 +66,7 @@ public class Admin extends AppCompatActivity {
                 Intent profil=new Intent(Admin.this,WebActivity.class);
                 profil.putExtra("setchannel",1);
                 profil.putExtra("IP","https://www.youtube.com");
-                profil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+               // profil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(profil);
             }
         });
