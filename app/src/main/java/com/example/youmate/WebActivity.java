@@ -3,35 +3,32 @@ package com.example.youmate;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.transition.Visibility;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import java.io.IOException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -40,6 +37,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class WebActivity extends AppCompatActivity {
 
@@ -52,6 +51,7 @@ public class WebActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     MyHelper helper;
     FloatingActionButton donebutton;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
 
@@ -123,6 +123,14 @@ public class WebActivity extends AppCompatActivity {
                      chan=chan+8;
                      channel_id= channelstring.substring(chan);
                      //addtofirebase
+                     // Write a message to the database
+                     FirebaseDatabase database = FirebaseDatabase.getInstance();
+                     DatabaseReference myRef = database.getReference("channel_id");
+
+                     myRef.setValue(channel_id);
+
+
+
                    Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                  }
                  else
@@ -216,6 +224,10 @@ bottomMenu();
                     JSONObject jsonObject2= new JSONObject(jsonObject.getJSONArray("items").getString(0));
                     String channel_id=  jsonObject2.get("id").toString();
                     //addtofirebase
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("channel_id");
+
+                    myRef.setValue(channel_id);
                      Toast.makeText(WebActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                      finish();
                 } catch (JSONException e) {

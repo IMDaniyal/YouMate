@@ -28,6 +28,11 @@ import com.example.youmate.adapters.VideoPostAdapter;
 import com.example.youmate.interfaces.OnItemClickListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -68,7 +73,7 @@ public class Main2Activity extends AppCompatActivity  {
         userId = settings.getString("USER_ID", "");
        // SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
        // CHANNEL_ID = pref.getString("channelid", "UC_x5XG1OV2P6uZZ5FSM9Ttw");//"No name defined" is the default value.
-       // CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+CHANNEL_ID+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
+
 
         mList_videos=findViewById(R.id.recycler);
         edurl=findViewById(R.id.edurl);
@@ -93,9 +98,28 @@ public class Main2Activity extends AppCompatActivity  {
         tvgmail=findViewById(R.id.textgmail);
         tvtwit=findViewById(R.id.texttwit);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("channel_id");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("Succes", "Value is: " + value);
+                CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+value+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
+                initList(mListData);
+                new RequestYoutubeAPI().execute();
+            }
 
-        initList(mListData);
-        new RequestYoutubeAPI().execute();
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Error", "Failed to read value.", error.toException());
+            }
+        });
+
+
         edurl.setOnEditorActionListener(editorActionListener);
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
