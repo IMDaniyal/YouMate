@@ -375,7 +375,7 @@ if(currentindex%2==0)
                 });
 
 
-                edu.requestFocus();
+             //   edu.requestFocus();
             }
             else{
                 final EditText edu = findViewById(R.id.edu);
