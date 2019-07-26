@@ -881,7 +881,11 @@ if(currentindex%2==0)
     public final void onSelectionChanged(@NonNull final TabSwitcher tabSwitcher, final int selectedTabIndex, @Nullable final Tab selectedTab)
     {
 
-         indexgoing = Integer.parseInt(selectedTab.getTitle().toString().substring(4));
+      if(selectedTab != null)
+      {
+        indexgoing = Integer.parseInt(selectedTab.getTitle().toString().substring(4));
+      }
+
          indexgoing -=1;
          currentindex= indexgoing;
          flag=true;
