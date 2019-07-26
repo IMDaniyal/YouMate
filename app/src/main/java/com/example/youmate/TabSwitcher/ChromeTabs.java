@@ -609,6 +609,8 @@ if(currentindex%2==0)
      */
     @NonNull
     private Toolbar.OnMenuItemClickListener createToolbarMenuListener() {
+
+
         return new Toolbar.OnMenuItemClickListener() {
 
             @Override
@@ -616,6 +618,7 @@ if(currentindex%2==0)
                 switch (item.getItemId()) {
                     case R.id.remove_tab_menu_item:
                         Tab selectedTab = tabSwitcher.getSelectedTab();
+
 
                         if (selectedTab != null) {
                             tabSwitcher.removeTab(selectedTab);
@@ -639,8 +642,12 @@ if(currentindex%2==0)
                         return true;
 
                     case R.id.Add_bookmark:
+                        if(web !=null)
+                        {
+                            urlcopy = web.getUrl();
+                        }
                         final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
-                        sharedPreferences.edit().putString("Url",url);
+                        sharedPreferences.edit().putString("Url",urlcopy);
 
                         return true;
 //                    case R.id.settings_menu_item:
@@ -978,7 +985,7 @@ if(currentindex%2==0)
     WebView web;
     boolean flag = true;
     String url="";
-
+    String urlcopy="";
     @Override
     protected final void onCreate(final Bundle savedInstanceState)
     {
