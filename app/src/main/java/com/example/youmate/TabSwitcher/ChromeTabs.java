@@ -1,5 +1,10 @@
 package com.example.youmate.TabSwitcher;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,10 +41,13 @@ import com.example.youmate.Login;
 import com.example.youmate.Main2Activity;
 import com.example.youmate.R;
 import com.example.youmate.WebActivity;
+import com.google.android.gms.common.util.Strings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import de.mrapp.android.tabswitcher.AbstractState;
@@ -67,6 +75,13 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     /**
      * The state of tabs, which display list items in a list view.
      */
+
+
+    List<String> urls = new ArrayList();
+    int currentindex=0;
+    int indexgoing=0;
+    int indexcoming=0;
+
     private class State extends AbstractState
             implements AbstractDataBinder.Listener<ArrayAdapter<String>, Tab, ListView, Void>,
             TabPreviewListener {
@@ -94,7 +109,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
          *         The list view, which should be used to display the list items, as an instance of
          *         the class {@link ListView}. The list view may not be null
          */
-        public void loadItems(@NonNull final ListView listView) {
+        public void loadItems(@NonNull final ListView listView)
+        {
             Condition.INSTANCE.ensureNotNull(listView, "The list view may not be null");
 
             if (adapter == null) {
@@ -131,7 +147,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         }
 
         @Override
-        public final void saveInstanceState(@NonNull final Bundle outState) {
+        public final void saveInstanceState(@NonNull final Bundle outState)
+        {
             if (adapter != null && !adapter.isEmpty()) {
                 String[] array = new String[adapter.getCount()];
 
@@ -145,12 +162,14 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         }
 
         @Override
-        public void restoreInstanceState(@Nullable final Bundle savedInstanceState) {
+        public void restoreInstanceState(@Nullable final Bundle savedInstanceState)
+        {
             if (savedInstanceState != null) {
                 String key = String.format(ADAPTER_STATE_EXTRA, getTab().getTitle());
                 String[] items = savedInstanceState.getStringArray(key);
 
-                if (items != null && items.length > 0) {
+                if (items != null && items.length > 0)
+                {
                     adapter = new ArrayAdapter<>(ChromeTabs.this,
                             android.R.layout.simple_list_item_1, items);
                 }
@@ -159,7 +178,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
         @Override
         public boolean onLoadTabPreview(@NonNull final TabSwitcher tabSwitcher,
-                                        @NonNull final Tab tab) {
+                                        @NonNull final Tab tab)
+        {
             return !getTab().equals(tab) || adapter != null;
         }
 
@@ -182,7 +202,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                 State state = new State(tab);
                 tabSwitcher.addTabPreviewListener(state);
 
-                if (savedInstanceState != null) {
+                if (savedInstanceState != null)
+                {
                     state.restoreInstanceState(savedInstanceState);
                 }
 
@@ -198,10 +219,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         }
 
         @Override
-        protected void onSaveInstanceState(@NonNull final View view, @NonNull final Tab tab,
-                                           final int index, final int viewType,
-                                           @Nullable final State state,
-                                           @NonNull final Bundle outState) {
+        protected void onSaveInstanceState(@NonNull final View view, @NonNull final Tab tab, final int index, final int viewType, @Nullable final State state, @NonNull final Bundle outState)
+        {
             if (state != null) {
                 state.saveInstanceState(outState);
             }
@@ -210,13 +229,16 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         @NonNull
         @Override
         public View onInflateView(@NonNull final LayoutInflater inflater,
-                                  @Nullable final ViewGroup parent, final int viewType) {
+                                  @Nullable final ViewGroup parent, final int viewType)
+        {
             View view = null;
 
-            if (viewType == 0) {
+            if (viewType == 0)
+            {
                 //view = inflater.inflate(R.layout.tab_text_view, parent, false);
                 view = inflater.inflate(R.layout.tab_edit_text, parent, false);
-            }else  {
+            }else
+                {
               // startActivity(new Intent(getApplicationContext(), TabEditActivity.class));
                  view = inflater.inflate(R.layout.tab_edit_text, parent, false);
 
@@ -237,16 +259,59 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                               @NonNull final TabSwitcher tabSwitcher, @NonNull final View view,
                               @NonNull final Tab tab, final int index, final int viewType,
                               @Nullable final State state,
-                              @Nullable final Bundle savedInstanceState) {
+                              @Nullable final Bundle savedInstanceState)
+        {
+
+
+
             TextView textView = findViewById(android.R.id.title);
             textView.setText(tab.getTitle());
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setVisibility(tabSwitcher.isSwitcherShown() ? View.GONE : View.VISIBLE);
+            web = view.findViewById(R.id.loadweb);
+            web.getSettings().setJavaScriptEnabled(true);
+            web.getSettings().setLoadWithOverviewMode(true);
+            web.getSettings().setUseWideViewPort(true);
+            web.setWebViewClient(new WebViewClient(){
+
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url)
+                {
+                    view.loadUrl(url);
+                    return true;
+                }
+                @Override
+                public void onPageFinished(WebView view, final String url) {
+
+                }
+            });
+
+if(currentindex%2==0)
+{
+    if(web !=null)
+    {
+        if(flag)
+        {
+            flag=false;
+            web.loadUrl(urls.get(currentindex));
+        }
+    }
+}
 
             BottomNavigationView bottomNavigationView;
             if (viewType == 1) {
                 final EditText edu = findViewById(R.id.edu);
 
+                if(web !=null)
+                {
+                    if(flag)
+                    {
+                        flag=false;
+                        web.loadUrl(urls.get(currentindex));
+                    }
+                }
+/*
                 ImageButton imgbtn=findViewById(R.id.imgboo);
                 imgbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,6 +319,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                         startActivity(new Intent(getApplicationContext(), BookMarkPage.class));
                     }
                 });
+                */
+               /*
                 TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction( TextView v, int actionId, KeyEvent event ) {
@@ -262,8 +329,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                         {
                             case EditorInfo
                                     .IME_ACTION_SEARCH:
-
-
                                 String ip = edu.getText().toString().trim();
                                 Intent iweb = new Intent(getApplicationContext(), WebActivity.class);
                                 iweb.putExtra("IP", ip);
@@ -274,9 +339,11 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                         return false;
                     }
                 };
-                edu.setOnEditorActionListener(editorActionListener);
 
-                if (savedInstanceState == null) {
+                edu.setOnEditorActionListener(editorActionListener);
+*/
+                if (savedInstanceState == null)
+                {
 
 
                 }
@@ -312,13 +379,15 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
             }
             else{
                 final EditText edu = findViewById(R.id.edu);
-                ImageButton imgbtn=findViewById(R.id.imgboo);
+             /*   ImageButton imgbtn=findViewById(R.id.imgboo);
                 imgbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
                         startActivity(new Intent(getApplicationContext(), BookMarkPage.class));
                     }
-                });
+                });*/
+
+             /*
                 TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction( TextView v, int actionId, KeyEvent event ) {
@@ -337,7 +406,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                     }
                 };
                 edu.setOnEditorActionListener(editorActionListener);
-
+*/
                 /*
                 BottomNavigationView bottomNavigationView1;
                 bottomNavigationView=findViewById(R.id.nav1);
@@ -793,8 +862,11 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     }
 
     @Override
-    public final void onSwitcherShown(@NonNull final TabSwitcher tabSwitcher) {
+    public final void onSwitcherShown(@NonNull final TabSwitcher tabSwitcher)
+    {
 
+           url = web.getUrl();
+          Log.i("sss","dd");
     }
 
     @Override
@@ -802,13 +874,52 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         if (snackbar != null) {
             snackbar.dismiss();
         }
+
     }
 
     @Override
-    public final void onSelectionChanged(@NonNull final TabSwitcher tabSwitcher,
-                                         final int selectedTabIndex,
-                                         @Nullable final Tab selectedTab) {
+    public final void onSelectionChanged(@NonNull final TabSwitcher tabSwitcher, final int selectedTabIndex, @Nullable final Tab selectedTab)
+    {
 
+         indexgoing = Integer.parseInt(selectedTab.getTitle().toString().substring(4));
+         indexgoing -=1;
+         currentindex= indexgoing;
+         flag=true;
+         Log.i("ss","ss");
+
+
+        if(urls!=null&&urls.size() >0)
+        {
+            if(web!=null)
+            {
+                urls.remove(indexcoming);
+                urls.add(indexcoming,url);
+                indexcoming = indexgoing;
+
+            }
+
+        }
+
+        if(currentindex>=urls.size())
+        {
+            urls.add(currentindex,"https://www.google.com");
+        }
+
+        Log.i("ss","ss");
+
+/*
+        if(urls!=null&&urls.size() >0)
+        {
+            if(web!=null)
+            {
+                urls.remove(selectedTabIndex);
+                urls.add(selectedTabIndex,web.getOriginalUrl());
+            }
+
+        }
+        */
+
+          Log.i("tab","switched");
     }
 
     @Override
@@ -851,6 +962,10 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         }
     }
 
+    WebView web;
+    boolean flag = true;
+    String url="";
+
     @Override
     protected final void onCreate(final Bundle savedInstanceState)
     {
@@ -860,12 +975,11 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         decorator = new Decorator();
         tabSwitcher = findViewById(R.id.tab_switcher);
         tabSwitcher.clearSavedStatesWhenRemovingTabs(false);
+        urls.add(0,"https://www.google.com");
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener());
         tabSwitcher.setDecorator(decorator);
         tabSwitcher.addListener(this);
         tabSwitcher.showToolbars(true);
-
-
         for (int i = 0; i < TAB_COUNT; i++)
         {
             tabSwitcher.addTab(createTab(i));
@@ -875,6 +989,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         tabSwitcher.setToolbarNavigationIcon(R.drawable.ic_plus_24dp, createAddTabListener());
         TabSwitcher.setupWithMenu(tabSwitcher, createTabSwitcherButtonListener());
         inflateMenu();
+
     }
 
 }

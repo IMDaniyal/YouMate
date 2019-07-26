@@ -59,23 +59,18 @@ License.
         app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <EditText
-            android:id="@+id/edu"
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
-            android:hint="Enter URL here"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+      android:gravity="right"
+      >
 
         <ImageView
-            android:id="@+id/imgbook"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="6dp"
-            android:src="@drawable/bookmark" />
+          android:id="@+id/imgbook"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_marginTop="8dp"
+          android:layout_marginRight="6dp"
+          android:layout_gravity="center_horizontal"
+          android:src="@drawable/bookmark"/>
     </LinearLayout>
 
     <LinearLayout
@@ -85,14 +80,14 @@ License.
         app:layout_constraintBottom_toTopOf="@+id/nav1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout13">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout13"
+      android:orientation="vertical"
+      >
 
-        <ImageButton
-            android:id="@+id/imgboo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/browser64" />
+        <WebView
+          android:id="@+id/loadweb"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
 
     </LinearLayout>
 
