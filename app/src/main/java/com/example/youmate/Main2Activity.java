@@ -44,8 +44,8 @@ import java.util.ArrayList;
 
 public class Main2Activity extends AppCompatActivity  {
 
-    private static String GOOGLE_YOUTUBE_API_KEY= "AIzaSyDOY8Ck7GGwA1jwGqeqCqi2qf6ReaJXmcw";  // "AIzaSyDIChdnRLqZWj9JduzMDkjuHmlcxaOx2bs";//"AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
-    private static String CHANNEL_ID = /*"UCDDFDMN72wWNZoobe7TI5vg";*/"UC-lHJZR3Gqxm24_Vd_AJ5Yw";
+    private static String GOOGLE_YOUTUBE_API_KEY= "AIzaSyBWkAQzRAz3_kD6zTnZQd8nTBm8-8prHg4";  // "AIzaSyDIChdnRLqZWj9JduzMDkjuHmlcxaOx2bs";//"AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
+    private static String CHANNEL_ID =   "UCDDFDMN72wWNZoobe7TI5vg"; /*"UCDDFDMN72wWNZoobe7TI5vg";*///"UC-lHJZR3Gqxm24_Vd_AJ5Yw";
     private static String CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+CHANNEL_ID+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
 
     private BottomNavigationView bottomNavigationView;

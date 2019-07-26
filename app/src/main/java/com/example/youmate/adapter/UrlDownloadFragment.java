@@ -70,8 +70,7 @@ public class UrlDownloadFragment extends Fragment {
         }*/
         if(pathvideo.contains("story"))
         {
-
-
+            //homeFragment=new HomeFragment();
             homeFragment.getUrlfromUrlDownload(pathvideo);
         }
         else

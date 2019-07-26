@@ -88,7 +88,7 @@ public class MainActivityFacebook extends AppCompatActivity {
         toolbar =   findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
         viewPager = findViewById(R.id.viewpager);
-      viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         setupViewPager(viewPager);
         tabLayout = findViewById(R.id.tabs);
