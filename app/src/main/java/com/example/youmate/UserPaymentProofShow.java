@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,32 +18,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-
-import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,18 +73,23 @@ public class UserPaymentProofShow extends AppCompatActivity
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        finish();
                         break;
                     case R.id.item2:
                         startActivity(new Intent(getApplicationContext(),Login.class));
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                        finish();
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
+                        finish();
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                        finish();
                         break;
                 }
 

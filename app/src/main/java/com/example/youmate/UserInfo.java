@@ -63,24 +63,23 @@ public class UserInfo extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        finish();
                         break;
                     case R.id.item2:
-                        if(auth.getCurrentUser()!=null)
-                        {
-                            Toast.makeText(UserInfo.this, "Already LoggedIn", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            startActivity(new Intent(getApplicationContext(), Login.class));
-                        }
+                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                        finish();
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
+                        finish();
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                        finish();
                         break;
                 }
 

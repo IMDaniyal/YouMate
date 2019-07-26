@@ -24,7 +24,7 @@ License.
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +61,7 @@ License.
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
       android:gravity="right"
-      >
-
-        <ImageView
-          android:id="@+id/imgbook"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:layout_marginTop="8dp"
-          android:layout_marginRight="6dp"
-          android:layout_gravity="center_horizontal"
-          android:src="@drawable/bookmark"/>
-    </LinearLayout>
+      />
 
     <LinearLayout
         android:id="@+id/linearLayout14"

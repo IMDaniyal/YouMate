@@ -1,20 +1,13 @@
 package com.example.youmate;
 
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.UriMatcher;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -22,30 +15,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.youmate.Modals.ProfileModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import com.google.firebase.storage.UploadTask.TaskSnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.xml.transform.Result;
 
 public class PaymentProof extends AppCompatActivity {
 
@@ -83,18 +70,24 @@ public class PaymentProof extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        finish();
                         break;
                     case R.id.item2:
                         startActivity(new Intent(getApplicationContext(),Login.class));
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                        finish();
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
+                        finish();
                         break;
+
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                        finish();
                         break;
                 }
 

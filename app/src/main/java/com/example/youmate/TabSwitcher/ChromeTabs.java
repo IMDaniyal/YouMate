@@ -347,9 +347,11 @@ if(currentindex%2==0)
                         switch (menuItem.getItemId()){
                             case R.id.item1:
                                 startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                                finish();
                                 break;
                             case R.id.item2:
                                 startActivity(new Intent(getApplicationContext(),Login.class));
+                                finish();
                                 break;
                             case R.id.item3:
                            //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
@@ -358,9 +360,11 @@ if(currentindex%2==0)
                                 break;
                             case R.id.item4:
                                 startActivity(new Intent(getApplicationContext(),Download.class));
+                                finish();
                                 break;
                             case R.id.item5:
                                 startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                                finish();
                                 break;
                         }
 
@@ -400,33 +404,38 @@ if(currentindex%2==0)
                 };
                 edu.setOnEditorActionListener(editorActionListener);
 */
-                /*
+
                 BottomNavigationView bottomNavigationView1;
-                bottomNavigationView=findViewById(R.id.nav1);
-                bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+                bottomNavigationView1=findViewById(R.id.nav1);
+                bottomNavigationView1.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
                     @Override
                     public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
                         switch (menuItem.getItemId()){
                             case R.id.item1:
                                 startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                                finish();
                                 break;
                             case R.id.item2:
                                 startActivity(new Intent(getApplicationContext(),Login.class));
+                                finish();
                                 break;
                             case R.id.item3:
                                 startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                                finish();
                                 break;
                             case R.id.item4:
                                 startActivity(new Intent(getApplicationContext(),Download.class));
+                                finish();
                                 break;
                             case R.id.item5:
                                 startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                                finish();
                                 break;
                         }
 
                     }
                 });
-                */
+
             }
             /*else if (viewType == 0 && state != null) {
 //                ListView listView = findViewById(android.R.id.list);
