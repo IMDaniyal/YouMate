@@ -94,7 +94,6 @@ public class MainActivityFacebook extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-
         // Monitor launch times and interval from installation
         // Custom condition: 3 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(3, 5);

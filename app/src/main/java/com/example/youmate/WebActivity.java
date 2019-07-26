@@ -1,5 +1,6 @@
 package com.example.youmate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -44,8 +45,6 @@ public class WebActivity extends AppCompatActivity {
 
 
     WebView webView;
-
-
     ProgressBar progressBar;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -56,6 +55,7 @@ public class WebActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -129,17 +129,13 @@ public class WebActivity extends AppCompatActivity {
                  {
                      Toast.makeText(WebActivity.this, "Invalid page", Toast.LENGTH_SHORT).show();
                  }
-
-
-
-
                 }
             });
         }
         else
         {
             donebutton.setVisibility(View.INVISIBLE);
-            webView.loadUrl("https://www.google.co.id/search?q="+iip);
+            webView.loadUrl("https://www.google.com/search?q="+iip);
 
         }
 
@@ -204,8 +200,6 @@ bottomMenu();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
 
             return null;
         }
