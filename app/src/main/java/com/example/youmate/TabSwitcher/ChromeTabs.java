@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -716,7 +717,7 @@ if(currentindex%2==0)
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("Url",a);
                         editor.commit();
-
+                        Toast.makeText(ChromeTabs.this, "BookMarked", Toast.LENGTH_SHORT).show();
                         return true;
 //                    case R.id.settings_menu_item:
 //                        Intent intent = new Intent(ChromeTabs.this, SettingsActivity.class);
