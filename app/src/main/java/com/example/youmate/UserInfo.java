@@ -62,11 +62,12 @@ public class UserInfo extends AppCompatActivity {
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
-                        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        startActivity(new Intent(getApplicationContext(), Main2Activity.class));
                         finish();
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
                         finish();
                         break;
                     case R.id.item3:

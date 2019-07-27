@@ -60,6 +60,7 @@ public class Register extends AppCompatActivity  {
         bottomNavigationView=findViewById(R.id.nav1);
 
 
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
@@ -69,7 +70,8 @@ public class Register extends AppCompatActivity  {
                         finish();
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
                         finish();
                         break;
                     case R.id.item3:

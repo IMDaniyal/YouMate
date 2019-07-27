@@ -46,7 +46,8 @@
             android:name=".TabSwitcher.ChromeTabs"
             android:screenOrientation="portrait" />
         <activity android:name=".YoutubePlayer" />
-        <activity android:name=".MainTry" />
+        <activity android:name=".MainTry"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Profile" />
         <activity android:name=".Download"
             android:windowSoftInputMode="stateHidden"/>

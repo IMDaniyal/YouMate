@@ -1,7 +1,6 @@
 package com.example.youmate;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
@@ -50,13 +48,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import at.huber.youtubeExtractor.YouTubeUriExtractor;
@@ -102,7 +94,8 @@ public class DetailsActivity extends YouTubeBaseActivity implements YouTubePlaye
                         finish();
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
                         finish();
                         break;
                     case R.id.item3:

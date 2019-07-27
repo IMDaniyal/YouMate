@@ -54,8 +54,9 @@ public class AccountActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
-                        finish();
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+        startActivity(i);
+        finish();
 
                         break;
                     case R.id.item3:

@@ -25,10 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.apache.http.HttpEntity;
@@ -172,7 +170,9 @@ bottomMenu();
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));

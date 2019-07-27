@@ -46,8 +46,9 @@ public class Login extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.item2:
-                        Toast.makeText(getApplicationContext(),"You already in Login Activity",Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(getApplicationContext(),Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));

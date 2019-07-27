@@ -1,10 +1,5 @@
 package com.example.youmate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.youmate.Modals.ProfileModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
@@ -61,8 +60,9 @@ public class LeaderBoard extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
-                        break;
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
+                        finish();                        break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                         break;

@@ -133,14 +133,9 @@ public class Main2Activity extends AppCompatActivity  {
                         Toast.makeText(Main2Activity.this,"You already in Home Activity",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.item2:
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        if(auth.getCurrentUser()!=null)
-                        {
-                            Toast.makeText(Main2Activity.this, "Already LoggedIn", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            startActivity(new Intent(getApplicationContext(), Login.class));
-                        }
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item3:
                       //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();

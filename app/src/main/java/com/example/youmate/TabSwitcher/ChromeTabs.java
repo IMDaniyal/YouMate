@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,10 +29,6 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.youmate.AccountActivity;
-import com.example.youmate.Download;
-import com.example.youmate.Login;
-import com.example.youmate.Main2Activity;
 import com.example.youmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -370,10 +365,11 @@ if(currentindex%2==0)
                         switch (menuItem.getItemId()){
                             case R.id.item1:
                                 startActivity(new Intent(getApplicationContext(),Main2Activity.class));
-                                finish();
+                        finish();
                                 break;
                             case R.id.item2:
-                                startActivity(new Intent(getApplicationContext(),Login.class));
+                                Intent i=new Intent(getApplicationContext(), MainTry.class);
+                                startActivity(i);
                                 finish();
                                 break;
                             case R.id.item3:
@@ -437,11 +433,12 @@ if(currentindex%2==0)
                         switch (menuItem.getItemId()){
                             case R.id.item1:
                                 startActivity(new Intent(getApplicationContext(),Main2Activity.class));
-                                finish();
+                        finish();
                                 break;
                             case R.id.item2:
-                                startActivity(new Intent(getApplicationContext(),Login.class));
-                                finish();
+                                Intent i=new Intent(getApplicationContext(),MainTry.class);
+        startActivity(i);
+        finish();
                                 break;
                             case R.id.item3:
                                 Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();

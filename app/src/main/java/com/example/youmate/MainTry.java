@@ -90,8 +90,7 @@ public class MainTry extends AppCompatActivity {
 
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
-
+                        Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));

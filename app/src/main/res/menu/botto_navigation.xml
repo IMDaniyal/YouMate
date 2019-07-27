@@ -7,10 +7,10 @@
         android:icon="@drawable/home1"
         android:title="Home">
     </item>
-    <item android:id="@+id/item2"
-        android:icon="@drawable/logout"
-        android:title="Login">
-    </item>
+    <item
+        android:id="@+id/item2"
+        android:icon="@drawable/youtube"
+        android:title="Youtube"></item>
     <item android:id="@+id/item3"
         android:icon="@drawable/add1"
         android:title="New Tab">

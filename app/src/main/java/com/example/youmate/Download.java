@@ -78,7 +78,9 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(getApplicationContext(),Login.class));
+                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
