@@ -705,8 +705,16 @@ if(currentindex%2==0)
                             urlcopy = web.getUrl();
                         }
                         final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
+                        String a=sharedPreferences.getString("Url","");
+                        if(a!="") {
+                            a = a + "," + urlcopy;
+                        }
+                        else
+                        {
+                            a=urlcopy;
+                        }
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("Url",urlcopy);
+                        editor.putString("Url",a);
                         editor.commit();
 
                         return true;

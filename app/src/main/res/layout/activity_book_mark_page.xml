@@ -51,4 +51,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
         android:textSize="18sp" />
-    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
