@@ -96,11 +96,10 @@ public class BookMarkPage extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull myviewholder holder, int position) {
+        public void onBindViewHolder(@NonNull myviewholder holder, int position)
+        {
 
         }
-
-
 
         @Override
         public int getItemCount()
