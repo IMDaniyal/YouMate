@@ -52,8 +52,6 @@ public class BookMarkPage extends AppCompatActivity {
         String a=sharedPreferences.getString("Url","");
 
 
-        String[] arrOfStr = a.split("\\s*,\\s*");
-        List<String> result = new ArrayList<String>(Arrays.asList(arrOfStr));
 
         b= findViewById(R.id.rcBookmark);
         b.setLayoutManager(new LinearLayoutManager(this));
@@ -62,6 +60,17 @@ public class BookMarkPage extends AppCompatActivity {
                 DividerItemDecoration.HORIZONTAL));
 
         b.setItemAnimator(new DefaultItemAnimator());
+        List<String> result;
+        if(!a.equals(""))
+        {
+            String[] arrOfStr = a.split("\\s*,\\s*");
+           result = new ArrayList<String>(Arrays.asList(arrOfStr));
+        }
+        else
+        {
+         result = new ArrayList();
+        }
+
         bookmarkadapter bkm=new bookmarkadapter(result,getApplicationContext(),a);
         b.setAdapter(bkm);
 
