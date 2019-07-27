@@ -1,6 +1,8 @@
 package com.example.youmate.TabSwitcher;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.RectF;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -62,9 +65,12 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
 
 
+
     /**
      * The state of tabs, which display list items in a list view.
      */
+
+
 
 
     String firsturl ="";
@@ -73,6 +79,11 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     int indexgoing=0;
     int indexcoming=0;
 
+
+    void exit()
+    {
+        super.onBackPressed();
+    }
 
     @Override
     public void onBackPressed()
@@ -85,7 +96,24 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         }
         else
         {
-            super.onBackPressed();
+            final AlertDialog alertDialog = new AlertDialog.Builder(ChromeTabs.this).create();
+            alertDialog.setTitle("Alert Dialog");
+            alertDialog.setMessage("are you sure to exit tabs ?");
+          //  alertDialog.setIcon(R.drawable.welcome);
+
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                     exit();
+                }
+            });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
         }
 
     }
@@ -207,7 +235,11 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                                       @NonNull final TabSwitcher tabSwitcher,
                                       @NonNull final View view, @NonNull final Tab tab,
                                       final int index, final int viewType,
-                                      @Nullable final Bundle savedInstanceState) {
+                                      @Nullable final Bundle savedInstanceState)
+        {
+
+
+
             if (viewType == 2) {
                 State state = new State(tab);
                 tabSwitcher.addTabPreviewListener(state);
@@ -231,7 +263,10 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         @Override
         protected void onSaveInstanceState(@NonNull final View view, @NonNull final Tab tab, final int index, final int viewType, @Nullable final State state, @NonNull final Bundle outState)
         {
-            if (state != null) {
+
+            if (state != null)
+            {
+
                 state.saveInstanceState(outState);
             }
         }
@@ -273,7 +308,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         {
 
 
-
             TextView textView = findViewById(android.R.id.title);
             textView.setText(tab.getTitle());
             Toolbar toolbar = findViewById(R.id.toolbar);
@@ -296,6 +330,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
                 }
             });
+
 
 if(currentindex%2==0)
 {
@@ -1011,6 +1046,10 @@ if(currentindex%2==0)
     boolean flag = true;
     String url="";
     String urlcopy="";
+
+
+
+
     @Override
     protected final void onCreate(final Bundle savedInstanceState)
     {
@@ -1020,16 +1059,19 @@ if(currentindex%2==0)
         decorator = new Decorator();
         tabSwitcher = findViewById(R.id.tab_switcher);
         tabSwitcher.clearSavedStatesWhenRemovingTabs(false);
-        Intent old = getIntent();
-        firsturl = old.getStringExtra("IP");
-      if(firsturl ==null)
-      {
-          urls.add(0,"https://www.google.com");
-      }
-      else
-      {
-          urls.add(0,firsturl);
-      }
+
+          Intent old = getIntent();
+          firsturl = old.getStringExtra("IP");
+          if(firsturl ==null)
+          {
+              urls.add(0,"https://www.google.com");
+          }
+          else
+          {
+              urls.add(0,firsturl);
+          }
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener());
         tabSwitcher.setDecorator(decorator);
