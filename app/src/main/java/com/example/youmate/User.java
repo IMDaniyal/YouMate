@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class User extends AppCompatActivity {
     ProfileModel dataModel;
     ArrayList<ProfileModel> userData = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
+    Button logout;
 
     TextView user,age,phone,eswaId,level,point,bankname,bankholder,bankaccountno,add;
     @Override
@@ -42,8 +46,7 @@ public class User extends AppCompatActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
-
-
+        logout = findViewById(R.id.logoutid);
         user = findViewById(R.id.tvname);
         age = findViewById(R.id.tvage);
         phone = findViewById(R.id.tvphone);
@@ -82,6 +85,17 @@ public class User extends AppCompatActivity {
                         break;
                 }
 
+            }
+        });
+
+        logout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                auth.signOut();
+                Intent old = new Intent(User.this,Main2Activity.class);
+                old.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(old);
             }
         });
         //fire store method

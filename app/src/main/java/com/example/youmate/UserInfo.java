@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ public class UserInfo extends AppCompatActivity {
     ProfileModel dataModel;
     ArrayList<ProfileModel> userData = new ArrayList<>();
 
+    Button logout;
 
     TextView user,age,phone,eswaId,level,point,bankname,bankholder,bankaccountno,add;
     BottomNavigationView bottomNavigationView;
@@ -45,7 +49,7 @@ public class UserInfo extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
 
-
+        logout = findViewById(R.id.logoutid);
         user = findViewById(R.id.tvname);
         age = findViewById(R.id.tvage);
         phone = findViewById(R.id.tvphone);
@@ -56,34 +60,16 @@ public class UserInfo extends AppCompatActivity {
         bankname = findViewById(R.id.tvbankname);
         bankholder = findViewById(R.id.tvaccholdname);
         bankaccountno = findViewById(R.id.tvaccno);
-        bottomNavigationView=findViewById(R.id.nav1);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+
+
+        logout.setOnClickListener(new OnClickListener() {
             @Override
-            public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
-                switch (menuItem.getItemId()){
-                    case R.id.item1:
-                        startActivity(new Intent(getApplicationContext(), Main2Activity.class));
-                        finish();
-                        break;
-                    case R.id.item2:
-                        Intent i=new Intent(getApplicationContext(),MainTry.class);
-                        startActivity(i);
-                        finish();
-                        break;
-                    case R.id.item3:
-                        startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
-                        finish();
-                        break;
-                    case R.id.item4:
-                        startActivity(new Intent(getApplicationContext(),Download.class));
-
-                        break;
-                    case R.id.item5:
-                        startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-                        finish();
-                        break;
-                }
-
+            public void onClick(View v)
+            {
+                auth.signOut();
+                Intent old = new Intent(UserInfo.this,Main2Activity.class);
+                old.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(old);
             }
         });
 
