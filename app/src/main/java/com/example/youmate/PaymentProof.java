@@ -83,7 +83,7 @@ public class PaymentProof extends AppCompatActivity {
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
-                        finish();
+
                         break;
 
                     case R.id.item5:

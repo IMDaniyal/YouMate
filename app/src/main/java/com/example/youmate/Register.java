@@ -80,7 +80,7 @@ public class Register extends AppCompatActivity  {
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
-                        finish();
+
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));

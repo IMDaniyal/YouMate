@@ -77,7 +77,8 @@ public class MainTry extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     String userId;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_try);
         bottomNavigationView=findViewById(R.id.nav1);
@@ -87,27 +88,26 @@ public class MainTry extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
                         startActivity(new Intent(getApplicationContext(),Main2Activity.class));
-
                         break;
                     case R.id.item2:
                         Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
-
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
-
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-
+                        finish();
                         break;
                 }
 
             }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.item2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
         result = checkPermission();

@@ -62,7 +62,8 @@ public class LeaderBoard extends AppCompatActivity {
                     case R.id.item2:
                         Intent i=new Intent(getApplicationContext(),MainTry.class);
                         startActivity(i);
-                        finish();                        break;
+                        finish();
+                        break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                         break;
@@ -71,6 +72,7 @@ public class LeaderBoard extends AppCompatActivity {
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                       finish();
                         break;
                 }
 

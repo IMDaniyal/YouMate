@@ -90,6 +90,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                      finish();
                         break;
                 }
 

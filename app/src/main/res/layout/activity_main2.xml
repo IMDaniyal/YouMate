@@ -241,7 +241,7 @@
 
                 <TextView
                   android:id="@+id/textbbc"
-                  android:layout_width="wrap_content"
+                  android:layout_width="61dp"
                   android:layout_height="wrap_content"
                   android:layout_gravity="bottom"
                   android:gravity="center"

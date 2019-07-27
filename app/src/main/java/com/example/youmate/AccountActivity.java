@@ -22,6 +22,16 @@ public class AccountActivity extends AppCompatActivity {
     //TextView changechannel;
 
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+    //    Intent home = new Intent(getApplicationContext(),Main2Activity.class);
+     //   home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+     //   startActivity(home);
+
+    }
+
     BottomNavigationView bottomNavigationView;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -55,9 +65,8 @@ public class AccountActivity extends AppCompatActivity {
                         break;
                     case R.id.item2:
                         Intent i=new Intent(getApplicationContext(),MainTry.class);
-        startActivity(i);
-        finish();
-
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item3:
                         startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
@@ -65,7 +74,6 @@ public class AccountActivity extends AppCompatActivity {
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
-                        finish();
                         break;
                     case R.id.item5:
                         Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();
@@ -75,6 +83,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
+        bottomNavigationView.setSelectedItemId(R.id.item5);
 
         tvprofile.setOnClickListener(new View.OnClickListener() {
             @Override

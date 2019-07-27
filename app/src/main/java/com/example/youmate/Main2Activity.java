@@ -146,6 +146,7 @@ public class Main2Activity extends AppCompatActivity  {
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                       finish();
                         break;
                 }
 

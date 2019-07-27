@@ -62,7 +62,7 @@ public class BookMarkPage extends AppCompatActivity {
                 DividerItemDecoration.HORIZONTAL));
 
         b.setItemAnimator(new DefaultItemAnimator());
-        bookmarkadapter bkm=new bookmarkadapter(result,getApplicationContext());
+        bookmarkadapter bkm=new bookmarkadapter(result,getApplicationContext(),a);
         b.setAdapter(bkm);
 
 
@@ -79,13 +79,13 @@ public class BookMarkPage extends AppCompatActivity {
 
         List<String> bookmarks;
         Context c;
+        String allurl;
 
-        public bookmarkadapter(List<String> urls, Context c)
+        public bookmarkadapter(List<String> urls, Context c,String a)
         {
             this.bookmarks = urls;
             this.c = c;
-
-
+            this.allurl =a;
         }
 
         @NonNull
@@ -113,12 +113,13 @@ public class BookMarkPage extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
-                    String a=sharedPreferences.getString("Url","");
-                    a=a.replace(","+bookmarks.get(p),"");
-                    a=a.replace(bookmarks.get(p),"");
+
+                    String remove = ","+bookmarks.get(p);
+                    allurl=allurl.replace(remove,"");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Url",a);
+                    editor.putString("Url",allurl);
                     editor.commit();
+                    bookmarks.remove(p);
                     notifyDataSetChanged();
                 }
             });

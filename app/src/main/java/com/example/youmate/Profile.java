@@ -51,6 +51,7 @@ public class Profile extends AppCompatActivity {
         level = findViewById(R.id.button);
         scoor = findViewById(R.id.textView26);
         bottomNavigationView=findViewById(R.id.nav1);
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
@@ -71,11 +72,14 @@ public class Profile extends AppCompatActivity {
                         break;
                     case R.id.item5:
                         startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                        finish();
                         break;
                 }
 
             }
         });
+
+
         //fire store method
         databaseQuery();
     }
