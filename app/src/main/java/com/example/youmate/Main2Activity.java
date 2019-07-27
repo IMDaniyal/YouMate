@@ -293,7 +293,8 @@ public class Main2Activity extends AppCompatActivity  {
                 HttpEntity httpEntity = response.getEntity();
                 String json = EntityUtils.toString(httpEntity);
                 return json;
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 e.printStackTrace();
             }
 
@@ -355,7 +356,10 @@ public class Main2Activity extends AppCompatActivity  {
                     }
 
                 }
-            } catch (JSONException e) {
+            } catch (JSONException e)
+            {
+
+                Toast.makeText(this, "youtube api quota exceeded", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
