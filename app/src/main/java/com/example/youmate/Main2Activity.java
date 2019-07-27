@@ -65,8 +65,11 @@ public class Main2Activity extends AppCompatActivity  {
     private VideoPostAdapter adapter = null;
     private ArrayList<YoutubeDataModel> mListData = new ArrayList<>();
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -140,7 +143,8 @@ public class Main2Activity extends AppCompatActivity  {
                         }
                         break;
                     case R.id.item3:
-                        startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                      //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();
+                           startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
                         break;
                     case R.id.item4:
                         startActivity(new Intent(getApplicationContext(),Download.class));
@@ -171,11 +175,12 @@ public class Main2Activity extends AppCompatActivity  {
             }
         });
 
-        imginsta.setOnClickListener(new View.OnClickListener() {
+        imginsta.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
-                String ip="www.instagram.com";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://www.instagram.com";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -184,18 +189,20 @@ public class Main2Activity extends AppCompatActivity  {
         imgwiki.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="www.wikipedia.org";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://www.wikipedia.org";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
         });
 
-        imgcri.setOnClickListener(new View.OnClickListener() {
+        imgcri.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                String ip="www.cricbuzz.com";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+            public void onClick(View v)
+            {
+                String ip="https://www.cricbuzz.com";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -204,8 +211,8 @@ public class Main2Activity extends AppCompatActivity  {
         imggoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="google.com";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://google.com";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -215,7 +222,7 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.prashantx.com";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -224,8 +231,8 @@ public class Main2Activity extends AppCompatActivity  {
         imgbbc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="www.bbc.com/news";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://www.bbc.com/news";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -234,8 +241,8 @@ public class Main2Activity extends AppCompatActivity  {
         imggmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="www.google.com/gmail";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://www.google.com/gmail";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
             }
@@ -244,15 +251,13 @@ public class Main2Activity extends AppCompatActivity  {
         imgtwit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip="twitter.com/Twitter";
-                Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                String ip="https://www.twitter.com/Twitter";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
                 iweb.putExtra("IP",ip);
                 startActivity(iweb);
 
             }
         });
-
-
 
     }
 

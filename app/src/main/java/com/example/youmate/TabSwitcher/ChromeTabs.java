@@ -65,15 +65,35 @@ import static de.mrapp.android.util.DisplayUtil.getDisplayWidth;
 public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 {
 
+
+
     /**
      * The state of tabs, which display list items in a list view.
      */
 
 
+    String firsturl ="";
     List<String> urls = new ArrayList();
     int currentindex=0;
     int indexgoing=0;
     int indexcoming=0;
+
+
+    @Override
+    public void onBackPressed()
+    {
+
+
+        if(web.canGoBack())
+        {
+            web.goBack();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+
+    }
 
     private class State extends AbstractState
             implements AbstractDataBinder.Listener<ArrayAdapter<String>, Tab, ListView, Void>,
@@ -138,6 +158,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                 dataBinder.removeListener(this);
             }
         }
+
+
 
         @Override
         public final void saveInstanceState(@NonNull final Bundle outState)
@@ -340,6 +362,7 @@ if(currentindex%2==0)
 
 
                 }
+                /*
                 bottomNavigationView=findViewById(R.id.nav1);
                 bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
                     @Override
@@ -370,7 +393,7 @@ if(currentindex%2==0)
 
                     }
                 });
-
+*/
 
              //   edu.requestFocus();
             }
@@ -405,6 +428,7 @@ if(currentindex%2==0)
                 edu.setOnEditorActionListener(editorActionListener);
 */
 
+          /*
                 BottomNavigationView bottomNavigationView1;
                 bottomNavigationView1=findViewById(R.id.nav1);
                 bottomNavigationView1.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -420,8 +444,10 @@ if(currentindex%2==0)
                                 finish();
                                 break;
                             case R.id.item3:
-                                startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
-                                finish();
+                                Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
+
+                                //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                           //     finish();
                                 break;
                             case R.id.item4:
                                 startActivity(new Intent(getApplicationContext(),Download.class));
@@ -435,7 +461,7 @@ if(currentindex%2==0)
 
                     }
                 });
-
+*/
             }
             /*else if (viewType == 0 && state != null) {
 //                ListView listView = findViewById(android.R.id.list);
@@ -997,7 +1023,17 @@ if(currentindex%2==0)
         decorator = new Decorator();
         tabSwitcher = findViewById(R.id.tab_switcher);
         tabSwitcher.clearSavedStatesWhenRemovingTabs(false);
-        urls.add(0,"https://www.google.com");
+        Intent old = getIntent();
+        firsturl = old.getStringExtra("IP");
+      if(firsturl ==null)
+      {
+          urls.add(0,"https://www.google.com");
+      }
+      else
+      {
+          urls.add(0,firsturl);
+      }
+
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener());
         tabSwitcher.setDecorator(decorator);
         tabSwitcher.addListener(this);
