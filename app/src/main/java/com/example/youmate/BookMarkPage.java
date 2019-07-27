@@ -1,5 +1,8 @@
 package com.example.youmate;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +25,10 @@ import android.widget.Toast;
 
 import com.example.youmate.Modals.ProfileModel;
 
+import com.example.youmate.UserPaymentProofShow.imgadapter;
+import com.example.youmate.UserPaymentProofShow.imgadapter.myviewholder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookMarkPage extends AppCompatActivity {
 
@@ -64,6 +70,56 @@ public class BookMarkPage extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    public  class bookmarkadapter extends RecyclerView.Adapter<BookMarkPage.bookmarkadapter.myviewholder>
+    {
+
+        int Layout;
+        List<String> bookmarks;
+        Context c;
+
+        public bookmarkadapter(int layout, List<String> urls, Context c)
+        {
+            Layout = layout;
+            this.bookmarks = urls;
+            this.c = c;
+        }
+
+        @NonNull
+        @Override
+        public BookMarkPage.bookmarkadapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        {
+            View v = LayoutInflater.from(c).inflate(Layout,parent,false);
+            return new BookMarkPage.bookmarkadapter.myviewholder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull myviewholder holder, int position) {
+
+        }
+
+
+
+        @Override
+        public int getItemCount()
+        {
+            if(bookmarks!=null)
+            {
+                return bookmarks.size();
+            }
+            return 0;
+        }
+
+        public class myviewholder extends RecyclerView.ViewHolder
+        {
+
+            public myviewholder(@NonNull View itemView)
+            {
+                super(itemView);
+            }
+        }
     }
 
 
