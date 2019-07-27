@@ -1,39 +1,43 @@
 package com.example.youmate;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.youmate.Modals.ProfileModel;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.youmate.UserPaymentProofShow.imgadapter;
-import com.example.youmate.UserPaymentProofShow.imgadapter.myviewholder;
+import com.example.youmate.TabSwitcher.ChromeTabs;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BookMarkPage extends AppCompatActivity {
 
+    public interface OnUrlClickListener {
+        void onUrllClick(String item);
+    }
 
+    public interface OnremoveClickListener {
+        void onremovelClick(String item);
+    }
+
+
+    RecyclerView b;
     TextView tv1;
+
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -46,58 +50,78 @@ public class BookMarkPage extends AppCompatActivity {
         tv1=findViewById(R.id.tv1);
         final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
         String a=sharedPreferences.getString("Url","");
-        tv1.setText(a);
-        tv1.setVisibility(View.VISIBLE);
-        ImageButton button=findViewById(R.id.bt1);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                tv1.setText("");
-                tv1.setVisibility(View.INVISIBLE);
 
-                sharedPreferences.edit().remove("Url").commit();
 
-            }
-        });
+        String[] arrOfStr = a.split("\\s*,\\s*");
+        List<String> result = new ArrayList<String>(Arrays.asList(arrOfStr));
 
-        tv1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                String ip=tv1.getText().toString().trim();
-                Intent iweb=new Intent(BookMarkPage.this,WebActivity.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
-            }
-        });
+        b= findViewById(R.id.rcBookmark);
+        b.setLayoutManager(new LinearLayoutManager(this));
+        b.setHasFixedSize(true);
+        b.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.HORIZONTAL));
+
+        b.setItemAnimator(new DefaultItemAnimator());
+        bookmarkadapter bkm=new bookmarkadapter(result,getApplicationContext());
+        b.setAdapter(bkm);
+
+
 
     }
+
+
 
 
     public  class bookmarkadapter extends RecyclerView.Adapter<BookMarkPage.bookmarkadapter.myviewholder>
     {
 
-        int Layout;
+
+
         List<String> bookmarks;
         Context c;
 
-        public bookmarkadapter(int layout, List<String> urls, Context c)
+        public bookmarkadapter(List<String> urls, Context c)
         {
-            Layout = layout;
             this.bookmarks = urls;
             this.c = c;
+
+
         }
 
         @NonNull
         @Override
         public BookMarkPage.bookmarkadapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-            View v = LayoutInflater.from(c).inflate(Layout,parent,false);
+            View v = LayoutInflater.from(c).inflate(R.layout.bookmarkadapter,parent,false);
             return new BookMarkPage.bookmarkadapter.myviewholder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull myviewholder holder, int position)
         {
+            final int p=position;
+            holder.url.setText(bookmarks.get(position));
+            holder.url.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent iweb=new Intent(getApplicationContext(), ChromeTabs.class);
+                    iweb.putExtra("IP",bookmarks.get(p));
+                    startActivity(iweb);
+                }
+            });
+            holder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
+                    String a=sharedPreferences.getString("Url","");
+                    a=a.replace(","+bookmarks.get(p),"");
+                    a=a.replace(bookmarks.get(p),"");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Url",a);
+                    editor.commit();
+                    notifyDataSetChanged();
+                }
+            });
 
         }
 
@@ -114,10 +138,17 @@ public class BookMarkPage extends AppCompatActivity {
         public class myviewholder extends RecyclerView.ViewHolder
         {
 
+            public TextView url;
+            public Button remove;
+
             public myviewholder(@NonNull View itemView)
             {
                 super(itemView);
+                this.url = itemView.findViewById(R.id.adapterUrl);
+                this.remove = itemView.findViewById(R.id.adapterRemove);
             }
+
+
         }
     }
 
