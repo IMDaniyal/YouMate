@@ -113,7 +113,7 @@ public class BookMarkPage extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
-
+                    allurl=allurl.replace(bookmarks.get(p),"");
                     String remove = ","+bookmarks.get(p);
                     allurl=allurl.replace(remove,"");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
