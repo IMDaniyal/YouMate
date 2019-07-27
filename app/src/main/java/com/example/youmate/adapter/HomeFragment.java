@@ -34,12 +34,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.example.youmate.MainActivityFacebook;
 import com.example.youmate.PrefManager;
 import com.example.youmate.R;
 import com.example.youmate.VideoPlayerActivity;
@@ -518,6 +515,7 @@ public class HomeFragment extends Fragment {
         alertDialog.show();
     }
     public void updataLevel () {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
         final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
@@ -566,6 +564,10 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        }
+        else{
+            Toast.makeText(getActivity().getApplicationContext(), "Login to get points.", Toast.LENGTH_SHORT).show();
+        }
     }
     public void downloadvideo(String pathvideo)
     {
