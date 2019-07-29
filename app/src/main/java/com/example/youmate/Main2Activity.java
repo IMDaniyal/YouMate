@@ -115,6 +115,7 @@ public class Main2Activity extends AppCompatActivity  {
                 Log.d("Succes", "Value is: " + value);
                 CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+value+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
                 initList(mListData);
+
                new RequestYoutubeAPI().execute();
             }
 
