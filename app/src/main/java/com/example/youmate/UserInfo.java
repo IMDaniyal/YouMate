@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.Modals.ProfileModel;
-import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -108,7 +106,7 @@ public class UserInfo extends AppCompatActivity {
                     user.setText("Name: " + userstr);
                     age.setText("Age: " + agestr);
                     phone.setText("Phone No: " + phonestr);
-                    phone.setText("Address: " + addstr);
+                    add.setText("Address: " + addstr);
                     eswaId.setText("eswaID: " + paystr);
                     bankname.setText("Bank Name:" + bankstr);
                     bankaccountno.setText("Account No:" + accnostr);
