@@ -40,6 +40,10 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        Intent old = getIntent();
+        final Bundle data = old.getExtras();
+        final int chromecheck= old.getIntExtra("chorme",-1);
         tvprofile=findViewById(R.id.tvprofile);
         tvpoint=findViewById(R.id.tvpoint);
         tvhistory=findViewById(R.id.tvhistory);
@@ -60,20 +64,41 @@ public class AccountActivity extends AppCompatActivity {
                 switch (menuItem.getItemId())
                 {
                     case R.id.item1:
-                        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        Intent i = new Intent(getApplicationContext(),Main2Activity.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
+                        startActivity(i);
                         finish();
                         break;
                     case R.id.item2:
-                        Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        i = new Intent(getApplicationContext(),MainTry.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
                         startActivity(i);
                         finish();
                         break;
                     case R.id.item3:
-                        startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
-                        finish();
+                        if(chromecheck==1)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                            finish();
+                        }
                         break;
                     case R.id.item4:
-                        startActivity(new Intent(getApplicationContext(),Download.class));
+                         i = new Intent(getApplicationContext(),Download.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
+                        startActivity(i);
                         break;
                     case R.id.item5:
                         Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();

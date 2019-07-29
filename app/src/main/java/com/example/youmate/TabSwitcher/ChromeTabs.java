@@ -34,6 +34,10 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.youmate.AccountActivity;
+import com.example.youmate.Download;
+import com.example.youmate.Main2Activity;
+import com.example.youmate.MainTry;
 import com.example.youmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -399,20 +403,25 @@ if(currentindex%2==0)
 
 
                 }
-                /*
+
                 bottomNavigationView=findViewById(R.id.nav1);
+                bottomNavigationView.setSelectedItemId(R.id.item3);
                 bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
                     @Override
-                    public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
+                    public void onNavigationItemReselected( @NonNull MenuItem menuItem )
+                    {
+                         Intent chrome;
                         switch (menuItem.getItemId()){
                             case R.id.item1:
-                                startActivity(new Intent(getApplicationContext(),Main2Activity.class));
-                        finish();
+                              chrome=  new Intent(getApplicationContext(),Main2Activity.class);
+                             chrome.putExtra("chorme",1);
+                             startActivity(chrome);
                                 break;
                             case R.id.item2:
-                                Intent i=new Intent(getApplicationContext(), MainTry.class);
-                                startActivity(i);
-                                finish();
+                                 chrome=  new Intent(getApplicationContext(),MainTry.class);
+                                chrome.putExtra("chorme",1);
+                                startActivity(chrome);
+                               // finish();
                                 break;
                             case R.id.item3:
                            //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
@@ -420,18 +429,20 @@ if(currentindex%2==0)
                                 Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.item4:
-                                startActivity(new Intent(getApplicationContext(),Download.class));
-                                finish();
+                                chrome=  new Intent(getApplicationContext(),Download.class);
+                                chrome.putExtra("chorme",1);
+                                startActivity(chrome);
                                 break;
                             case R.id.item5:
-                                startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-                                finish();
+                                chrome=  new Intent(getApplicationContext(),AccountActivity.class);
+                                chrome.putExtra("chorme",1);
+                                startActivity(chrome);
                                 break;
                         }
 
                     }
                 });
-*/
+
 
              //   edu.requestFocus();
             }
@@ -466,21 +477,22 @@ if(currentindex%2==0)
                 edu.setOnEditorActionListener(editorActionListener);
 */
 
-          /*
+
                 BottomNavigationView bottomNavigationView1;
                 bottomNavigationView1=findViewById(R.id.nav1);
+                bottomNavigationView1.setSelectedItemId(R.id.item3);
                 bottomNavigationView1.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
                     @Override
                     public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
                         switch (menuItem.getItemId()){
                             case R.id.item1:
-                                startActivity(new Intent(getApplicationContext(),Main2Activity.class));
-                        finish();
+                                startActivity(new Intent(getApplicationContext(), Main2Activity.class));
+                                // finish();
                                 break;
                             case R.id.item2:
-                                Intent i=new Intent(getApplicationContext(),MainTry.class);
-        startActivity(i);
-        finish();
+                                Intent i=new Intent(getApplicationContext(), MainTry.class);
+                                startActivity(i);
+                                //finish();
                                 break;
                             case R.id.item3:
                                 Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
@@ -489,18 +501,19 @@ if(currentindex%2==0)
                            //     finish();
                                 break;
                             case R.id.item4:
-                                startActivity(new Intent(getApplicationContext(),Download.class));
-                                finish();
+                                startActivity(new Intent(getApplicationContext(), Download.class));
+                               // finish();
                                 break;
                             case R.id.item5:
-                                startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-                                finish();
+                                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                               // finish();
                                 break;
                         }
 
                     }
                 });
-*/
+
+
             }
             /*else if (viewType == 0 && state != null) {
 //                ListView listView = findViewById(android.R.id.list);

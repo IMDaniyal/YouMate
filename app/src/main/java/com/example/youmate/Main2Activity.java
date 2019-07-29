@@ -74,10 +74,13 @@ public class Main2Activity extends AppCompatActivity  {
         setContentView(R.layout.activity_main2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
+
+        Intent old = getIntent();
+        final Bundle data = old.getExtras();
+        final int chromecheck= old.getIntExtra("chorme",-1);
+
        // SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
        // CHANNEL_ID = pref.getString("channelid", "UC_x5XG1OV2P6uZZ5FSM9Ttw");//"No name defined" is the default value.
-
-
         mList_videos=findViewById(R.id.recycler);
         edurl=findViewById(R.id.edurl);
         imgcri=findViewById(R.id.imagecri);
@@ -112,7 +115,7 @@ public class Main2Activity extends AppCompatActivity  {
                 Log.d("Succes", "Value is: " + value);
                 CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+value+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
                 initList(mListData);
-            //    new RequestYoutubeAPI().execute();
+               new RequestYoutubeAPI().execute();
             }
 
             @Override
@@ -128,25 +131,51 @@ public class Main2Activity extends AppCompatActivity  {
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId())
+                {
                     case R.id.item1:
                         Toast.makeText(Main2Activity.this,"You already in Home Activity",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.item2:
                         Intent i=new Intent(getApplicationContext(),MainTry.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
+
                         startActivity(i);
                         finish();
                         break;
                     case R.id.item3:
                       //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();
-                           startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                        if(chromecheck==1)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                            finish();
+                        }
+
                         break;
                     case R.id.item4:
-                        startActivity(new Intent(getApplicationContext(),Download.class));
+                        i=new Intent(getApplicationContext(),Download.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
+                        startActivity(i);
+
                         break;
                     case R.id.item5:
-                        startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-                       finish();
+                        i=new Intent(getApplicationContext(),AccountActivity.class);
+                        if(data !=null)
+                        {
+                            i.putExtras(data);
+                        }
+                        startActivity(i);
+                        finish();
                         break;
                 }
 

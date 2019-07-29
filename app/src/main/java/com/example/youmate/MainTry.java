@@ -81,25 +81,53 @@ public class MainTry extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_try);
+        Intent old = getIntent();
+        final Bundle data = old.getExtras();
+        final int chromecheck= old.getIntExtra("chorme",-1);
+
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
                 switch (menuItem.getItemId()){
                     case R.id.item1:
-                        startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+                        Intent i = new Intent(getApplicationContext(),Main2Activity.class);
+                      if(data !=null)
+                      {
+                        i.putExtras(data);
+                      }
+                        startActivity(i);
+                        finish();
                         break;
                     case R.id.item2:
                         Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.item3:
-                        startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                        if(chromecheck==1)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                            finish();
+                        }
                         break;
                     case R.id.item4:
-                        startActivity(new Intent(getApplicationContext(),Download.class));
+                         i = new Intent(getApplicationContext(),Download.class);
+                      if(data !=null)
+                      {
+                        i.putExtras(data);
+                      }
+                        startActivity(i);
                         break;
                     case R.id.item5:
-                        startActivity(new Intent(getApplicationContext(),AccountActivity.class));
+                         i = new Intent(getApplicationContext(),AccountActivity.class);
+                      if(data !=null)
+                      {
+                        i.putExtras(data);
+                      }
+                        startActivity(i);
                         finish();
                         break;
                 }

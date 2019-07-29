@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,9 @@ import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,14 +56,15 @@ public class WebActivity extends AppCompatActivity {
     FloatingActionButton donebutton;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
+    TextView urltext;
+    Handler handler;
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-
+        urltext=findViewById(R.id.weburl);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
         progressBar = findViewById(R.id.progressBar);
@@ -158,7 +162,29 @@ public class WebActivity extends AppCompatActivity {
 //        startActivity(iweb);
 bottomMenu();
 
+
+        handler = new Handler();
+        handler.postDelayed(runnable, 1000);
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            /* my set of codes for repeated work */
+            if(webView !=null)
+            {
+                if(urltext !=null)
+                {
+                    if(!urltext.getText().toString().equals(webView.getUrl()))
+                    {
+                        urltext.setText(webView.getUrl());
+                    }
+
+                }
+            }
+            handler.postDelayed(this, 1000); // reschedule the handler
+        }
+    };// new handler
 
     public  void bottomMenu(){
         bottomNavigationView=findViewById(R.id.nav1);

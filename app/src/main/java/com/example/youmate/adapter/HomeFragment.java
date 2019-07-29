@@ -28,6 +28,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -77,12 +78,15 @@ public class HomeFragment extends Fragment {
         return f;
     }
 
+    TextView url;
+    Handler fb= new Handler();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         mainView=inflater.inflate(R.layout.fragment_home,container,false);
         setRetainInstance(true);
         mySwipeRefreshLayout = mainView.findViewById(R.id.swipeContainer);
+        url= mainView.findViewById(R.id.fburl);
         pref = new PrefManager(getContext());
         mprogress= mainView.findViewById(R.id.progressBar);
         mprogress.setProgress(0);
@@ -309,8 +313,33 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
+
+        fb = new Handler();
+        fb.postDelayed(runnable, 1000);
+
         return mainView;
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            /* my set of codes for repeated work */
+            if(mWebview !=null)
+            {
+                if(url !=null)
+                {
+                    if(!url.getText().toString().equals(mWebview.getUrl()))
+                    {
+                        url.setText(mWebview.getUrl());
+                    }
+
+                }
+            }
+            fb.postDelayed(this, 1000); // reschedule the handler
+        }
+    };// new ha
+
+
     public void getUrlfromUrlDownload(String url)
     {
         mWebview.loadUrl(url);
