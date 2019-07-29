@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -241,7 +242,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
 
 
-            if (viewType == 2) {
+            if (viewType == 2)
+            {
                 State state = new State(tab);
                 tabSwitcher.addTabPreviewListener(state);
 
@@ -267,8 +269,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
             if (state != null)
             {
-
-                state.saveInstanceState(outState);
+           state.saveInstanceState(outState);
             }
         }
 
@@ -314,21 +315,26 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setVisibility(tabSwitcher.isSwitcherShown() ? View.GONE : View.VISIBLE);
             web = view.findViewById(R.id.loadweb);
+            urltext = view.findViewById(R.id.urltext);
             web.getSettings().setJavaScriptEnabled(true);
             web.getSettings().setLoadWithOverviewMode(true);
             web.getSettings().setUseWideViewPort(true);
-            web.setWebViewClient(new WebViewClient(){
+
+            web.setWebViewClient(new WebViewClient()
+            {
+
 
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url)
                 {
+             //       urltext.setText(url);
                     view.loadUrl(url);
                     return true;
                 }
                 @Override
                 public void onPageFinished(WebView view, final String url) {
-
+            //      urltext.setText(url);
                 }
             });
 
@@ -337,7 +343,7 @@ if(currentindex%2==0)
 {
     if(web !=null)
     {
-        if(flag)
+      if(flag)
         {
             flag=false;
             web.loadUrl(urls.get(currentindex));
@@ -354,7 +360,7 @@ if(currentindex%2==0)
                     if(flag)
                     {
                         flag=false;
-                        web.loadUrl(urls.get(currentindex));
+                            web.loadUrl(urls.get(currentindex));
                     }
                 }
 /*
@@ -500,6 +506,8 @@ if(currentindex%2==0)
 //                ListView listView = findViewById(android.R.id.list);
 //                state.loadItems(listView);
             }*/
+
+          urltext.setText(web.getUrl());
         }
 
         @Override
@@ -950,13 +958,18 @@ if(currentindex%2==0)
     public final void onSwitcherShown(@NonNull final TabSwitcher tabSwitcher)
     {
 
+            web.saveState(webdata);
+            loadedfromstate=1;
            url = web.getUrl();
           Log.i("sss","dd");
     }
 
     @Override
     public final void onSwitcherHidden(@NonNull final TabSwitcher tabSwitcher) {
-        if (snackbar != null) {
+
+
+        if (snackbar != null)
+        {
             snackbar.dismiss();
         }
 
@@ -993,6 +1006,8 @@ if(currentindex%2==0)
         {
             urls.add(currentindex,"https://www.google.com");
         }
+
+
 
         Log.i("ss","ss");
 
@@ -1057,8 +1072,27 @@ if(currentindex%2==0)
     String urlcopy="";
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(webdata!=null)
+        {
 
 
+        }
+
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+    int loadedfromstate=0;
+    Bundle webdata;
+    TextView urltext;
+    Handler handler;
     @Override
     protected final void onCreate(final Bundle savedInstanceState)
     {
@@ -1080,7 +1114,7 @@ if(currentindex%2==0)
               urls.add(0,firsturl);
           }
 
-
+         webdata=new Bundle();
 
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener());
         tabSwitcher.setDecorator(decorator);
@@ -1096,6 +1130,28 @@ if(currentindex%2==0)
         TabSwitcher.setupWithMenu(tabSwitcher, createTabSwitcherButtonListener());
         inflateMenu();
 
+        handler = new Handler();
+        handler.postDelayed(runnable, 1000);
+
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            /* my set of codes for repeated work */
+            if(web !=null)
+            {
+                if(urltext !=null)
+                {
+                  if(!urltext.getText().toString().equals(web.getUrl()))
+                  {
+                    urltext.setText(web.getUrl());
+                  }
+
+                }
+            }
+            handler.postDelayed(this, 1000); // reschedule the handler
+        }
+    };// new handler
 
 }
