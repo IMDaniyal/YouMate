@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

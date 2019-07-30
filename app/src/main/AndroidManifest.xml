@@ -20,6 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
+      <activity android:name=".TabSwitcher.ChromeTabs"></activity>
         <activity android:name=".EnterListData"></activity>
         <activity android:name=".AdminOptions" />
         <activity android:name=".UserPaymentProofShow" />
@@ -42,10 +43,7 @@
         <activity
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".TabSwitcher.ChromeTabs"
-            android:screenOrientation="portrait" />
-        <activity android:name=".YoutubePlayer" />
+      <activity android:name=".YoutubePlayer" />
         <activity android:name=".MainTry"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Profile" />

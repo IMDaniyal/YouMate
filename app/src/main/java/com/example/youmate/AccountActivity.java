@@ -88,7 +88,7 @@ public class AccountActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                            startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                             finish();
                         }
                         break;
