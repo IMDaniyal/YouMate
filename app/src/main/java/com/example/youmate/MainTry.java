@@ -105,7 +105,7 @@ public class MainTry extends AppCompatActivity {
                     case R.id.item3:
                         if(chromecheck==1)
                         {
-                            finish();
+                           finish();
                         }
                         else
                         {

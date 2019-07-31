@@ -316,7 +316,6 @@ public class HomeFragment extends Fragment {
 
         fb = new Handler();
         fb.postDelayed(runnable, 1000);
-
         return mainView;
     }
 

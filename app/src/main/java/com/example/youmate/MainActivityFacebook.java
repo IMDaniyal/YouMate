@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -38,6 +39,8 @@ import java.util.List;
 
 public class MainActivityFacebook extends AppCompatActivity {
 
+    TextView urlfb;
+    Handler handler;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
     String userId;
@@ -116,9 +119,8 @@ public class MainActivityFacebook extends AppCompatActivity {
             public void onCancelClicked() {
             }
         });
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
