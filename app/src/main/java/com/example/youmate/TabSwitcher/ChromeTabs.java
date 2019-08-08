@@ -1373,7 +1373,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     flag=true;
     Log.i("ss","ss");
 
-
     if(urls!=null&&urls.size() >0)
     {
       if(web!=null)
@@ -1386,10 +1385,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
             urls.add(indexcoming,url);
             indexcoming = indexgoing;
           }
-
         }
-
-
       }
 
     }
@@ -1398,8 +1394,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     {
       urls.add(currentindex,"https://www.google.com");
     }
-
-
 
     Log.i("ss","ss");
 
@@ -1708,9 +1702,24 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
                boolean handled = false;
                if (actionId == EditorInfo.IME_ACTION_DONE)
                {
-                web.loadUrl(urltext.getText().toString());
+                 String ur = urltext.getText().toString();
+                 ur.replace("www.","");
+                 if(ur.contains("http://")||ur.contains("https://"))
+                 {
+
+                 }else
+                 {
+                   ur= "http://"+ur;
+                 }
+
+                 if(ur.contains(" ")|| !ur.contains("."))
+                 {
+                   ur= "https://www.google.com/search?q="+ur;
+                 }
+
+                web.loadUrl(ur);
                 urls.remove(currentindex);
-                urls.add(currentindex,urltext.getText().toString());
+                urls.add(currentindex,ur);
                  urltext.setFocusableInTouchMode(false);
                  urltext.setFocusable(false);
                  urltext.setFocusableInTouchMode(true);
