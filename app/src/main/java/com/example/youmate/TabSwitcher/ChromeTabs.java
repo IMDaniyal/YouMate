@@ -567,9 +567,13 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
           {
             if(url.length()>0)
             {
-              urls.remove(indexcoming);
-              urls.add(indexcoming,url);
-              indexcoming = indexgoing;
+              if(indexcoming<urls.size())
+              {
+                urls.remove(indexcoming);
+                urls.add(indexcoming,url);
+                indexcoming = indexgoing;
+              }
+
             }
 
           }
@@ -587,7 +591,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
       else
       {
           addfromhome=false;
-
       }
 
 
@@ -612,7 +615,22 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     int removed = Integer.parseInt(tab.getTitle().toString().substring(4));
     removed -=1;
     inflateMenu();
-    urls.remove(removed);
+    try
+    {
+      urls.remove(removed);
+    }
+    catch (Exception e)
+    {
+        urls.clear();
+        currentindex=0;
+        indexcoming=0;
+
+    }
+
+    if(currentindex>=urls.size())
+    {
+      currentindex--;
+    }
     TabSwitcher.setupWithMenu(tabSwitcher, createTabSwitcherButtonListener());
   }
 
@@ -796,14 +814,21 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
     if(requestCode==131)
     {
-      int index = tabSwitcher.getCount();
-     // indexcoming=index-1;
-      indexcoming= goingtohome;
-      Tab tab = createTab(index);
-      addfromhome=true;
-      tabSwitcher.addTab(tab, index, createRevealAnimation());
-      urls.add(index,data.getStringExtra("newurl"));
-      currentindex = index;
+
+      if(data!=null && data.getStringExtra("newurl")!=null)
+      {
+        int index = tabSwitcher.getCount();
+        // indexcoming=index-1;
+        indexcoming= goingtohome;
+        Tab tab = createTab(index);
+        addfromhome=true;
+        url=web.getUrl();
+        tabSwitcher.addTab(tab, index, createRevealAnimation());
+        urls.add(index,data.getStringExtra("newurl"));
+        currentindex = index;
+
+
+      }
 
 
 

@@ -144,7 +144,8 @@ public class PaymentProof extends AppCompatActivity {
                 progressDialog.show();
 
                 final StorageReference ref = storageReference.child("images/"+userMail+"/"+imgname);
-                ref.putFile(imagepath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                ref.putFile(imagepath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                     {
