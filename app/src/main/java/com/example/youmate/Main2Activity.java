@@ -188,8 +188,13 @@ public class Main2Activity extends AppCompatActivity  {
         imgfb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(Main2Activity.this,MainActivityFacebook.class);
-                startActivity(i);
+               //Intent i=new Intent(Main2Activity.this,MainActivityFacebook.class);
+                //startActivity(i);
+                String ip="https://www.facebook.com";
+                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                iweb.putExtra("IP",ip);
+                startActivity(iweb);
+
             }
         });
 

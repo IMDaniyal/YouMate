@@ -1,20 +1,37 @@
 package com.example.youmate.TabSwitcher;
 
+import android.Manifest;
+import android.Manifest.permission;
+import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -27,8 +44,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
@@ -38,11 +57,20 @@ import com.example.youmate.AccountActivity;
 import com.example.youmate.Download;
 import com.example.youmate.Main2Activity;
 import com.example.youmate.MainTry;
+import com.example.youmate.PrefManager;
 import com.example.youmate.R;
+import com.example.youmate.VideoPlayerActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -64,17 +92,12 @@ import de.mrapp.android.util.ThemeUtil;
 import de.mrapp.android.util.multithreading.AbstractDataBinder;
 import de.mrapp.util.Condition;
 
+import static android.view.View.LAYER_TYPE_HARDWARE;
+import static android.view.View.LAYER_TYPE_SOFTWARE;
 import static de.mrapp.android.util.DisplayUtil.getDisplayWidth;
 
 public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 {
-
-
-
-
-  /**
-   * The state of tabs, which display list items in a list view.
-   */
 
 
 
@@ -305,6 +328,161 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
       return view;
     }
 
+    @JavascriptInterface
+    public void getData(final String pathvideo)
+    {
+      Log.d("scroled","jo");
+
+      final AlertDialog alertDialog = new AlertDialog.Builder(ChromeTabs.this).create();
+      alertDialog.setTitle("Save Video?");
+      alertDialog.setMessage("Do you Really want to Save Video ?");
+      //  alertDialog.setIcon(R.drawable.welcome);
+
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "yes", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which)
+        {
+          String finalurl ;
+          finalurl=pathvideo;
+          finalurl=finalurl.replaceAll("%3A",":");
+          finalurl=finalurl.replaceAll("%2F","/");
+          finalurl=finalurl.replaceAll("%3F","?");
+          finalurl=finalurl.replaceAll("%3D","=");
+          finalurl=finalurl.replaceAll("%26","&");
+          downloadvideo(finalurl);
+          updataLevel();
+        }
+      });
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Watch", new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          if(isNetworkAvailable())
+          {
+            String finalurl;
+            finalurl = pathvideo;
+            finalurl = finalurl.replaceAll("%3A", ":");
+            finalurl = finalurl.replaceAll("%2F", "/");
+            finalurl = finalurl.replaceAll("%3F", "?");
+            finalurl = finalurl.replaceAll("%3D", "=");
+            finalurl = finalurl.replaceAll("%26", "&");
+            Intent intent = new Intent(ChromeTabs.this, VideoPlayerActivity.class);
+            intent.putExtra("videofilename", finalurl);
+            startActivity(intent);
+          }
+          else
+          {
+            Toast.makeText(ChromeTabs.this,"Please Connect to Internet", Toast.LENGTH_LONG).show();
+          }
+        }
+      });
+
+      alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Copy Url", new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+          String finalurl ;
+          finalurl=pathvideo;
+          finalurl=finalurl.replaceAll("%3A",":");
+          finalurl=finalurl.replaceAll("%2F","/");
+          finalurl=finalurl.replaceAll("%3F","?");
+          finalurl=finalurl.replaceAll("%3D","=");
+          finalurl=finalurl.replaceAll("%26","&");
+          ClipboardManager clipboard = (ClipboardManager)ChromeTabs.this.getSystemService(Context.CLIPBOARD_SERVICE);
+          ClipData clip = ClipData.newPlainText("mainurlcopy",finalurl);
+          clipboard.setPrimaryClip(clip);
+          Toast.makeText(ChromeTabs.this,"Url Copied", Toast.LENGTH_SHORT).show();
+        }
+      });
+      alertDialog.show();
+
+
+    }
+    public void updataLevel () {
+      if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+        final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
+        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+          @Override
+          public void onSuccess(DocumentSnapshot documentSnapshot) {
+            Double valueLevel = documentSnapshot.getDouble("level");
+            Double valuePoint = documentSnapshot.getDouble("point");
+            try {
+              //checking for level
+              if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
+
+                noteRef.update("email", userEmail,
+                    "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                  @Override
+                  public void onSuccess( Void aVoid ) {
+                    Toast.makeText(ChromeTabs.this, "Congratulations for next level", Toast.LENGTH_SHORT).show();
+
+                  }
+                }).addOnFailureListener(new OnFailureListener() {
+                  @Override
+                  public void onFailure( @NonNull Exception e ) {
+                    Toast.makeText(ChromeTabs.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                  }
+                });
+
+              } else {
+                noteRef.update("email", userEmail,
+                    "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
+                  @Override
+                  public void onSuccess( Void aVoid ) {
+                    Toast.makeText(ChromeTabs.this, "Points updated", Toast.LENGTH_SHORT).show();
+                  }
+                }).addOnFailureListener(new OnFailureListener() {
+                  @Override
+                  public void onFailure( @NonNull Exception e ) {
+                    Toast.makeText(ChromeTabs.this, "Points not updated", Toast.LENGTH_SHORT).show();
+                  }
+                });
+              }
+
+            }
+            catch (Exception e)
+            {
+              Toast.makeText(ChromeTabs.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+          }
+        });
+      }
+      else{
+        Toast.makeText(ChromeTabs.this.getApplicationContext(), "Login to get points.", Toast.LENGTH_SHORT).show();
+      }
+    }
+    public void downloadvideo(String pathvideo)
+    {
+      if(pathvideo.contains(".mp4"))
+      {
+        File directory = new File(Environment.getExternalStorageDirectory()+ File.separator+"Facebook Videos");
+        directory.mkdirs();
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pathvideo));
+        int Number=pref.getFileName();
+        request.allowScanningByMediaScanner();
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        File root = new File(Environment.getExternalStorageDirectory() + File.separator+"Facebook Videos");
+        Uri path = Uri.withAppendedPath(Uri.fromFile(root), "Video-"+Number+".mp4");
+        request.setDestinationUri(path);
+        DownloadManager dm = (DownloadManager)ChromeTabs.this.getSystemService(ChromeTabs.DOWNLOAD_SERVICE);
+        if(downloadlist.contains(pathvideo))
+        {
+          Toast.makeText(ChromeTabs.this.getApplicationContext(),"The Video is Already Downloading", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+          downloadlist.add(pathvideo);
+          dm.enqueue(request);
+          Toast.makeText(ChromeTabs.this.getApplicationContext(),"Downloading Video-"+Number+".mp4", Toast.LENGTH_LONG).show();
+          Number++;
+          pref.setFileName(Number);
+        }
+
+      }
+    }
+
+
     @Override
     public void onShowTab(@NonNull final Context context,
         @NonNull final TabSwitcher tabSwitcher, @NonNull final View view,
@@ -313,34 +491,213 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         @Nullable final Bundle savedInstanceState)
     {
 
-
       TextView textView = findViewById(android.R.id.title);
       textView.setText(tab.getTitle());
       Toolbar toolbar = findViewById(R.id.toolbar);
       toolbar.setVisibility(tabSwitcher.isSwitcherShown() ? View.GONE : View.VISIBLE);
       web = view.findViewById(R.id.loadweb);
       urltext = view.findViewById(R.id.urltext);
-      web.getSettings().setJavaScriptEnabled(true);
       web.getSettings().setLoadWithOverviewMode(true);
       web.getSettings().setUseWideViewPort(true);
 
-      web.setWebViewClient(new WebViewClient()
+      if(fbcheck==0)
+      {
+        web.getSettings().setJavaScriptEnabled(true);
+        web.setWebViewClient(new WebViewClient()
+        {
+
+          @Override
+          public boolean shouldOverrideUrlLoading(WebView view, String url)
+          {
+            view.loadUrl(url);
+            return true;
+          }
+          @Override
+          public void onPageFinished(WebView view, final String url)
+          {
+            //      urltext.setText(url);
+          }
+        });
+
+      }
+      else
       {
 
+        web.getSettings().setSupportZoom(true);       //Zoom Control on web (You don't need this
+        web.getSettings().setBuiltInZoomControls(true);
+        web.addJavascriptInterface(this, "mJava");
+        web.getSettings().setJavaScriptEnabled(true);
 
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url)
+        web.getSettings().setJavaScriptEnabled(true);
+        if (Build.VERSION.SDK_INT >= 19)
         {
-          //       urltext.setText(url);
-          view.loadUrl(url);
-          return true;
+          web.setLayerType(LAYER_TYPE_HARDWARE, null);
         }
-        @Override
-        public void onPageFinished(WebView view, final String url) {
-          //      urltext.setText(url);
+        else
+
+        {
+          web.setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
-      });
+
+        web.setWebViewClient(new WebViewClient()
+        {
+          public void onPageFinished(WebView view, String url)
+          {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable()
+            {
+              @Override
+              public void run()
+              {
+
+                web.loadUrl("javascript:"+
+                    "var e=0;\n" +
+                    "window.onscroll=function()\n" +
+                    "{\n" +
+                    "\tvar ij=document.querySelectorAll(\"video\");\n" +
+                    "\t\tfor(var f=0;f<ij.length;f++)\n" +
+                    "\t\t{\n" +
+                    "\t\t\tif((ij[f].parentNode.querySelectorAll(\"img\")).length==0)\n" +
+                    "\t\t\t{\n" +
+                    "\t\t\t\tvar nextimageWidth=ij[f].nextSibling.style.width;\n" +
+                    "\t\t\t\tvar nextImageHeight=ij[f].nextSibling.style.height;\n" +
+                    "\t\t\t\tvar Nxtimgwd=parseInt(nextimageWidth, 10);\n" +
+                    "\t\t\t\tvar Nxtimghght=parseInt(nextImageHeight, 10); \n" +
+                    "\t\t\t\tvar DOM_img = document.createElement(\"img\");\n" +
+                    "\t\t\t\t\tDOM_img.height=\"68\";\n" +
+                    "\t\t\t\t\tDOM_img.width=\"68\";\n" +
+                    "\t\t\t\t\tDOM_img.style.top=(Nxtimghght/2-20)+\"px\";\n" +
+                    "\t\t\t\t\tDOM_img.style.left=(Nxtimgwd/2-20)+\"px\";\n" +
+                    "\t\t\t\t\tDOM_img.style.position=\"absolute\";\n" +
+                    "\t\t\t\t\tDOM_img.src = \"https://image.ibb.co/kobwsk/one.png\"; \n" +
+                    "\t\t\t\t\tij[f].parentNode.appendChild(DOM_img);\n" +
+                    "\t\t\t}\t\t\n" +
+                    "\t\t\tij[f].remove();\n" +
+                    "\t\t} \n" +
+                    "\t\t\te++;\n" +
+                    "};"+
+                    "var a = document.querySelectorAll(\"a[href *= 'video_redirect']\");\n" +
+                    "for (var i = 0; i < a.length; i++) {\n" +
+                    "    var mainUrl = a[i].getAttribute(\"href\");\n" +
+                    "  a[i].removeAttribute(\"href\");\n"+
+                    "\tmainUrl=mainUrl.split(\"/video_redirect/?src=\")[1];\n" +
+                    "\tmainUrl=mainUrl.split(\"&source\")[0];\n" +
+                    "    var threeparent = a[i].parentNode.parentNode.parentNode;\n" +
+                    "    threeparent.setAttribute(\"src\", mainUrl);\n" +
+                    "    threeparent.onclick = function() {\n" +
+                    "        var mainUrl1 = this.getAttribute(\"src\");\n" +
+                    "         mJava.getData(mainUrl1);\n" +
+                    "    };\n" +
+                    "}"+
+                    "var k = document.querySelectorAll(\"div[data-store]\");\n" +
+                    "for (var j = 0; j < k.length; j++) {\n" +
+                    "    var h = k[j].getAttribute(\"data-store\");\n" +
+                    "    var g = JSON.parse(h);\nvar jp=k[j].getAttribute(\"data-sigil\");\n"+
+                    "    if (g.type === \"video\") {\n" +
+                    "if(jp==\"inlineVideo\")" +
+                    "{" +
+                    "   k[j].removeAttribute(\"data-sigil\");" +
+                    "}\n" +
+                    "        var url = g.src;\n" +
+                    "        k[j].setAttribute(\"src\", g.src);\n" +
+                    "        k[j].onclick = function() {\n" +
+                    "            var mainUrl = this.getAttribute(\"src\");\n" +
+                    "               mJava.getData(mainUrl);\n" +
+                    "        };\n" +
+                    "    }\n" +
+                    "\n" +
+                    "}");
+              }
+            }, 3000);
+          }
+
+          public void onLoadResource(WebView view, String url)
+          {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                web.loadUrl("javascript:"+
+                    "var e=document.querySelectorAll(\"span\"); " +
+                    "if(e[0]!=undefined)" +
+                    "{"+
+                    "var fbforandroid=e[0].innerText;" +
+                    "if(fbforandroid.indexOf(\"Facebook\")!=-1)" +
+                    "{ " +
+                    "var h =e[0].parentNode.parentNode.parentNode.style.display=\"none\";" +
+                    "} " +
+                    "}" +
+                    "var installfb=document.querySelectorAll(\"a\");\n" +
+                    "for (var hardwares = 0; hardwares < installfb.length; hardwares++) \n" +
+                    "{\n" +
+                    "\tif(installfb[hardwares].text.indexOf(\"Install\")!=-1)\n" +
+                    "\t{\n" +
+                    "\t\tvar soft=installfb[hardwares].parentNode.style.display=\"none\";\n" +
+                    "\n" +
+                    "\t}\n" +
+                    "}\n");
+                web.loadUrl("javascript:"+
+                    "var e=0;\n" +
+                    "window.onscroll=function()\n" +
+                    "{\n" +
+                    "\tvar ij=document.querySelectorAll(\"video\");\n" +
+                    "\t\tfor(var f=0;f<ij.length;f++)\n" +
+                    "\t\t{\n" +
+                    "\t\t\tif((ij[f].parentNode.querySelectorAll(\"img\")).length==0)\n" +
+                    "\t\t\t{\n" +
+                    "\t\t\t\tvar nextimageWidth=ij[f].nextSibling.style.width;\n" +
+                    "\t\t\t\tvar nextImageHeight=ij[f].nextSibling.style.height;\n" +
+                    "\t\t\t\tvar Nxtimgwd=parseInt(nextimageWidth, 10);\n" +
+                    "\t\t\t\tvar Nxtimghght=parseInt(nextImageHeight, 10); \n" +
+                    "\t\t\t\tvar DOM_img = document.createElement(\"img\");\n" +
+                    "\t\t\t\t\tDOM_img.height=\"68\";\n" +
+                    "\t\t\t\t\tDOM_img.width=\"68\";\n" +
+                    "\t\t\t\t\tDOM_img.style.top=(Nxtimghght/2-20)+\"px\";\n" +
+                    "\t\t\t\t\tDOM_img.style.left=(Nxtimgwd/2-20)+\"px\";\n" +
+                    "\t\t\t\t\tDOM_img.style.position=\"absolute\";\n" +
+                    "\t\t\t\t\tDOM_img.src = \"https://image.ibb.co/kobwsk/one.png\"; \n" +
+                    "\t\t\t\t\tij[f].parentNode.appendChild(DOM_img);\n" +
+                    "\t\t\t}\t\t\n" +
+                    "\t\t\tij[f].remove();\n" +
+                    "\t\t} \n" +
+                    "\t\t\te++;\n" +
+                    "};"+
+                    "var a = document.querySelectorAll(\"a[href *= 'video_redirect']\");\n" +
+                    "for (var i = 0; i < a.length; i++) {\n" +
+                    "    var mainUrl = a[i].getAttribute(\"href\");\n" +
+                    "  a[i].removeAttribute(\"href\");\n"+
+                    "\tmainUrl=mainUrl.split(\"/video_redirect/?src=\")[1];\n" +
+                    "\tmainUrl=mainUrl.split(\"&source\")[0];\n"+
+                    "    var threeparent = a[i].parentNode.parentNode.parentNode;\n" +
+                    "    threeparent.setAttribute(\"src\", mainUrl);\n" +
+                    "    threeparent.onclick = function() {\n" +
+                    "        var mainUrl1 = this.getAttribute(\"src\");\n" +
+                    "         mJava.getData(mainUrl1);\n" +
+                    "    };\n" +
+                    "}"+
+                    "var k = document.querySelectorAll(\"div[data-store]\");\n" +
+                    "for (var j = 0; j < k.length; j++) {\n" +
+                    "    var h = k[j].getAttribute(\"data-store\");\n" +
+                    "    var g = JSON.parse(h);var jp=k[j].getAttribute(\"data-sigil\");\n"+
+                    "    if (g.type === \"video\") {\n" +
+                    "if(jp==\"inlineVideo\")" +
+                    "{" +
+                    "   k[j].removeAttribute(\"data-sigil\");" +
+                    "}\n" +
+                    "        var url = g.src;\n" +
+                    "        k[j].setAttribute(\"src\", g.src);\n" +
+                    "        k[j].onclick = function() {\n" +
+                    "            var mainUrl = this.getAttribute(\"src\");\n" +
+                    "               mJava.getData(mainUrl);\n" +
+                    "        };\n" +
+                    "    }\n" +
+                    "\n" +
+                    "}");
+              }
+            }, 3000);
+          }
+        });
+      }
 
 
       if(currentindex%2==0)
@@ -1114,6 +1471,156 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
   Bundle webdata;
   TextView urltext;
   Handler handler;
+  private int isInternetConnected=1;
+  private static final String ARG_POSITION = "position";
+  private static final int PERMISSION_CALLBACK_CONSTANT = 101;
+  private static final int REQUEST_PERMISSION_SETTING = 102;
+  private SharedPreferences permissionStatus;
+  private boolean sentToSettings = false;
+  private PrefManager pref;
+  public static ArrayList<String> downloadlist=new ArrayList<String>();
+  public static ArrayList<String> profilepublicList=new ArrayList<>();
+  static int fbcheck=0;
+
+
+  public  void setpermissions()
+  {
+    fbcheck=1;
+    permissionStatus = getSharedPreferences("permissionStatus",this.MODE_PRIVATE);
+    if(isInternetConnected==0)
+    {
+    //  Snackbar.make(,"Please Connect to Internet", Snackbar.LENGTH_LONG).show();
+    }
+    if(ActivityCompat.checkSelfPermission(this, permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+      if(ActivityCompat.shouldShowRequestPermissionRationale(this, permission.WRITE_EXTERNAL_STORAGE)){
+        //Show Information about why you need the permission
+        Builder builder = new Builder(ChromeTabs.this);
+        builder.setTitle("Need Storage Permission");
+        builder.setMessage("This app needs phone permission.");
+        builder.setPositiveButton("Grant", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            if (VERSION.SDK_INT >= VERSION_CODES.M)
+            {
+              requestPermissions(new String[]{permission.WRITE_EXTERNAL_STORAGE, permission.READ_EXTERNAL_STORAGE},PERMISSION_CALLBACK_CONSTANT);
+            }
+          }
+        });
+        builder.setNegativeButton("Cancel", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        builder.show();
+      } else if (permissionStatus.getBoolean(permission.WRITE_EXTERNAL_STORAGE,false)) {
+        //Previously Permission Request was cancelled with 'Dont Ask Again',
+        // Redirect to Settings after showing Information about why you need the permission
+        Builder builder = new Builder(this);
+        builder.setTitle("Need Storage Permission");
+        builder.setMessage("This app needs storage permission.");
+        builder.setPositiveButton("Grant", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            sentToSettings = true;
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getCallingActivity().getPackageName(), null);
+            intent.setData(uri);
+            startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+            Toast.makeText(getApplicationContext(), "Go to Permissions to Grant Phone", Toast.LENGTH_LONG).show();
+          }
+        });
+        builder.setNegativeButton("Cancel", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        builder.show();
+      }  else
+        {
+        //just request the permission
+        // Check if we're running on Android 5.0 or higher
+          if (VERSION.SDK_INT >= VERSION_CODES.M)
+          {
+            requestPermissions(new String[]{permission.WRITE_EXTERNAL_STORAGE},PERMISSION_CALLBACK_CONSTANT);
+          }
+      }
+      Editor editor = permissionStatus.edit();
+      editor.putBoolean(permission.WRITE_EXTERNAL_STORAGE,true);
+      editor.commit();
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if(requestCode == PERMISSION_CALLBACK_CONSTANT){
+      //check if all permissions are granted
+      boolean allgranted = false;
+      for(int i=0;i<grantResults.length;i++){
+        if(grantResults[i]== PackageManager.PERMISSION_GRANTED){
+          allgranted = true;
+        } else {
+          allgranted = false;
+          break;
+        }
+      }
+      if(allgranted)
+      {
+        //  Toast.makeText(getActivity(),"Permissions Granted",Toast.LENGTH_LONG).show();
+        web.loadUrl("https://m.facebook.com/");
+      } else if(ActivityCompat.shouldShowRequestPermissionRationale(ChromeTabs.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChromeTabs.this);
+        builder.setTitle("Need Storage Permission");
+        builder.setMessage("This app needs phone permission.");
+        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            if (VERSION.SDK_INT >= VERSION_CODES.M)
+            {
+              requestPermissions(new String[]{permission.WRITE_EXTERNAL_STORAGE},PERMISSION_CALLBACK_CONSTANT);
+            }
+          }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        builder.show();
+      } else {
+        Toast.makeText(ChromeTabs.this,"Unable to get Permission", Toast.LENGTH_LONG).show();
+      }
+    }
+  }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REQUEST_PERMISSION_SETTING) {
+      if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        //Got Permission
+        Toast.makeText(this,"Permissions Granted", Toast.LENGTH_LONG).show();
+      }
+    }
+  }
+
+  private boolean isNetworkAvailable() {
+    ConnectivityManager connectivityManager
+        = (ConnectivityManager)ChromeTabs.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+  }
+
+  public ArrayList<String> getList() {
+    return downloadlist;
+  }
+
+
   @Override
   protected final void onCreate(final Bundle savedInstanceState)
   {
@@ -1125,6 +1632,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     tabSwitcher.clearSavedStatesWhenRemovingTabs(false);
     Intent old = getIntent();
     firsturl = old.getStringExtra("IP");
+    pref = new PrefManager(ChromeTabs.this);
     if(firsturl ==null)
     {
       if(urls.size()==0)
@@ -1134,11 +1642,13 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     }
     else
     {
-      urls.add(0,firsturl);
+       urls.add(0,firsturl);
+    if(firsturl.equals("https://www.facebook.com"))
+    {
+      setpermissions();
     }
-
+    }
     webdata=new Bundle();
-
     ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener());
     tabSwitcher.setDecorator(decorator);
     tabSwitcher.addListener(this);
@@ -1156,9 +1666,15 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     handler = new Handler();
     handler.postDelayed(runnable, 1000);
 
+
+
+
+
+
   }
 
-  private Runnable runnable = new Runnable() {
+  private Runnable runnable = new Runnable()
+  {
     @Override
     public void run() {
       /* my set of codes for repeated work */

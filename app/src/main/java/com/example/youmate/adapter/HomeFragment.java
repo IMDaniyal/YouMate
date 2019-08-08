@@ -57,10 +57,10 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
     WebView mWebview ;
+    View mainView;
     private ProgressBar mprogress;
     private SwipeRefreshLayout mySwipeRefreshLayout;
     private int isInternetConnected=1;
-    View mainView;
     private static final String ARG_POSITION = "position";
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
@@ -97,19 +97,26 @@ public class HomeFragment extends Fragment {
         mWebview.getSettings().setBuiltInZoomControls(true);
         mWebview.addJavascriptInterface(this, "mJava");
         mWebview.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= 19) {
+        if (Build.VERSION.SDK_INT >= 19)
+        {
             mWebview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
-        else {
+        else
+            {
             mWebview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mWebview.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
+           }
+        mWebview.setWebViewClient(new WebViewClient()
+        {
+            public void onPageFinished(WebView view, String url)
+            {
                 final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable()
+                {
                     @Override
-                    public void run() {
-                            if (mprogress.getProgress()==100) {
+                    public void run()
+                    {
+                            if (mprogress.getProgress()==100)
+                            {
                                 mprogress.setVisibility(View.INVISIBLE);
                                 mWebview.setVisibility(View.VISIBLE);
                                 mySwipeRefreshLayout.setRefreshing(false);
@@ -176,7 +183,8 @@ public class HomeFragment extends Fragment {
                 }, 3000);
             }
 
-            public void onLoadResource(WebView view, String url) {
+            public void onLoadResource(WebView view, String url)
+            {
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -200,7 +208,7 @@ public class HomeFragment extends Fragment {
                                 "\n" +
                                 "\t}\n" +
                                 "}\n");
-                        mWebview.loadUrl("javascript:"+
+                                mWebview.loadUrl("javascript:"+
                                 "var e=0;\n" +
                                 "window.onscroll=function()\n" +
                                 "{\n" +
@@ -261,10 +269,13 @@ public class HomeFragment extends Fragment {
                 }, 3000);
             }
         });
-        mWebview.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
+        mWebview.setWebChromeClient(new WebChromeClient()
+        {
+            public void onProgressChanged(WebView view, int progress)
+            {
                 super.onProgressChanged(view, progress);
-                if (mprogress.getProgress()<100) {
+                if (mprogress.getProgress()<100)
+                {
                     String currentUrl=mWebview.getUrl();
                     if(currentUrl!=null) {
                         if (currentUrl.contains("/stories.php?aftercursorr")) {
@@ -285,7 +296,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        if(isNetworkAvailable()) {
+        if(isNetworkAvailable())
+        {
             isInternetConnected=1;
             mWebview.loadUrl("https://m.facebook.com/");
         }
@@ -302,9 +314,11 @@ public class HomeFragment extends Fragment {
         });
         mWebview.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
                 if(keyCode== KeyEvent.KEYCODE_BACK && event.getAction() == MotionEvent.ACTION_UP){
-                    if (mWebview.canGoBack()) {
+                    if (mWebview.canGoBack())
+                    {
                         mWebview.goBack();
                     } else {
                         getActivity().finish();
@@ -349,9 +363,18 @@ public class HomeFragment extends Fragment {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
+        setpermissions();
+
+    }
+
+    public  void setpermissions()
+    {
         permissionStatus = getActivity().getSharedPreferences("permissionStatus",getActivity().MODE_PRIVATE);
         if(isInternetConnected==0)
         {
@@ -411,6 +434,7 @@ public class HomeFragment extends Fragment {
             editor.commit();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -461,27 +485,10 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        if (sentToSettings) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                //Got Permission
-                Toast.makeText(getActivity(),"Permissions Granted", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    @Override
-    public void onPause() {
-
-        if (mWebview.isShown() == false) {
-            mWebview.stopLoading();
-        }
-        super.onPause();
-    }
     @JavascriptInterface
-    public void getData(final String pathvideo) {
+    public void getData(final String pathvideo)
+    {
         Log.d("scroled","jo");
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle("Save Video?");
@@ -544,54 +551,54 @@ public class HomeFragment extends Fragment {
     }
     public void updataLevel () {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
-        final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
-        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Double valueLevel = documentSnapshot.getDouble("level");
-                Double valuePoint = documentSnapshot.getDouble("point");
-                try {
-                    //checking for level
-                    if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
+            final String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final DocumentReference noteRef = db.collection("UserInfo").document(userEmail);
+            noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Double valueLevel = documentSnapshot.getDouble("level");
+                    Double valuePoint = documentSnapshot.getDouble("point");
+                    try {
+                        //checking for level
+                        if (valuePoint == 50 || valuePoint == 100 || valuePoint == 150 || valuePoint == 200) {
 
-                        noteRef.update("email", userEmail,
+                            noteRef.update("email", userEmail,
                                 "level", valueLevel + 1, "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess( Void aVoid ) {
-                                Toast.makeText(getActivity(), "Congratulations for next level", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onSuccess( Void aVoid ) {
+                                    Toast.makeText(getActivity(), "Congratulations for next level", Toast.LENGTH_SHORT).show();
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure( @NonNull Exception e ) {
-                                Toast.makeText(getActivity(), "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure( @NonNull Exception e ) {
+                                    Toast.makeText(getActivity(), "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                    } else {
-                        noteRef.update("email", userEmail,
+                        } else {
+                            noteRef.update("email", userEmail,
                                 "point", valuePoint + 5).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess( Void aVoid ) {
-                                Toast.makeText(getActivity(), "Points updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure( @NonNull Exception e ) {
-                                Toast.makeText(getActivity(), "Points not updated", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                                @Override
+                                public void onSuccess( Void aVoid ) {
+                                    Toast.makeText(getActivity(), "Points updated", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure( @NonNull Exception e ) {
+                                    Toast.makeText(getActivity(), "Points not updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
 
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-                catch (Exception e)
-                {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
         }
         else{
             Toast.makeText(getActivity().getApplicationContext(), "Login to get points.", Toast.LENGTH_SHORT).show();
@@ -630,6 +637,27 @@ public class HomeFragment extends Fragment {
     public ArrayList<String> getList() {
         return downloadlist;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (sentToSettings) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Got Permission
+                Toast.makeText(getActivity(),"Permissions Granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    @Override
+    public void onPause() {
+
+        if (mWebview.isShown() == false) {
+            mWebview.stopLoading();
+        }
+        super.onPause();
+    }
+
 
 
 }
