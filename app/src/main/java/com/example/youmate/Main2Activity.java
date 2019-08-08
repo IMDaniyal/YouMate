@@ -63,6 +63,7 @@ public class Main2Activity extends AppCompatActivity  {
     private VideoPostAdapter adapter = null;
     private ArrayList<YoutubeDataModel> mListData = new ArrayList<>();
     Intent old;
+    int chromecheck;
 
 
 
@@ -76,7 +77,7 @@ public class Main2Activity extends AppCompatActivity  {
 
         old  = getIntent();
         final Bundle data = old.getExtras();
-        final int chromecheck= old.getIntExtra("chorme",-1);
+         chromecheck= old.getIntExtra("chorme",-1);
 
        // SharedPreferences pref = getApplicationContext().getSharedPreferences("channel_idpref", MODE_PRIVATE);
        // CHANNEL_ID = pref.getString("channelid", "UC_x5XG1OV2P6uZZ5FSM9Ttw");//"No name defined" is the default value.
@@ -516,9 +517,24 @@ public class Main2Activity extends AppCompatActivity  {
                 case EditorInfo
                         .IME_ACTION_SEARCH:
                     String ip=edurl.getText().toString().trim();
-                    Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
-                    iweb.putExtra("IP",ip);
-                    startActivity(iweb);
+                    //Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
+                    //iweb.putExtra("IP",ip);
+                    //startActivity(iweb);
+                    String ip4="https://www.google.com/search?q="+ip;
+                    if(chromecheck==1)
+                    {
+                        old.putExtra("newurl",ip4);
+                        setResult(RESULT_OK,old);
+                        finish();
+                    }
+                    else
+                    {
+
+                        Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                        iweb.putExtra("IP",ip4);
+                        startActivity(iweb);
+                    }
+
                     break;
             }
 
