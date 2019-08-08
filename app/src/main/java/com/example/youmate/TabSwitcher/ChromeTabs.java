@@ -1549,6 +1549,7 @@ public ArrayList<String> getList() {
 
 
 
+
       BottomNavigationView bottomNavigationView;
       if (viewType == 1) {
         final EditText edu = findViewById(R.id.edu);
