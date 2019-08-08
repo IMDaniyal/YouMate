@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,11 +27,15 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -40,6 +45,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -100,8 +106,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 {
 
 
-
-
   String firsturl ="";
   List<String> urls = new ArrayList();
   int currentindex=0;
@@ -129,7 +133,6 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
       alertDialog.setTitle("Alert Dialog");
       alertDialog.setMessage("are you sure to exit tabs ?");
       //  alertDialog.setIcon(R.drawable.welcome);
-
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "yes", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which)
         {
@@ -500,6 +503,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
       web.getSettings().setLoadWithOverviewMode(true);
       web.getSettings().setUseWideViewPort(true);
 
+
+
       if(fbcheck==0)
       {
         web.getSettings().setJavaScriptEnabled(true);
@@ -507,15 +512,23 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         {
 
           @Override
+          public void onPageStarted(WebView view, String url, Bitmap favicon)
+          {
+            super.onPageStarted(view, url, favicon);
+            //urltext.setText(web.getUrl());
+          }
+
+          @Override
           public boolean shouldOverrideUrlLoading(WebView view, String url)
           {
+            //urltext.setText(url);
             view.loadUrl(url);
             return true;
           }
           @Override
           public void onPageFinished(WebView view, final String url)
           {
-            //      urltext.setText(url);
+
           }
         });
 
@@ -1365,9 +1378,17 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     {
       if(web!=null)
       {
-        urls.remove(indexcoming);
-        urls.add(indexcoming,url);
-        indexcoming = indexgoing;
+        if(urls.size()>0)
+        {
+          if(indexcoming !=-1)
+          {
+            urls.remove(indexcoming);
+            urls.add(indexcoming,url);
+            indexcoming = indexgoing;
+          }
+
+        }
+
 
       }
 
@@ -1469,7 +1490,7 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
   int loadedfromstate=0;
   Bundle webdata;
-  TextView urltext;
+  EditText urltext;
   Handler handler;
   private int isInternetConnected=1;
   private static final String ARG_POSITION = "position";
@@ -1539,7 +1560,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
           }
         });
         builder.show();
-      }  else
+      }
+      else
         {
         //just request the permission
         // Check if we're running on Android 5.0 or higher
@@ -1666,23 +1688,41 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
     handler = new Handler();
     handler.postDelayed(runnable, 1000);
 
-
-
-
-
-
   }
 
   private Runnable runnable = new Runnable()
   {
     @Override
-    public void run() {
+    public void run()
+    {
       /* my set of codes for repeated work */
       if(web !=null)
       {
         if(urltext !=null)
         {
-          if(!urltext.getText().toString().equals(web.getUrl()))
+          if(urltext.hasFocus())
+          {
+           urltext.setOnEditorActionListener(new OnEditorActionListener() {
+             @Override
+             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+               boolean handled = false;
+               if (actionId == EditorInfo.IME_ACTION_DONE)
+               {
+                web.loadUrl(urltext.getText().toString());
+                urls.remove(currentindex);
+                urls.add(currentindex,urltext.getText().toString());
+                 urltext.setFocusableInTouchMode(false);
+                 urltext.setFocusable(false);
+                 urltext.setFocusableInTouchMode(true);
+                 urltext.setFocusable(true);
+                 handled = true;
+               }
+               return handled;
+             }
+           });
+          }
+
+          else if(!urltext.getText().toString().equals(web.getUrl()))
           {
             urltext.setText(web.getUrl());
           }

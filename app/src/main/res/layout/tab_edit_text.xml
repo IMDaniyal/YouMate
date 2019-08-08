@@ -87,7 +87,9 @@ License.
           tools:layout_conversion_absoluteHeight="45dp"
           tools:layout_conversion_absoluteWidth="411dp"
           tools:layout_conversion_wrapHeight="0"
-          tools:layout_conversion_wrapWidth="0"/>
+          tools:layout_conversion_wrapWidth="0"
+          android:imeOptions="actionDone"
+          />
         <WebView
           android:id="@+id/loadweb"
           android:layout_width="0dp"
