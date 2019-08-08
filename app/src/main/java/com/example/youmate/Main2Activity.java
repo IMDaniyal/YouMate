@@ -211,8 +211,20 @@ public class Main2Activity extends AppCompatActivity  {
         imgyoutube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(Main2Activity.this,MainTry.class);
-                startActivity(i);
+                String ip="https://www.youtube.com";
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
