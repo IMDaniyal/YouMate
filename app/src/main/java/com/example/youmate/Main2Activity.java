@@ -52,8 +52,6 @@ public class Main2Activity extends AppCompatActivity  {
     private static String GOOGLE_YOUTUBE_API_KEY= "AIzaSyBWkAQzRAz3_kD6zTnZQd8nTBm8-8prHg4";  // "AIzaSyDIChdnRLqZWj9JduzMDkjuHmlcxaOx2bs";//"AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
     private static String CHANNEL_ID =   "UCDDFDMN72wWNZoobe7TI5vg"; /*"UCDDFDMN72wWNZoobe7TI5vg";*///"UC-lHJZR3Gqxm24_Vd_AJ5Yw";
     private static String CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+CHANNEL_ID+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
-
-
     private BottomNavigationView bottomNavigationView;
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
@@ -64,6 +62,7 @@ public class Main2Activity extends AppCompatActivity  {
     private RecyclerView mList_videos = null;
     private VideoPostAdapter adapter = null;
     private ArrayList<YoutubeDataModel> mListData = new ArrayList<>();
+    Intent old;
 
 
 
@@ -75,7 +74,7 @@ public class Main2Activity extends AppCompatActivity  {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
 
-        Intent old = getIntent();
+        old  = getIntent();
         final Bundle data = old.getExtras();
         final int chromecheck= old.getIntExtra("chorme",-1);
 
@@ -191,9 +190,20 @@ public class Main2Activity extends AppCompatActivity  {
                //Intent i=new Intent(Main2Activity.this,MainActivityFacebook.class);
                 //startActivity(i);
                 String ip="https://www.facebook.com";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
+
 
             }
         });
@@ -211,9 +221,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.instagram.com";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -221,9 +241,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.wikipedia.org";
-                Intent iweb=new Intent(Main2Activity.this, ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -233,9 +263,19 @@ public class Main2Activity extends AppCompatActivity  {
             public void onClick(View v)
             {
                 String ip="https://www.cricbuzz.com";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -243,9 +283,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://google.com";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -253,9 +303,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.prashantx.com";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -263,9 +323,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.bbc.com/news";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -273,9 +343,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.google.com/gmail";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
             }
         });
 
@@ -283,9 +363,19 @@ public class Main2Activity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String ip="https://www.twitter.com/Twitter";
-                Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
-                iweb.putExtra("IP",ip);
-                startActivity(iweb);
+                if(chromecheck==1)
+                {
+                    old.putExtra("newurl",ip);
+                    setResult(RESULT_OK,old);
+                    finish();
+                }
+                else
+                {
+
+                    Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                    iweb.putExtra("IP",ip);
+                    startActivity(iweb);
+                }
 
             }
         });
