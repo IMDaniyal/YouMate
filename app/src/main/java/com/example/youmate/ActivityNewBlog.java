@@ -118,9 +118,6 @@ public class ActivityNewBlog extends AppCompatActivity {
         mDatabase.child("blogs").child(b.getEntry_num()).setValue(b);
 
 
-
-
-
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         StorageReference storageReference;
         storageReference= FirebaseStorage.getInstance().getReference();

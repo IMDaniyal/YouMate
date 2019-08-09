@@ -1,5 +1,6 @@
 package com.example.youmate;
 
+import android.view.View.OnLongClickListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,8 +23,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.youmate.TabSwitcher.ChromeTabs;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +48,8 @@ public class adminSetBlogs extends AppCompatActivity {
     List<blogs> Blogs;
     RecyclerView rc;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         Blogs=new ArrayList<blogs>();
         setContentView(R.layout.activity_admin_set_blogs);
@@ -61,10 +65,15 @@ public class adminSetBlogs extends AppCompatActivity {
         Query myMostViewedPostsQuery = databaseReference.child("blogs");
         myMostViewedPostsQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+
+                Blogs.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
                     // TODO: handle the post
-                    if(postSnapshot.exists()) {
+                    if(postSnapshot.exists())
+                    {
                         Blogs.add(postSnapshot.getValue(blogs.class));
                     }
                 }
@@ -93,6 +102,28 @@ public class adminSetBlogs extends AppCompatActivity {
         List<blogs> Blogs;
         Context c;
 
+
+        public void removepost(int pos)
+        {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("blogs").child(Blogs.get(pos).entry_num).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task)
+                {
+                    Log.i("deleted","del");
+                }
+            });
+
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            storageRef.child("images/blogs/"+ Blogs.get(pos).getEntry_num()+".jpg").delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.i("deleted","del");
+                }
+            });
+
+        }
+
         public blogsadapter(Context c, List<blogs> Blogs)
         {
             this.c = c;
@@ -108,7 +139,7 @@ public class adminSetBlogs extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final adminSetBlogs.blogsadapter.myviewholder holder, int position)
+        public void onBindViewHolder(@NonNull final adminSetBlogs.blogsadapter.myviewholder holder, final int position)
         {
             final int p=position;
             holder.Title.setText(Blogs.get(position).getTitle());
@@ -126,16 +157,19 @@ public class adminSetBlogs extends AppCompatActivity {
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
+                public void onFailure(@NonNull Exception exception)
+                {
                     // Handle any errors
                 }
             });
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnLongClickListener(new OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-//                    Intent i=new Intent(getApplicationContext(), .class);
-//                    iweb.putExtra("IP",bookmarks.get(p));
-//                    startActivity(iweb);
+                public boolean onLongClick(View v)
+                {
+                    removepost(position);
+                    Blogs.remove(position);
+                    notifyDataSetChanged();
+                    return true;
                 }
             });
 
