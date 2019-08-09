@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,13 +33,18 @@ import com.example.youmate.Modals.YoutubeDataModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.example.youmate.adapters.VideoPostAdapter;
 import com.example.youmate.interfaces.OnItemClickListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -69,6 +77,9 @@ public class Main2Activity extends AppCompatActivity  {
     private ArrayList<YoutubeDataModel> mListData = new ArrayList<>();
     Intent old;
     int chromecheck;
+    blogsadapter badapter;
+    List<blogs> Blogs;
+    RecyclerView rc;
 
 
 
@@ -108,28 +119,34 @@ public class Main2Activity extends AppCompatActivity  {
         tvbbc=findViewById(R.id.textbbc);
         tvgmail=findViewById(R.id.textgmail);
         tvtwit=findViewById(R.id.texttwit);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("channel_id");
-        myRef.addValueEventListener(new ValueEventListener() {
+        Blogs=new ArrayList<blogs>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Query myMostViewedPostsQuery = databaseReference.child("blogs");
+        myMostViewedPostsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d("Succes", "Value is: " + value);
-                CHANNLE_GET_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&channelId="+value+"&maxResults=20&key="+GOOGLE_YOUTUBE_API_KEY+"";
-                initList(mListData);
-
-               new RequestYoutubeAPI().execute();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    if(postSnapshot.exists()) {
+                        Blogs.add(postSnapshot.getValue(blogs.class));
+                    }
+                }
+                badapter=new blogsadapter(Main2Activity.this,Blogs);
+                ArrayAdapter<CharSequence> adapter1=ArrayAdapter.createFromResource(Main2Activity.this,R.array.text,android.R.layout.simple_spinner_item);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                rc= findViewById(R.id.recycler);
+                rc.setLayoutManager(new LinearLayoutManager(Main2Activity.this));
+                rc.setAdapter(badapter);
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("Error", "Failed to read value.", error.toException());
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w( "loadPost:onCancelled", databaseError.toException());
+                // ...
             }
         });
+
 
 
         edurl.setOnEditorActionListener(editorActionListener);
@@ -552,61 +569,75 @@ public class Main2Activity extends AppCompatActivity  {
 
 
 
-        List<String> bookmarks;
+        List<blogs> Blogs;
         Context c;
-        String allurl;
 
-        public blogsadapter(Context c,String a)
+        public blogsadapter(Context c, List<blogs> Blogs)
         {
             this.c = c;
-            this.allurl =a;
+            this.Blogs =Blogs;
         }
 
         @NonNull
         @Override
         public Main2Activity.blogsadapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-            View v = LayoutInflater.from(c).inflate(R.layout.bookmarkadapter,parent,false);
+            View v = LayoutInflater.from(c).inflate(R.layout.bloglistrecyclerview,parent,false);
             return new Main2Activity.blogsadapter.myviewholder(v);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull Main2Activity.blogsadapter.myviewholder holder, int position)
+        public void onBindViewHolder(@NonNull final Main2Activity.blogsadapter.myviewholder holder, final int position)
         {
             final int p=position;
-            holder.url.setText(bookmarks.get(position));
-            holder.url.setOnClickListener(new View.OnClickListener() {
+            holder.Title.setText(Blogs.get(position).getTitle());
+            holder.Description.setText(Blogs.get(position).getDescription());
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            storageRef.child("images/blogs/"+ Blogs.get(position).getEntry_num()+".jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
-                public void onClick(View v) {
-                    Intent iweb=new Intent(getApplicationContext(), ChromeTabs.class);
-                    iweb.putExtra("IP",bookmarks.get(p));
-                    startActivity(iweb);
+                public void onSuccess(byte[] bytes) {
+                    // Use the bytes to display the image
+                    // ImageView in your Activity
+                    // Download directly from StorageReference using Glide// (See MyAppGlideModule for Loader registration)
+                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    // Set the Bitmap data to the ImageView
+                    holder.img.setImageBitmap(bmp);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
                 }
             });
-            holder.remove.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
+                    String ip=Blogs.get(position).getLink();
+                    if(chromecheck==1)
+                    {
+                        old.putExtra("newurl",ip);
+                        setResult(RESULT_OK,old);
+                        finish();
+                    }
+                    else
+                    {
 
-                    String remove =","+bookmarks.get(p);
-                    allurl=allurl.replace(remove,"");
-                    allurl=allurl.replace(bookmarks.get(p),"");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Url",allurl);
-                    editor.commit();
-                    bookmarks.remove(p);
-                    notifyDataSetChanged();
+                        Intent iweb=new Intent(Main2Activity.this,ChromeTabs.class);
+                        iweb.putExtra("IP",ip);
+                        startActivity(iweb);
+                    }
                 }
             });
+
 
         }
 
         @Override
         public int getItemCount()
         {
-            if(bookmarks!=null)
+            if(Blogs!=null)
             {
-                return bookmarks.size();
+                return Blogs.size();
             }
             return 0;
         }
@@ -614,18 +645,21 @@ public class Main2Activity extends AppCompatActivity  {
         public class myviewholder extends RecyclerView.ViewHolder
         {
 
-            public TextView url;
-            public Button remove;
+            public TextView Title;
+            public TextView Description;
+            public ImageView img;
 
             public myviewholder(@NonNull View itemView)
             {
                 super(itemView);
-                this.url = itemView.findViewById(R.id.adapterUrl);
-                this.remove = itemView.findViewById(R.id.adapterRemove);
+                this.Title = itemView.findViewById(R.id.edtitle);
+                this.Description = itemView.findViewById(R.id.descriptiontxt);
+                this.img=itemView.findViewById(R.id.imageView2);
             }
 
 
         }
     }
+
 
 }

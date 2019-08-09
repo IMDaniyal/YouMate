@@ -30,19 +30,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
+                <TextView
                     android:id="@+id/edtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Title"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    />
 
-                <EditText
+                <TextView
                     android:id="@+id/descriptiontxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:inputType="none"/>
 
             </LinearLayout>
 
