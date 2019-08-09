@@ -824,7 +824,21 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         addfromhome=true;
         url=web.getUrl();
         tabSwitcher.addTab(tab, index, createRevealAnimation());
-        urls.add(index,data.getStringExtra("newurl"));
+        String ur = data.getStringExtra("newurl");
+        ur.replace("www.","");
+        if(ur.contains("http://")||ur.contains("https://"))
+        {
+
+        }else
+        {
+          ur= "http://"+ur;
+        }
+
+        if(ur.contains(" ")|| !ur.contains("."))
+        {
+          ur= "https://www.google.com/search?q="+ur;
+        }
+        urls.add(index,ur);
         currentindex = index;
 
 
@@ -879,7 +893,21 @@ public ArrayList<String> getList() {
     }
     else
     {
-       urls.add(0,firsturl);
+      String ur = firsturl;
+      ur.replace("www.","");
+      if(ur.contains("http://")||ur.contains("https://"))
+      {
+
+      }else
+      {
+        ur= "http://"+ur;
+      }
+
+      if(ur.contains(" ")|| !ur.contains("."))
+      {
+        ur= "https://www.google.com/search?q="+ur;
+      }
+       urls.add(0,ur);
     if(firsturl.equals("https://www.facebook.com"))
     {
       setpermissions();
