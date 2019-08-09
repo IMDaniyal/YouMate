@@ -10,16 +10,16 @@
   >
 
     <Button
-      android:id="@+id/channelset"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:layout_marginBottom="8dp"
-      android:layout_marginEnd="8dp"
-      android:text="Set Channel"
-      app:layout_constraintBottom_toTopOf="@+id/adminrecycler"
-      app:layout_constraintEnd_toEndOf="@+id/toolbar2"
-      app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/channelset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Edit Blogs List"
+        app:layout_constraintBottom_toTopOf="@+id/adminrecycler"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar2"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"

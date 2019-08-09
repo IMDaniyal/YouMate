@@ -63,10 +63,7 @@ public class Admin extends AppCompatActivity {
         channel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent profil=new Intent(Admin.this,WebActivity.class);
-                profil.putExtra("setchannel",1);
-                profil.putExtra("IP","https://www.youtube.com");
-               // profil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent profil=new Intent(Admin.this,adminSetBlogs.class);
                 startActivity(profil);
             }
         });

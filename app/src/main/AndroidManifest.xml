@@ -20,8 +20,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-      <activity android:name=".TabSwitcher.ChromeTabs"></activity>
-        <activity android:name=".EnterListData"></activity>
+        <activity android:name=".ActivityNewBlog"></activity>
+        <activity android:name=".adminSetBlogs" />
+        <activity android:name=".TabSwitcher.ChromeTabs" />
+        <activity android:name=".EnterListData" />
         <activity android:name=".AdminOptions" />
         <activity android:name=".UserPaymentProofShow" />
         <activity android:name=".EswaTransfer" />
@@ -43,12 +45,14 @@
         <activity
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
-      <activity android:name=".YoutubePlayer" />
-        <activity android:name=".MainTry"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".YoutubePlayer" />
+        <activity
+            android:name=".MainTry"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Profile" />
-        <activity android:name=".Download"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Download"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".GalleryActivity" />
         <activity android:name=".Tabs" />
         <activity
@@ -57,7 +61,7 @@
         <activity
             android:name=".Main2Activity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Main3Activity"
             android:screenOrientation="portrait">

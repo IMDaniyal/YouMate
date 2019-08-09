@@ -1,6 +1,7 @@
 package com.example.youmate;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -8,9 +9,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +50,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main2Activity extends AppCompatActivity  {
 
@@ -541,5 +546,86 @@ public class Main2Activity extends AppCompatActivity  {
             return false;
         }
     };
+
+    public  class blogsadapter extends RecyclerView.Adapter<Main2Activity.blogsadapter.myviewholder>
+    {
+
+
+
+        List<String> bookmarks;
+        Context c;
+        String allurl;
+
+        public blogsadapter(Context c,String a)
+        {
+            this.c = c;
+            this.allurl =a;
+        }
+
+        @NonNull
+        @Override
+        public Main2Activity.blogsadapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        {
+            View v = LayoutInflater.from(c).inflate(R.layout.bookmarkadapter,parent,false);
+            return new Main2Activity.blogsadapter.myviewholder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull Main2Activity.blogsadapter.myviewholder holder, int position)
+        {
+            final int p=position;
+            holder.url.setText(bookmarks.get(position));
+            holder.url.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent iweb=new Intent(getApplicationContext(), ChromeTabs.class);
+                    iweb.putExtra("IP",bookmarks.get(p));
+                    startActivity(iweb);
+                }
+            });
+            holder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final SharedPreferences sharedPreferences=getSharedPreferences("MyPref",MODE_PRIVATE);
+
+                    String remove =","+bookmarks.get(p);
+                    allurl=allurl.replace(remove,"");
+                    allurl=allurl.replace(bookmarks.get(p),"");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Url",allurl);
+                    editor.commit();
+                    bookmarks.remove(p);
+                    notifyDataSetChanged();
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            if(bookmarks!=null)
+            {
+                return bookmarks.size();
+            }
+            return 0;
+        }
+
+        public class myviewholder extends RecyclerView.ViewHolder
+        {
+
+            public TextView url;
+            public Button remove;
+
+            public myviewholder(@NonNull View itemView)
+            {
+                super(itemView);
+                this.url = itemView.findViewById(R.id.adapterUrl);
+                this.remove = itemView.findViewById(R.id.adapterRemove);
+            }
+
+
+        }
+    }
 
 }
