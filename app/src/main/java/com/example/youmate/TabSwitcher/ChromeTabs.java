@@ -565,7 +565,8 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
         {
           if(indexcoming !=-1)
           {
-            if(url.length()>0)
+
+            if(url!=null &&url.length()>0)
             {
               if(indexcoming<urls.size())
               {
@@ -908,7 +909,7 @@ public ArrayList<String> getList() {
         ur= "https://www.google.com/search?q="+ur;
       }
        urls.add(0,ur);
-    if(firsturl.equals("https://www.facebook.com"))
+    if(firsturl.contains("facebook.com"))
     {
       setpermissions();
     }
@@ -1151,6 +1152,7 @@ public ArrayList<String> getList() {
     protected State onCreateState(@NonNull final Context context, @NonNull final TabSwitcher tabSwitcher, @NonNull final View view, @NonNull final Tab tab, final int index, final int viewType, @Nullable final Bundle savedInstanceState)
     {
 
+      /*
       if (viewType == 2)
       {
         State state = new State(tab);
@@ -1163,6 +1165,7 @@ public ArrayList<String> getList() {
 
         return state;
       }
+      */
 
       return null;
     }
@@ -1379,8 +1382,6 @@ public ArrayList<String> getList() {
       web.getSettings().setLoadWithOverviewMode(true);
       web.getSettings().setUseWideViewPort(true);
 
-
-
       if(fbcheck==0)
       {
         web.getSettings().setJavaScriptEnabled(true);
@@ -1588,8 +1589,6 @@ public ArrayList<String> getList() {
       }
 
 
-      if(currentindex%2==0)
-      {
         if(web !=null)
         {
           if(flag)
@@ -1598,15 +1597,13 @@ public ArrayList<String> getList() {
             web.loadUrl(urls.get(currentindex));
           }
         }
-      }
-
-
-
 
       BottomNavigationView bottomNavigationView;
-      if (viewType == 1) {
+      if (viewType == 1)
+      {
         final EditText edu = findViewById(R.id.edu);
 
+        /*
         if(web !=null)
         {
           if(flag)
@@ -1615,6 +1612,7 @@ public ArrayList<String> getList() {
             web.loadUrl(urls.get(currentindex));
           }
         }
+        */
 
         if (savedInstanceState == null)
         {
