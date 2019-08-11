@@ -125,8 +125,8 @@ public class Login extends AppCompatActivity {
     {
         int btnId = view.getId();
         Intent intent;
-        String mail="1";
-        String pass="1";
+        String mail="admin@proweb";
+        String pass="adminproweb";
         emailStr=emailField.getText().toString();
         PassStr=passField.getText().toString();
         if(emailStr.isEmpty() || PassStr.isEmpty())
