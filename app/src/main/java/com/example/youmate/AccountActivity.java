@@ -110,7 +110,8 @@ public class AccountActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                         break;
-                    case R.id.item3:
+                    /*
+                        case R.id.item3:
                         if(chromecheck==1)
                         {
                             finish();
@@ -121,6 +122,7 @@ public class AccountActivity extends AppCompatActivity {
                             finish();
                         }
                         break;
+                        */
                     case R.id.item4:
                          i = new Intent(getApplicationContext(),Download.class);
                         if(data !=null)

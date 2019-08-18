@@ -131,6 +131,7 @@ public class MainTry extends AppCompatActivity {
                     case R.id.item2:
                         Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                         break;
+                        /*
                     case R.id.item3:
                         if(chromecheck==1)
                         {
@@ -142,6 +143,7 @@ public class MainTry extends AppCompatActivity {
                             finish();
                         }
                         break;
+                        */
                     case R.id.item4:
                          i = new Intent(getApplicationContext(),Download.class);
                       if(data !=null)
