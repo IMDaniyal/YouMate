@@ -43,6 +43,7 @@ import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -86,6 +87,34 @@ public class MainTry extends AppCompatActivity {
         final int chromecheck= old.getIntExtra("chorme",-1);
 
         bottomNavigationView=findViewById(R.id.nav1);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+            new OnNavigationItemSelectedListener()
+            {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+                {
+                    boolean flag = true;
+                    switch (menuItem.getItemId())
+                    {
+                        case R.id.item3:
+                            flag=true;
+                            if(chromecheck==1)
+                            {
+                                finish();
+                            }
+                            else
+                            {
+                                startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                                finish();
+                            }
+                            break;
+
+                    }
+                    return flag;
+                }
+            });
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {

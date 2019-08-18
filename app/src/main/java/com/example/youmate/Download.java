@@ -17,6 +17,7 @@ import com.example.youmate.Modals.ProfileModel;
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.example.youmate.adapter.FileViewerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +71,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
 
 
         bottomNavigationView=findViewById(R.id.nav1);
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {

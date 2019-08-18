@@ -29,6 +29,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.example.youmate.adapter.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -60,6 +61,8 @@ public class MainActivityFacebook extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         userId = settings.getString("USER_ID", "");
         bottomNavigationView=findViewById(R.id.nav1);
+
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {

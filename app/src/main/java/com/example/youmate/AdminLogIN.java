@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.youmate.TabSwitcher.ChromeTabs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 
 public class AdminLogIN extends AppCompatActivity {
 
@@ -28,6 +29,8 @@ public class AdminLogIN extends AppCompatActivity {
         passtxt=findViewById(R.id.password_Text);
         btnsignin=findViewById(R.id.btsignin);
         bottomNavigationView=findViewById(R.id.nav1);
+
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {

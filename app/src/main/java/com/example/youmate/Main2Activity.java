@@ -36,6 +36,7 @@ import com.example.youmate.interfaces.OnItemClickListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -151,9 +152,42 @@ public class Main2Activity extends AppCompatActivity  {
 
         edurl.setOnEditorActionListener(editorActionListener);
         bottomNavigationView=findViewById(R.id.nav1);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+            new OnNavigationItemSelectedListener()
+            {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+                {
+                    boolean flag = true;
+                    switch (menuItem.getItemId())
+                    {
+                        case R.id.item3:
+                            flag=true;
+                            if(chromecheck==1)
+                            {
+                                finish();
+                            }
+                            else
+                            {
+                                startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                                finish();
+                            }
+                            break;
+
+                    }
+                    return flag;
+                }
+            });
+
+
+        bottomNavigationView.setOnNavigationItemReselectedListener(
+            new BottomNavigationView.OnNavigationItemReselectedListener()
+            {
+
+                @Override
+            public void onNavigationItemReselected( @NonNull MenuItem menuItem )
+            {
                 switch (menuItem.getItemId())
                 {
                     case R.id.item1:
@@ -169,6 +203,7 @@ public class Main2Activity extends AppCompatActivity  {
                         startActivity(i);
                         finish();
                         break;
+                        /*
                     case R.id.item3:
                       //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();
                         if(chromecheck==1)
@@ -182,6 +217,7 @@ public class Main2Activity extends AppCompatActivity  {
                         }
 
                         break;
+                        */
                     case R.id.item4:
                         i=new Intent(getApplicationContext(),Download.class);
                         if(data !=null)
@@ -542,7 +578,7 @@ public class Main2Activity extends AppCompatActivity  {
                     //Intent iweb=new Intent(Main2Activity.this,WebActivity.class);
                     //iweb.putExtra("IP",ip);
                     //startActivity(iweb);
-                    String ip4="https://www.google.com/search?q="+ip;
+                    String ip4=ip;
                     if(chromecheck==1)
                     {
                         old.putExtra("newurl",ip4);

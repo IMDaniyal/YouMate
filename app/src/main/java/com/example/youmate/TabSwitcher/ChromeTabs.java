@@ -69,6 +69,7 @@ import com.example.youmate.VideoPlayerActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -1622,6 +1623,28 @@ public ArrayList<String> getList() {
 
         bottomNavigationView=findViewById(R.id.nav1);
         bottomNavigationView.setSelectedItemId(R.id.item3);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+            new OnNavigationItemSelectedListener()
+            {
+              @Override
+              public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+              {
+                boolean flag = true;
+                switch (menuItem.getItemId())
+                {
+                  case R.id.item3:
+                    //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                    //     finish();
+                    Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
+                    break;
+
+                }
+                return flag;
+              }
+            });
+
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
           @Override
           public void onNavigationItemReselected( @NonNull MenuItem menuItem )
@@ -1666,6 +1689,27 @@ public ArrayList<String> getList() {
         BottomNavigationView bottomNavigationView1;
         bottomNavigationView1=findViewById(R.id.nav1);
         bottomNavigationView1.setSelectedItemId(R.id.item3);
+
+        bottomNavigationView1.setOnNavigationItemSelectedListener(
+            new OnNavigationItemSelectedListener()
+            {
+              @Override
+              public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+              {
+                boolean flag = true;
+                switch (menuItem.getItemId())
+                {
+                  case R.id.item3:
+                    //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                    //     finish();
+                    Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
+                    break;
+
+                }
+                return flag;
+              }
+            });
+
         bottomNavigationView1.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
           @Override
           public void onNavigationItemReselected( @NonNull MenuItem menuItem )
