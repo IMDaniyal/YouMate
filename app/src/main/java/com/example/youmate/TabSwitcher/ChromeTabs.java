@@ -78,6 +78,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.File;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -586,9 +587,17 @@ public class ChromeTabs extends AppCompatActivity implements TabSwitcherListener
 
     if(currentindex>=urls.size())
     {
+
       if(!addfromhome)
       {
-        urls.add(currentindex,"https://www.google.com");
+        try{
+          urls.add(currentindex,"https://www.google.com");
+        }
+        catch (Exception e)
+        {
+          urls.add(0,"https://www.google.com");
+        }
+
       }
       else
       {
@@ -1631,19 +1640,41 @@ public ArrayList<String> getList() {
               public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
               {
                 boolean flag = true;
-                switch (menuItem.getItemId())
-                {
+                Intent chrome;
+                switch (menuItem.getItemId()){
+                  case R.id.item1:
+                    chrome=  new Intent(getApplicationContext(),Main2Activity.class);
+                    chrome.putExtra("chorme",1);
+                    goingtohome=currentindex;
+                    startActivityForResult(chrome,131);
+                    break;
+                  case R.id.item2:
+                    chrome=  new Intent(getApplicationContext(),MainTry.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    // finish();
+                    break;
                   case R.id.item3:
                     //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                     //     finish();
                     Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
                     break;
-
+                  case R.id.item4:
+                    chrome=  new Intent(getApplicationContext(),Download.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    break;
+                  case R.id.item5:
+                    chrome=  new Intent(getApplicationContext(),AccountActivity.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    break;
                 }
                 return flag;
               }
             });
 
+        /*
 
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
           @Override
@@ -1682,6 +1713,7 @@ public ArrayList<String> getList() {
 
           }
         });
+        */
 
       }
       else{
@@ -1697,19 +1729,42 @@ public ArrayList<String> getList() {
               public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
               {
                 boolean flag = true;
-                switch (menuItem.getItemId())
-                {
+                Intent chrome;
+                switch (menuItem.getItemId()){
+                  case R.id.item1:
+                    chrome=  new Intent(getApplicationContext(),Main2Activity.class);
+                    goingtohome = currentindex;
+                    chrome.putExtra("chorme",1);
+                    startActivityForResult(chrome,131);
+
+                    break;
+                  case R.id.item2:
+                    chrome=  new Intent(getApplicationContext(),MainTry.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    // finish();
+                    break;
                   case R.id.item3:
                     //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                     //     finish();
                     Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
                     break;
-
+                  case R.id.item4:
+                    chrome=  new Intent(getApplicationContext(),Download.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    break;
+                  case R.id.item5:
+                    chrome=  new Intent(getApplicationContext(),AccountActivity.class);
+                    chrome.putExtra("chorme",1);
+                    startActivity(chrome);
+                    break;
                 }
                 return flag;
               }
             });
 
+        /*
         bottomNavigationView1.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
           @Override
           public void onNavigationItemReselected( @NonNull MenuItem menuItem )
@@ -1749,6 +1804,7 @@ public ArrayList<String> getList() {
           }
         });
 
+        */
 
 
       }

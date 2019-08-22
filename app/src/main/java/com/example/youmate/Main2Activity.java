@@ -162,25 +162,58 @@ public class Main2Activity extends AppCompatActivity  {
                     boolean flag = true;
                     switch (menuItem.getItemId())
                     {
-                        case R.id.item3:
-                            flag=true;
-                            if(chromecheck==1)
+                        case R.id.item1:
+                            Toast.makeText(Main2Activity.this,"You already in Home Activity",Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.item2:
+                            Intent i=new Intent(getApplicationContext(),MainTry.class);
+                            if(data !=null)
                             {
-                                finish();
+                                i.putExtras(data);
                             }
-                            else
-                            {
-                                startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
-                                finish();
-                            }
+
+                            startActivity(i);
+                            finish();
                             break;
 
+                    case R.id.item3:
+                      //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();
+                        if(chromecheck==1)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
+                            finish();
+                        }
+
+                        break;
+
+                        case R.id.item4:
+                            i=new Intent(getApplicationContext(),Download.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+                            startActivity(i);
+
+                            break;
+                        case R.id.item5:
+                            i=new Intent(getApplicationContext(),AccountActivity.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+                            startActivity(i);
+                            finish();
+                            break;
                     }
                     return flag;
                 }
             });
 
-
+          /*
         bottomNavigationView.setOnNavigationItemReselectedListener(
             new BottomNavigationView.OnNavigationItemReselectedListener()
             {
@@ -203,7 +236,7 @@ public class Main2Activity extends AppCompatActivity  {
                         startActivity(i);
                         finish();
                         break;
-                        /*
+
                     case R.id.item3:
                       //  Toast.makeText(Main2Activity.this, "You are Already on chrome tab", Toast.LENGTH_SHORT).show();
                         if(chromecheck==1)
@@ -217,7 +250,7 @@ public class Main2Activity extends AppCompatActivity  {
                         }
 
                         break;
-                        */
+
                     case R.id.item4:
                         i=new Intent(getApplicationContext(),Download.class);
                         if(data !=null)
@@ -240,7 +273,12 @@ public class Main2Activity extends AppCompatActivity  {
 
             }
         });
+        */
+
+
         //permission for storage
+
+
         ActivityCompat.requestPermissions(Main2Activity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
         imgfb.setOnClickListener(new View.OnClickListener() {

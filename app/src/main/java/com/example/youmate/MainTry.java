@@ -95,26 +95,55 @@ public class MainTry extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
                 {
                     boolean flag = true;
-                    switch (menuItem.getItemId())
-                    {
-                        case R.id.item3:
-                            flag=true;
-                            if(chromecheck==1)
+                    switch (menuItem.getItemId()){
+                        case R.id.item1:
+                            Intent i = new Intent(getApplicationContext(),Main2Activity.class);
+                            if(data !=null)
                             {
-                                finish();
+                                i.putExtras(data);
                             }
-                            else
-                            {
-                                startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
-                                finish();
-                            }
+                            startActivity(i);
+                            finish();
+                            break;
+                        case R.id.item2:
+                            Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                             break;
 
+                    case R.id.item3:
+                        if(chromecheck==1)
+                        {
+                           finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                            finish();
+                        }
+                        break;
+
+                        case R.id.item4:
+                            i = new Intent(getApplicationContext(),Download.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+                            startActivity(i);
+                            break;
+                        case R.id.item5:
+                            i = new Intent(getApplicationContext(),AccountActivity.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+                            startActivity(i);
+                            finish();
+                            break;
                     }
                     return flag;
                 }
             });
 
+        /*
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
@@ -131,7 +160,7 @@ public class MainTry extends AppCompatActivity {
                     case R.id.item2:
                         Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                         break;
-                        /*
+
                     case R.id.item3:
                         if(chromecheck==1)
                         {
@@ -143,7 +172,7 @@ public class MainTry extends AppCompatActivity {
                             finish();
                         }
                         break;
-                        */
+
                     case R.id.item4:
                          i = new Intent(getApplicationContext(),Download.class);
                       if(data !=null)
@@ -165,6 +194,7 @@ public class MainTry extends AppCompatActivity {
 
             }
         });
+        */
 
         bottomNavigationView.setSelectedItemId(R.id.item2);
         settings = PreferenceManager.getDefaultSharedPreferences(this);

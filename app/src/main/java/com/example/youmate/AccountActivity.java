@@ -69,24 +69,55 @@ public class AccountActivity extends AppCompatActivity {
                     boolean flag = true;
                     switch (menuItem.getItemId())
                     {
-                        case R.id.item3:
-                            flag=true;
-                            if(chromecheck==1)
+                        case R.id.item1:
+                            Intent i = new Intent(getApplicationContext(),Main2Activity.class);
+                            if(data !=null)
                             {
-                                finish();
+                                i.putExtras(data);
                             }
-                            else
+                            startActivity(i);
+                            finish();
+                            break;
+                        case R.id.item2:
+                            i = new Intent(getApplicationContext(),MainTry.class);
+                            if(data !=null)
                             {
-                                startActivity(new Intent(getApplicationContext(),ChromeTabs.class));
-                                finish();
+                                i.putExtras(data);
                             }
+                            startActivity(i);
+                            finish();
                             break;
 
+                        case R.id.item3:
+                        if(chromecheck==1)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
+                            finish();
+                        }
+                        break;
+
+                        case R.id.item4:
+                            i = new Intent(getApplicationContext(),Download.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+                            startActivity(i);
+                            break;
+                        case R.id.item5:
+                            Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();
+                            break;
                     }
+
                     return flag;
                 }
             });
 
+        /*
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
@@ -110,7 +141,7 @@ public class AccountActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                         break;
-                    /*
+
                         case R.id.item3:
                         if(chromecheck==1)
                         {
@@ -122,7 +153,7 @@ public class AccountActivity extends AppCompatActivity {
                             finish();
                         }
                         break;
-                        */
+
                     case R.id.item4:
                          i = new Intent(getApplicationContext(),Download.class);
                         if(data !=null)
@@ -138,6 +169,7 @@ public class AccountActivity extends AppCompatActivity {
 
             }
         });
+        */
 
         bottomNavigationView.setSelectedItemId(R.id.item5);
 
