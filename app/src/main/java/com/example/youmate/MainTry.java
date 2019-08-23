@@ -45,6 +45,7 @@ import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
 import com.downloader.Progress;
 import com.example.youmate.TabSwitcher.ChromeTabs;
+import com.example.youmate.adapter.MyDatabase;
 import com.example.youmate.adapter.videomodel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -76,7 +77,7 @@ public class MainTry extends AppCompatActivity {
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
     String userId;
-    DBHelper mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -84,7 +85,6 @@ public class MainTry extends AppCompatActivity {
         setContentView(R.layout.activity_main_try);
         Intent old = getIntent();
         final Bundle data = old.getExtras();
-        mDatabase = new DBHelper(this);
         final int chromecheck= old.getIntExtra("chorme",-1);
 
         bottomNavigationView=findViewById(R.id.nav1);
@@ -549,6 +549,7 @@ public class MainTry extends AppCompatActivity {
 
         int downloadId = PRDownloader.download(url, path, name)
             .build()
+
             .setOnStartOrResumeListener(new OnStartOrResumeListener()
             {
                 @Override
@@ -569,7 +570,11 @@ public class MainTry extends AppCompatActivity {
                         long b = progress.totalBytes;
                         pro =  (int)(((double)a/b)*100);
                         int index =  ((myApplication)getApplication()).downloadingdata.indexOf(obj);
-                        ((myApplication) getApplication()).downloadingdata.get(index).setProgress(pro);
+                        if(index >=0)
+                        {
+                            ((myApplication) getApplication()).downloadingdata.get(index).setProgress(pro);
+                        }
+
                     }
 
                 }
@@ -579,14 +584,12 @@ public class MainTry extends AppCompatActivity {
                 @Override
                 public void onDownloadComplete()
                 {
-
-
+                    new deleteddb(getApplicationContext(),obj).execute();
                     long total = (long) (pro * 0.000001);
-                    mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
-                    mDatabase.close();
+                    ((myApplication) getApplication()).mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
+                    ((myApplication) getApplication()).mDatabase.close();
                      Toast.makeText(MainTry.this, "DOwnloading Completed", Toast.LENGTH_SHORT).show();
                     ((myApplication) getApplication()).downloadingdata.remove(obj);
-
                 }
 
                 @Override
@@ -597,6 +600,52 @@ public class MainTry extends AppCompatActivity {
             });
 
         obj = new videomodel(downloadId,name,path);
+        obj.setUrl(url);
+        new insertdb(getApplicationContext(),obj).execute();
         ((myApplication) this.getApplication()).downloadingdata.add(obj);
     }
+
+
+    public class insertdb extends AsyncTask
+    {
+        Context c;
+        videomodel obj;
+        MyDatabase db;
+
+        public insertdb(Context c, videomodel obj) {
+            this.c = c;
+            this.obj = obj;
+            db= MyDatabase.getAppDatabase(c);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects)
+        {
+
+            db.videoDao().insertone(obj);
+            return null;
+        }
+    }
+
+    public class deleteddb extends AsyncTask
+    {
+        Context c;
+        videomodel obj;
+        MyDatabase db;
+
+        public deleteddb(Context c, videomodel obj) {
+            this.c = c;
+            this.obj = obj;
+            db= MyDatabase.getAppDatabase(c);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects)
+        {
+
+            db.videoDao().delete(obj.getId());
+            return null;
+        }
+    }
+
 }

@@ -1,7 +1,10 @@
 package com.example.youmate.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -23,8 +27,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.downloader.Error;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
+import com.downloader.Progress;
 import com.downloader.Status;
+import com.example.youmate.DBHelper;
+import com.example.youmate.MainTry;
+import com.example.youmate.MainTry.deleteddb;
 import com.example.youmate.R;
 import com.example.youmate.myApplication;
 import java.util.List;
@@ -70,10 +82,11 @@ public class FileViewerFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         downloadingrc= v.findViewById(R.id.downloadingrc);
         downloadingrc.setLayoutManager(new LinearLayoutManager(getContext()));
-         downloadingadapter=  new downloadingadapter( ((myApplication) getActivity().getApplication()).downloadingdata );
+        downloadingadapter=  new downloadingadapter( ((myApplication) getActivity().getApplication()).downloadingdata,(myApplication) getActivity().getApplication());
         downloadingrc.setAdapter(downloadingadapter);
         handler = new Handler();
         handler.postDelayed(runnable, 1000);
+
 
         llm.setReverseLayout(true);
         llm.setStackFromEnd(true);
@@ -128,10 +141,14 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
 {
 
     List<videomodel> data;
+    Context c;
 
-    public downloadingadapter(List<videomodel> data)
+    myApplication app;
+
+    public downloadingadapter(List<videomodel> data,myApplication obb)
     {
         this.data = data;
+        app=obb;
     }
 
     @NonNull
@@ -148,21 +165,107 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
         holder.name.setText(data.get(position).name);
         holder.date.setText(data.get(position).time);
         holder.progress.setProgress(data.get(position).progress);
+
+
         holder.resume.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 if (Status.RUNNING == PRDownloader.getStatus(data.get(position).id))
                 {
                     PRDownloader.pause(data.get(position).id);
                     holder.resume.setText("Resume");
                 }
-                else
+                else if (Status.PAUSED == PRDownloader.getStatus(data.get(position).id))
                 {
                     PRDownloader.resume(data.get(position).id);
                     holder.resume.setText("Pause");
                 }
+                else
+                {
+                    String path = Environment.getExternalStorageDirectory().toString() +"/VideoDownloader";
+
+                    holder.resume.setText("Pause");
+
+                    int downloadId = PRDownloader.download(data.get(position).getUrl(), path, data.get(position).name)
+                        .build()
+
+                        .setOnStartOrResumeListener(new OnStartOrResumeListener()
+                        {
+                            @Override
+                            public void onStartOrResume()
+                            {
+
+                            }
+                        })
+                        .setOnProgressListener(new OnProgressListener()
+                        {
+
+                            @Override
+                            public void onProgress(Progress progress)
+                            {
+                                if(progress !=null)
+                                {
+                                    long a = progress.currentBytes;
+                                    long b = progress.totalBytes;
+                                    int pro =  (int)(((double)a/b)*100);
+                                    holder.progress.setProgress(pro);
+                                    data.get(position).setProgress(pro);
+                                }
+
+                            }
+                        })
+                        .start(new OnDownloadListener()
+                        {
+                            @Override
+                            public void onDownloadComplete()
+                            {
+
+
+                                 app.mDatabase.addRecording(data.get(position).getName(),data.get(position).getPath()+"/"+data.get(position).getName(),0,null);
+                                 app.mDatabase.close();
+                                new deleteddb(c,data.get(position)).execute();
+                                data.remove(position);
+
+                            }
+
+                            @Override
+                            public void onError(Error error)
+                            {
+
+                            }
+                        });
+
+                }
             }
         });
+
+        if (Status.RUNNING != PRDownloader.getStatus(data.get(position).id))
+        {
+            holder.resume.setText("Resume");
+        }
+
+    }
+
+    public class deleteddb extends AsyncTask
+    {
+        Context c;
+        videomodel obj;
+        MyDatabase db;
+
+        public deleteddb(Context c, videomodel obj) {
+            this.c = c;
+            this.obj = obj;
+            db= MyDatabase.getAppDatabase(c);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects)
+        {
+
+            db.videoDao().delete(obj.getId());
+            return null;
+        }
     }
 
     @Override
@@ -190,6 +293,7 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
         }
     }
 }
+
 
 }
 
