@@ -166,6 +166,16 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
         holder.date.setText(data.get(position).time);
         holder.progress.setProgress(data.get(position).progress);
 
+        holder.cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                PRDownloader.cancel(data.get(position).id);
+                new deleteddb(c,data.get(position)).execute();
+                data.remove(position);
+            }
+        });
 
         holder.resume.setOnClickListener(new OnClickListener() {
             @Override
@@ -206,11 +216,15 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
                             {
                                 if(progress !=null)
                                 {
-                                    long a = progress.currentBytes;
-                                    long b = progress.totalBytes;
-                                    int pro =  (int)(((double)a/b)*100);
-                                    holder.progress.setProgress(pro);
-                                    data.get(position).setProgress(pro);
+                                    if(data.size()>0)
+                                    {
+                                        long a = progress.currentBytes;
+                                        long b = progress.totalBytes;
+                                        int pro =  (int)(((double)a/b)*100);
+                                        holder.progress.setProgress(pro);
+                                        data.get(position).setProgress(pro);
+                                    }
+
                                 }
 
                             }
@@ -290,6 +304,7 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
         TextView date;
         Button resume;
         ProgressBar progress;
+        Button cancel;
         public myviewholder(@NonNull View itemView)
         {
             super(itemView);
@@ -297,6 +312,7 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
             date = itemView.findViewById(R.id.date);
             resume=itemView.findViewById(R.id.pausebtn);
             progress=itemView.findViewById(R.id.downloadingprogress);
+            cancel = itemView.findViewById(R.id.cancelbtn);
         }
     }
 }

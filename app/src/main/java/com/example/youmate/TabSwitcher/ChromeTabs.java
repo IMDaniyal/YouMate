@@ -18,6 +18,7 @@ import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -59,13 +60,24 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.downloader.Error;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.Progress;
 import com.example.youmate.AccountActivity;
 import com.example.youmate.Download;
 import com.example.youmate.Main2Activity;
 import com.example.youmate.MainTry;
+import com.example.youmate.MainTry.deleteddb;
+import com.example.youmate.MainTry.insertdb;
 import com.example.youmate.PrefManager;
 import com.example.youmate.R;
 import com.example.youmate.VideoPlayerActivity;
+import com.example.youmate.adapter.MyDatabase;
+import com.example.youmate.adapter.videomodel;
+import com.example.youmate.myApplication;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -1285,8 +1297,6 @@ public ArrayList<String> getList() {
         }
       });
       alertDialog.show();
-
-
     }
     public void updataLevel () {
       if(FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -1343,35 +1353,152 @@ public ArrayList<String> getList() {
         Toast.makeText(ChromeTabs.this.getApplicationContext(), "Login to get points.", Toast.LENGTH_SHORT).show();
       }
     }
+
+
+    videomodel obj =null;
+    int pro=0;
+    private  void owndownloader(String url,String name)
+    {
+      String path = Environment.getExternalStorageDirectory().toString() +"/VideoDownloader";
+
+
+      int downloadId = PRDownloader.download(url, path, name)
+          .build()
+
+          .setOnStartOrResumeListener(new OnStartOrResumeListener()
+          {
+            @Override
+            public void onStartOrResume()
+            {
+
+            }
+          })
+          .setOnProgressListener(new OnProgressListener()
+          {
+
+            @Override
+            public void onProgress(Progress progress)
+            {
+              if(progress !=null)
+              {
+                long a = progress.currentBytes;
+                long b = progress.totalBytes;
+                pro =  (int)(((double)a/b)*100);
+                int index =  ((myApplication)getApplication()).downloadingdata.indexOf(obj);
+                if(index >=0)
+                {
+                  ((myApplication) getApplication()).downloadingdata.get(index).setProgress(pro);
+                }
+
+              }
+
+            }
+          })
+          .start(new OnDownloadListener()
+          {
+            @Override
+            public void onDownloadComplete()
+            {
+
+              try
+              {
+                new deleteddb(getApplicationContext(),obj).execute();
+                long total = (long) (pro * 0.000001);
+                ((myApplication) getApplication()).mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
+                ((myApplication) getApplication()).mDatabase.close();
+                Toast.makeText(ChromeTabs.this, "DOwnloading Completed", Toast.LENGTH_SHORT).show();
+                ((myApplication) getApplication()).downloadingdata.remove(obj);
+              }
+              catch (Exception e)
+              {
+
+              }
+
+            }
+
+            @Override
+            public void onError(Error error)
+            {
+
+            }
+          });
+
+      obj = new videomodel(downloadId,name,path);
+      obj.setUrl(url);
+      new insertdb(getApplicationContext(),obj).execute();
+      ((myApplication) getApplication()).downloadingdata.add(obj);
+    }
+    public class insertdb extends AsyncTask
+    {
+      Context c;
+      videomodel obj;
+      MyDatabase db;
+
+      public insertdb(Context c, videomodel obj) {
+        this.c = c;
+        this.obj = obj;
+        db= MyDatabase.getAppDatabase(c);
+      }
+
+      @Override
+      protected Object doInBackground(Object[] objects)
+      {
+
+        db.videoDao().insertone(obj);
+        return null;
+      }
+    }
+
+    public class deleteddb extends AsyncTask
+    {
+      Context c;
+      videomodel obj;
+      MyDatabase db;
+
+      public deleteddb(Context c, videomodel obj) {
+        this.c = c;
+        this.obj = obj;
+        db= MyDatabase.getAppDatabase(c);
+      }
+
+      @Override
+      protected Object doInBackground(Object[] objects)
+      {
+
+        db.videoDao().delete(obj.getId());
+        return null;
+      }
+    }
+
     public void downloadvideo(String pathvideo)
     {
       if(pathvideo.contains(".mp4"))
       {
-        File directory = new File(Environment.getExternalStorageDirectory()+ File.separator+"Facebook Videos");
-        directory.mkdirs();
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pathvideo));
+     //   File directory = new File(Environment.getExternalStorageDirectory()+ File.separator+"Facebook Videos");
+     //   directory.mkdirs();
+    //    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pathvideo));
         int Number=pref.getFileName();
-        request.allowScanningByMediaScanner();
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        File root = new File(Environment.getExternalStorageDirectory() + File.separator+"Facebook Videos");
-        Uri path = Uri.withAppendedPath(Uri.fromFile(root), "Video-"+Number+".mp4");
-        request.setDestinationUri(path);
-        DownloadManager dm = (DownloadManager)ChromeTabs.this.getSystemService(ChromeTabs.DOWNLOAD_SERVICE);
-        if(downloadlist.contains(pathvideo))
-        {
-          Toast.makeText(ChromeTabs.this.getApplicationContext(),"The Video is Already Downloading", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
+        owndownloader(pathvideo,"Video-"+Number+".mp4");
+    //    request.allowScanningByMediaScanner();
+    //    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+    //    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+    //    File root = new File(Environment.getExternalStorageDirectory() + File.separator+"Facebook Videos");
+   //     Uri path = Uri.withAppendedPath(Uri.fromFile(root), "Video-"+Number+".mp4");
+   //     request.setDestinationUri(path);
+    //    DownloadManager dm = (DownloadManager)ChromeTabs.this.getSystemService(ChromeTabs.DOWNLOAD_SERVICE);
+    //    if(downloadlist.contains(pathvideo))
+    //    {
+     //     Toast.makeText(ChromeTabs.this.getApplicationContext(),"The Video is Already Downloading", Toast.LENGTH_LONG).show();
+     //   }
+     //   else
+     //   {
           downloadlist.add(pathvideo);
-          dm.enqueue(request);
+     //     dm.enqueue(request);
           Toast.makeText(ChromeTabs.this.getApplicationContext(),"Downloading Video-"+Number+".mp4", Toast.LENGTH_LONG).show();
           Number++;
           pref.setFileName(Number);
         }
 
-      }
     }
 
 
