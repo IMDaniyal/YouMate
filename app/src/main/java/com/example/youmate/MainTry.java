@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,8 +37,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.downloader.Error;
+
+import com.downloader.OnDownloadListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.Progress;
 import com.example.youmate.TabSwitcher.ChromeTabs;
+import com.example.youmate.adapter.videomodel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,15 +54,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.UUID;
+
 
 import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
@@ -77,6 +76,7 @@ public class MainTry extends AppCompatActivity {
     SharedPreferences settings;
     FirebaseAuth firebaseAuth;
     String userId;
+    DBHelper mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -84,6 +84,7 @@ public class MainTry extends AppCompatActivity {
         setContentView(R.layout.activity_main_try);
         Intent old = getIntent();
         final Bundle data = old.getExtras();
+        mDatabase = new DBHelper(this);
         final int chromecheck= old.getIntExtra("chorme",-1);
 
         bottomNavigationView=findViewById(R.id.nav1);
@@ -208,16 +209,10 @@ public class MainTry extends AppCompatActivity {
         }
         texturl = findViewById(R.id.texturl);
         DownloadBtn = findViewById(R.id.DownloadBtn);
-        GalleryBtn = findViewById(R.id.MyDownloadBtn);
+       // GalleryBtn = findViewById(R.id.MyDownloadBtn);
         mainLayout = findViewById(R.id.main_layout);
         mainProgressBar = findViewById(R.id.prgrBar);
 
-        GalleryBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         DownloadBtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -287,7 +282,8 @@ public class MainTry extends AppCompatActivity {
                     filename = videoTitle + "." + ytfile.getFormat().getExt();
                 }
                 filename = filename.replaceAll("[\\\\><\"|*?%:#/]", "");
-                downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
+                //downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
+                owndownloader(ytfile.getUrl(),filename);
          //       final DownloadTask downloadTask = new DownloadTask(MainTry.this);
            //     downloadTask.execute(ytfile.getUrl());
                 updataLevel();
@@ -297,7 +293,7 @@ public class MainTry extends AppCompatActivity {
         mainLayout.addView(btn);
     }
 
-
+/*
     public class DownloadTask extends AsyncTask<String, Integer, String> {
 
         private Context context;
@@ -424,6 +420,9 @@ public class MainTry extends AppCompatActivity {
 
         }
     }
+    */
+
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public boolean checkPermission() {
         int currentAPIVersion = Build.VERSION.SDK_INT;
@@ -540,5 +539,64 @@ public class MainTry extends AppCompatActivity {
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
+    }
+     videomodel obj =null;
+    int pro=0;
+    private  void owndownloader(String url,String name)
+    {
+        String path = Environment.getExternalStorageDirectory().toString() +"/VideoDownloader";
+
+
+        int downloadId = PRDownloader.download(url, path, name)
+            .build()
+            .setOnStartOrResumeListener(new OnStartOrResumeListener()
+            {
+                @Override
+                public void onStartOrResume()
+                {
+
+                }
+            })
+            .setOnProgressListener(new OnProgressListener()
+            {
+
+                @Override
+                public void onProgress(Progress progress)
+                {
+                    if(progress !=null)
+                    {
+                        long a = progress.currentBytes;
+                        long b = progress.totalBytes;
+                        pro =  (int)(((double)a/b)*100);
+                        int index =  ((myApplication)getApplication()).downloadingdata.indexOf(obj);
+                        ((myApplication) getApplication()).downloadingdata.get(index).setProgress(pro);
+                    }
+
+                }
+            })
+            .start(new OnDownloadListener()
+            {
+                @Override
+                public void onDownloadComplete()
+                {
+
+
+                    long total = (long) (pro * 0.000001);
+                    mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
+                    mDatabase.close();
+                     Toast.makeText(MainTry.this, "DOwnloading Completed", Toast.LENGTH_SHORT).show();
+                    ((myApplication) getApplication()).downloadingdata.remove(obj);
+
+                }
+
+                @Override
+                public void onError(Error error)
+                {
+
+                }
+            });
+
+        obj = new videomodel(downloadId,name,path);
+        ((myApplication) this.getApplication()).downloadingdata.add(obj);
     }
 }

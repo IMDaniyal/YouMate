@@ -12,6 +12,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".myApplication"
         android:icon="@drawable/applogo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/applogo"

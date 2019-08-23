@@ -61,7 +61,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main2Activity extends AppCompatActivity  {
+public class Main2Activity extends AppCompatActivity
+{
 
     private static String GOOGLE_YOUTUBE_API_KEY= "AIzaSyBWkAQzRAz3_kD6zTnZQd8nTBm8-8prHg4";  // "AIzaSyDIChdnRLqZWj9JduzMDkjuHmlcxaOx2bs";//"AIzaSyDcotn0895Qc0VPyLMuqcTz239sCtqKL6E";
     private static String CHANNEL_ID =   "UCDDFDMN72wWNZoobe7TI5vg"; /*"UCDDFDMN72wWNZoobe7TI5vg";*///"UC-lHJZR3Gqxm24_Vd_AJ5Yw";
@@ -81,6 +82,7 @@ public class Main2Activity extends AppCompatActivity  {
     blogsadapter badapter;
     List<blogs> Blogs;
     RecyclerView rc;
+
 
 
 

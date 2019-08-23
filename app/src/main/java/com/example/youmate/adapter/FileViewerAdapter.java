@@ -40,6 +40,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     Context mContext;
     LinearLayoutManager llm;
 
+
     public FileViewerAdapter(Context context, LinearLayoutManager linearLayoutManager) {
         super();
         mContext = context;
@@ -191,6 +192,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
             vName = v.findViewById(R.id.file_name_text);
             vThumbnail= v.findViewById(R.id.imageView);
             vLength = v.findViewById(R.id.file_length_text);
+            vLength.setVisibility(View.GONE);
             vDateAdded = v.findViewById(R.id.file_date_added_text);
             vThumbnail= v.findViewById(R.id.imageView);
             cardView = v.findViewById(R.id.card_view);
@@ -204,7 +206,8 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         return mDatabase.getCount();
     }
 
-    public RecordingItem getItem(int position) {
+    public RecordingItem getItem(int position)
+    {
         return mDatabase.getItemAt(position);
     }
 
@@ -250,7 +253,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         //rename a file
 
         String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFilePath += "/Facebook Videos/" + name;
+        mFilePath += "/VideoDownloader/" + name;
         File f = new File(mFilePath);
 
         if (f.exists() && !f.isDirectory()) {

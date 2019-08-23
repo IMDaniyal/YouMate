@@ -40,7 +40,8 @@ public  class DownloadReceiver extends BroadcastReceiver {
             q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
             Cursor c = dmo.query(q);
             ArrayList<String> xcoords = (new HomeFragment()).getList();
-            if (c.moveToFirst()) {
+            if (c.moveToFirst())
+            {
                 int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     xcoords.remove(c.getString(c.getColumnIndex(DownloadManager.COLUMN_URI)));
