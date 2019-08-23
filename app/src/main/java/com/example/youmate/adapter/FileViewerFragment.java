@@ -222,10 +222,17 @@ public class downloadingadapter extends RecyclerView.Adapter<downloadingadapter.
                             {
 
 
-                                 app.mDatabase.addRecording(data.get(position).getName(),data.get(position).getPath()+"/"+data.get(position).getName(),0,null);
-                                 app.mDatabase.close();
-                                new deleteddb(c,data.get(position)).execute();
-                                data.remove(position);
+                                try{
+                                    app.mDatabase.addRecording(data.get(position).getName(),data.get(position).getPath()+"/"+data.get(position).getName(),0,null);
+                                    app.mDatabase.close();
+                                    new deleteddb(c,data.get(position)).execute();
+                                    data.remove(position);
+                                }
+                                catch (Exception e)
+                                {
+
+                                }
+
 
                             }
 
