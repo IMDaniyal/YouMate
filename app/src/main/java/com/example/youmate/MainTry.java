@@ -584,12 +584,21 @@ public class MainTry extends AppCompatActivity {
                 @Override
                 public void onDownloadComplete()
                 {
-                    new deleteddb(getApplicationContext(),obj).execute();
-                    long total = (long) (pro * 0.000001);
-                    ((myApplication) getApplication()).mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
-                    ((myApplication) getApplication()).mDatabase.close();
-                     Toast.makeText(MainTry.this, "DOwnloading Completed", Toast.LENGTH_SHORT).show();
-                    ((myApplication) getApplication()).downloadingdata.remove(obj);
+
+                    try
+                    {
+                        new deleteddb(getApplicationContext(),obj).execute();
+                        long total = (long) (pro * 0.000001);
+                        ((myApplication) getApplication()).mDatabase.addRecording(obj.getName(), obj.getPath()+"/"+obj.getName(),total,null);
+                        ((myApplication) getApplication()).mDatabase.close();
+                        Toast.makeText(MainTry.this, "DOwnloading Completed", Toast.LENGTH_SHORT).show();
+                        ((myApplication) getApplication()).downloadingdata.remove(obj);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                 }
 
                 @Override
