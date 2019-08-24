@@ -132,7 +132,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
 
 
 
-
+        bottomNavigationView.setSelectedItemId(R.id.item4);
     }
 
 
