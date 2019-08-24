@@ -29,7 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-
+/*
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected( @NonNull MenuItem menuItem ) {
@@ -58,6 +58,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             }
         });
+        */
         sendEmail = findViewById(R.id.forgot_submit);
         oldEmail = findViewById(R.id.forgot_email);
         auth = FirebaseAuth.getInstance();

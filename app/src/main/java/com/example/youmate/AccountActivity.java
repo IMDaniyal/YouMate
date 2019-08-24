@@ -109,7 +109,7 @@ public class AccountActivity extends AppCompatActivity {
                             startActivity(i);
                             break;
                         case R.id.item5:
-                            Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(getApplicationContext(),"You already in Account Activity",Toast.LENGTH_SHORT).show();
                             break;
                     }
 
