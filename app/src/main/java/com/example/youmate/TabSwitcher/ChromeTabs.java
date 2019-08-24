@@ -1518,6 +1518,7 @@ public ArrayList<String> getList() {
       urltext = view.findViewById(R.id.urltext);
       web.getSettings().setLoadWithOverviewMode(true);
       web.getSettings().setUseWideViewPort(true);
+      web.getSettings().setMediaPlaybackRequiresUserGesture(true);
 
       if(fbcheck==0)
       {
@@ -1552,8 +1553,6 @@ public ArrayList<String> getList() {
         web.getSettings().setSupportZoom(true);       //Zoom Control on web (You don't need this
         web.getSettings().setBuiltInZoomControls(true);
         web.addJavascriptInterface(this, "mJava");
-        web.getSettings().setJavaScriptEnabled(true);
-
         web.getSettings().setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= 19)
         {
