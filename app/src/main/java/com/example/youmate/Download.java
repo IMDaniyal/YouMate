@@ -93,7 +93,14 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                             finish();
                             break;
                         case R.id.item2:
-                            Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
+                            i=new Intent(getApplicationContext(),MainTry.class);
+                            if(data !=null)
+                            {
+                                i.putExtras(data);
+                            }
+
+                            startActivity(i);
+                            finish();
                             break;
 
                         case R.id.item3:
@@ -109,12 +116,8 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                             break;
 
                         case R.id.item4:
-                            i = new Intent(getApplicationContext(),Download.class);
-                            if(data !=null)
-                            {
-                                i.putExtras(data);
-                            }
-                            startActivity(i);
+                            Toast.makeText(getApplicationContext(),"You already in Download Activity",Toast.LENGTH_SHORT).show();
+
                             break;
                         case R.id.item5:
                             i = new Intent(getApplicationContext(),AccountActivity.class);

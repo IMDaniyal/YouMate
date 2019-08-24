@@ -1862,7 +1862,6 @@ public ArrayList<String> getList() {
                     goingtohome = currentindex;
                     chrome.putExtra("chorme",1);
                     startActivityForResult(chrome,131);
-
                     break;
                   case R.id.item2:
                     chrome=  new Intent(getApplicationContext(),MainTry.class);
