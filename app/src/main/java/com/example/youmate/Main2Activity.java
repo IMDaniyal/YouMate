@@ -199,7 +199,7 @@ public class Main2Activity extends AppCompatActivity
                                 i.putExtras(data);
                             }
                             startActivity(i);
-
+                            finish();
                             break;
                         case R.id.item5:
                             i=new Intent(getApplicationContext(),AccountActivity.class);
