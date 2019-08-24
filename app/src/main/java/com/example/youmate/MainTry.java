@@ -107,7 +107,7 @@ public class MainTry extends AppCompatActivity {
                             finish();
                             break;
                         case R.id.item2:
-                            Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
+                    //        Toast.makeText(getApplicationContext(),"You already in Youtube Activity",Toast.LENGTH_SHORT).show();
                             break;
 
                     case R.id.item3:

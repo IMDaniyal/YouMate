@@ -1783,7 +1783,7 @@ public ArrayList<String> getList() {
                   case R.id.item3:
                     //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                     //     finish();
-                    Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
                     break;
                   case R.id.item4:
                     chrome=  new Intent(getApplicationContext(),Download.class);
@@ -1872,7 +1872,7 @@ public ArrayList<String> getList() {
                   case R.id.item3:
                     //     startActivity(new Intent(getApplicationContext(), ChromeTabs.class));
                     //     finish();
-                    Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "Already in Tab", Toast.LENGTH_SHORT).show();
                     break;
                   case R.id.item4:
                     chrome=  new Intent(getApplicationContext(),Download.class);

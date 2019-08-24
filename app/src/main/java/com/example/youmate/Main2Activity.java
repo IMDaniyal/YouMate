@@ -165,7 +165,7 @@ public class Main2Activity extends AppCompatActivity
                     switch (menuItem.getItemId())
                     {
                         case R.id.item1:
-                            Toast.makeText(Main2Activity.this,"You already in Home Activity",Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Main2Activity.this,"You already in Home Activity",Toast.LENGTH_SHORT).show();
                             break;
                         case R.id.item2:
                             Intent i=new Intent(getApplicationContext(),MainTry.class);

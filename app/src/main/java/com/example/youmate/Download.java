@@ -116,7 +116,7 @@ public class Download extends AppCompatActivity implements YouTubePlayer.OnIniti
                             break;
 
                         case R.id.item4:
-                            Toast.makeText(getApplicationContext(),"You already in Download Activity",Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getApplicationContext(),"You already in Download Activity",Toast.LENGTH_SHORT).show();
 
                             break;
                         case R.id.item5:
